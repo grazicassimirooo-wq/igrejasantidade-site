@@ -58,7 +58,7 @@ export default async function handler(req, res) {
       const idx = Math.floor(Math.random() * vendidos.length);
       const vencedor = vendidos[idx];
 
-      const PRECO = Number(process.env.PRECO_POR_NUM || 100);
+      const PRECO = Number(process.env.PRECO_POR_NUM || 50);
       const resultadoFinal = {
         numero: vencedor.numero,
         ganhador: vencedor.cliente,
