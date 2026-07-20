@@ -1085,7 +1085,8 @@ window.ibss = {
     banner.style.display = 'block';
 
     /* Se o painel admin está aberto, re-renderiza pra mostrar o card final */
-    if(document.getElementById('sorteio').classList.contains('active')){
+    const painel = document.getElementById('painel-sorteio');
+    if(painel && painel.style.display !== 'none'){
       renderizarPainelSorteio();
     }
   }
@@ -1132,32 +1133,12 @@ document.getElementById('busca').addEventListener('input',e=>{
   });
 });
 
-function irPara(id){
-  document.querySelectorAll('.tela').forEach(t=>t.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-  const ordem=['grade','dados','pagamento','confirmacao'];
-  const idx=ordem.indexOf(id);
-  document.querySelectorAll('.steps .st').forEach((s,i)=>{
-    s.classList.toggle('now',i===idx);
-    s.classList.toggle('done',i<idx);
-  });
-  window.scrollTo({top:0,behavior:'smooth'});
-}
-function irParaDados(){
-  if(selecionados.size===0){alert('Escolha pelo menos um número 🙂');return;}
-  const lista=[...selecionados].sort((a,b)=>a-b).map(pad);
-  const total=selecionados.size*PRECO_POR_NUM;
-  document.getElementById('chips-dados').innerHTML=lista.map(n=>`<span class="n">${n}</span>`).join('');
-  document.getElementById('total-dados').textContent=brl(total);
-  irPara('dados');
-}
-function scrollGrade(e){e.preventDefault();document.getElementById('areagrade').scrollIntoView({behavior:'smooth'});}
 function validarDados(){
   const nome=document.getElementById('in-nome').value.trim();
   const wpp=document.getElementById('in-wpp').value.trim();
   if(!nome||!wpp){alert('Preencha pelo menos nome e WhatsApp 🙂');return;}
   document.getElementById('total-pag').textContent=brl(selecionados.size*PRECO_POR_NUM);
-  irPara('pagamento');
+  irOverlay('pag');
 }
 function selPay(tipo){
   pagamentoTipo=tipo;
@@ -1232,9 +1213,9 @@ function mostrarAguardando(numeros,nome){
     <div><span>Números reservados</span><b>${lista.join(', ')}</b></div>
     <div><span>Status</span><b style="color:var(--orange)">⏳ Aguardando pagamento…</b></div>
     <div><span>Prazo</span><b>15 minutos</b></div>`;
-  document.querySelector('#confirmacao .done h3').textContent='Números reservados!';
-  document.querySelector('#confirmacao .done p').textContent='Faça o pagamento em até 15 minutos. Assim que o Asaas confirmar, seus números viram "vendidos" no seu nome automaticamente.';
-  irPara('confirmacao');
+  document.getElementById('done-titulo').textContent='Números reservados!';
+  document.getElementById('done-txt').textContent='Faça o pagamento em até 15 minutos. Assim que o Asaas confirmar, seus números viram "vendidos" no seu nome automaticamente.';
+  irOverlay('conf');
 }
 
 function mostrarConfirmacao(numeros,nome,tipo){
@@ -1245,9 +1226,10 @@ function mostrarConfirmacao(numeros,nome,tipo){
     <div><span>Números</span><b>${lista.join(', ')}</b></div>
     <div><span>Pagamento</span><b>${tipo==='pix'?'Pix':'Cartão'} ✓ confirmado</b></div>
     <div><span>Total</span><b>${brl(total)}</b></div>`;
-  document.querySelector('#confirmacao .done h3').textContent='Deu tudo certo!';
-  document.querySelector('#confirmacao .done p').textContent='Pagamento confirmado. Seus números estão oficialmente no seu nome. Boa sorte no sorteio! 🍀';
-  const check = document.querySelector('#confirmacao .done .check');
+  document.getElementById('done-titulo').textContent='Deu tudo certo!';
+  document.getElementById('done-txt').textContent='Pagamento confirmado. Seus números estão oficialmente no seu nome. Boa sorte no sorteio! 🍀';
+  irOverlay('conf');
+  const check = document.querySelector('#ov-conf .done-box .check');
   if(check) check.style.animation='pop .5s cubic-bezier(.2,.9,.3,1.4) both';
 }
 function reiniciar(){location.reload();}
@@ -1299,17 +1281,6 @@ if('serviceWorker' in navigator){
 /* ============================================================
    SORTEIO — Tela admin
    ============================================================ */
-function abrirSorteio(){
-  document.querySelectorAll('.tela').forEach(t=>t.classList.remove('active'));
-  document.getElementById('sorteio').classList.add('active');
-  document.getElementById('login-sorteio').style.display='block';
-  document.getElementById('painel-sorteio').style.display='none';
-  document.getElementById('senha-admin').value='';
-  document.getElementById('erro-senha').textContent='';
-  document.querySelectorAll('.steps .st').forEach(s=>{s.classList.remove('now','done')});
-  window.scrollTo({top:0,behavior:'smooth'});
-  setTimeout(()=>document.getElementById('senha-admin').focus(),300);
-}
 document.getElementById('senha-admin').addEventListener('keypress',e=>{if(e.key==='Enter')validarSenha();});
 function validarSenha(){
   const s=document.getElementById('senha-admin').value;
@@ -1514,8 +1485,6 @@ function confete(){
     else c.remove();
   })();
 }
-if(location.search.includes('sortear')||location.hash==='#sortear'){setTimeout(abrirSorteio,100);}
-
 /* ── FUNÇÕES NOVAS (estrutura por seções) ── */
 function navTo(e,id){
   e.preventDefault(); fecharMenu();
@@ -1563,7 +1532,7 @@ function irOverlay(tela){
     tela==='dados'?'Seus dados':tela==='pag'?'Pagamento':'Pedido confirmado!';
 }
 function reiniciarSelecao(){
-  selecionados.clear(); reconstruirGrade(); renderSelbar();
+  selecionados.clear(); reconstruirGrade(); render();
 }
 function abrirPainelSorteio(){
   const s=document.getElementById('sorteio-admin-section');
