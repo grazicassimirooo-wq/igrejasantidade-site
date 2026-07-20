@@ -46,7 +46,7 @@ export default async function handler(req, res) {
     if (!nome || !wpp) return res.status(400).json({ erro: 'Nome e WhatsApp são obrigatórios' });
     if (!['pix', 'cartao'].includes(tipo)) return res.status(400).json({ erro: 'Tipo de pagamento inválido' });
 
-    const PRECO_POR_NUM = Number(process.env.PRECO_POR_NUM || 100);
+    const PRECO_POR_NUM = Number(process.env.PRECO_POR_NUM || 50);
     const total = numeros.length * PRECO_POR_NUM;
 
     initFirebase();

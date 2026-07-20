@@ -495,7 +495,7 @@ footer .brand-foot b{font-family:"Anton",sans-serif;font-size:1.15rem;font-weigh
 .nav-links{display:flex;align-items:center;gap:4px}
 .nav-links a{font-size:.85rem;font-weight:600;padding:8px 12px;border-radius:10px;color:var(--text-2);transition:.2s;text-transform:uppercase;letter-spacing:.08em}
 .nav-links a:hover,.nav-links a.ativo{color:var(--text);background:var(--bg-2)}
-.nav-links .nav-sorteio{background:var(--orange);color:#fff !important;padding:8px 16px;border-radius:999px;box-shadow:0 6px 16px -8px rgba(242,107,46,.7)}
+.nav-links .nav-sorteio,.nav-links a.nav-sorteio.ativo{background:var(--orange);color:#fff !important;padding:8px 16px;border-radius:999px;box-shadow:0 6px 16px -8px rgba(242,107,46,.7)}
 .nav-links .nav-sorteio:hover{background:var(--orange-soft) !important;background:var(--orange-soft)}
 @media(max-width:860px){.nav-links{display:none}}
 .nav-actions{display:flex;align-items:center;gap:8px}
@@ -587,6 +587,101 @@ footer .brand-foot b{font-family:"Anton",sans-serif;font-size:1.15rem;font-weigh
 .aviso-admin-badge{position:fixed;top:18px;right:18px;background:var(--orange);color:#fff;font-family:"Anton",sans-serif;font-size:.7rem;font-weight:400;padding:7px 12px;border-radius:999px;letter-spacing:.14em;text-transform:uppercase;z-index:60;box-shadow:var(--shadow);display:none}
 .btn-login{width:100%;margin-top:14px;background:var(--orange);color:#fff;font-weight:700;padding:14px;border-radius:12px;font-size:.9rem;text-transform:uppercase;letter-spacing:.1em;cursor:pointer;border:none;font-family:inherit}
 
+/* ============================================================
+   PREMIUM FX — glassmorphism · nebulosa · parallax 3D · reveals
+   ============================================================ */
+:root, [data-theme="dark"]{
+  --glass:rgba(255,255,255,.05);
+  --glass-strong:rgba(18,18,18,.62);
+  --glass-border:rgba(255,255,255,.13);
+  --glass-shine:rgba(255,255,255,.08);
+  --blob-a:rgba(242,107,46,.17);
+  --blob-b:rgba(196,80,31,.13);
+  --blob-c:rgba(255,140,74,.10);
+}
+[data-theme="light"]{
+  --glass:rgba(255,255,255,.55);
+  --glass-strong:rgba(255,255,255,.78);
+  --glass-border:rgba(15,20,15,.10);
+  --glass-shine:rgba(255,255,255,.75);
+  --blob-a:rgba(242,107,46,.15);
+  --blob-b:rgba(232,90,32,.10);
+  --blob-c:rgba(255,175,120,.16);
+}
+
+/* Nebulosa de gradientes animados no fundo */
+.bg-fx{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.bg-fx .blob{position:absolute;border-radius:50%;filter:blur(80px);will-change:transform;transform:translateZ(0)}
+.blob-1{width:58vmax;height:58vmax;top:-20vmax;right:-16vmax;background:radial-gradient(circle at 35% 35%,var(--blob-a),transparent 62%);animation:blobFloat 26s ease-in-out infinite alternate}
+.blob-2{width:46vmax;height:46vmax;bottom:-16vmax;left:-14vmax;background:radial-gradient(circle at 60% 40%,var(--blob-b),transparent 62%);animation:blobFloat 34s ease-in-out infinite alternate-reverse}
+.blob-3{width:32vmax;height:32vmax;top:38%;left:52%;background:radial-gradient(circle at 50% 50%,var(--blob-c),transparent 62%);animation:blobDrift 40s ease-in-out infinite alternate}
+@keyframes blobFloat{from{transform:translate3d(0,0,0) scale(1)}to{transform:translate3d(-6vmax,7vmax,0) scale(1.14)}}
+@keyframes blobDrift{from{transform:translate3d(0,0,0) rotate(0deg)}to{transform:translate3d(8vmax,-6vmax,0) rotate(14deg)}}
+
+/* Barra de progresso de leitura */
+.scroll-progress{position:fixed;top:0;left:0;height:3px;width:0;z-index:80;background:linear-gradient(90deg,var(--orange-deep),var(--orange),var(--orange-soft));box-shadow:0 0 14px rgba(242,107,46,.65);border-radius:0 3px 3px 0;pointer-events:none}
+
+/* Header com vidro mais profundo */
+header{background:color-mix(in oklab, var(--bg) 60%, transparent);backdrop-filter:blur(20px) saturate(1.5);-webkit-backdrop-filter:blur(20px) saturate(1.5)}
+
+/* Glassmorphism nos cards e superfícies */
+.como-card,.evento,.dual-card,.stat,.prize-tag,.horarios-hero,.login-box,.roleta,.contrib,.cosmo-block{
+  background:var(--glass);
+  backdrop-filter:blur(14px) saturate(1.35);-webkit-backdrop-filter:blur(14px) saturate(1.35);
+  border:1px solid var(--glass-border);
+  box-shadow:inset 0 1px 0 var(--glass-shine), 0 20px 44px -26px rgba(0,0,0,.5);
+}
+.sorteio-hero,#sorteio-admin{
+  background:radial-gradient(ellipse at top,rgba(242,107,46,.10),transparent 60%),var(--glass);
+  backdrop-filter:blur(16px) saturate(1.35);-webkit-backdrop-filter:blur(16px) saturate(1.35);
+  border:1px solid var(--glass-border);
+}
+.selbar,.overlay-box,.mobile-menu{
+  background:var(--glass-strong);
+  backdrop-filter:blur(24px) saturate(1.6);-webkit-backdrop-filter:blur(24px) saturate(1.6);
+}
+.num{background:var(--glass);border-color:var(--glass-border)}
+.num.sel{background:var(--orange);border-color:var(--orange)}
+
+/* Hover com lift + glow mais rico */
+.como-card:hover,.evento:hover,.dual-card:hover{
+  transform:translateY(-6px);
+  border-color:rgba(242,107,46,.55);
+  box-shadow:inset 0 1px 0 var(--glass-shine), 0 26px 50px -22px rgba(242,107,46,.35);
+}
+
+/* Tilt 3D (aplicado via JS em quem tem .tilt) */
+.tilt{will-change:transform;transition:transform .18s ease-out;transform-style:preserve-3d}
+.tilt:hover{transition:transform .06s linear}
+
+/* Badge flutuante com levitação */
+.float-badge{animation:floaty 4.5s ease-in-out infinite}
+@keyframes floaty{0%,100%{transform:rotate(-4deg) translateY(0)}50%{transform:rotate(-3deg) translateY(-9px)}}
+
+/* Shimmer nos botões primários */
+.btn-primary,.btn-sortear,.selbar button{position:relative;overflow:hidden}
+.btn-primary::before,.btn-sortear::before,.selbar button::before{
+  content:"";position:absolute;top:0;left:-90%;width:55%;height:100%;
+  background:linear-gradient(105deg,transparent,rgba(255,255,255,.38),transparent);
+  transform:skewX(-20deg);transition:left .55s ease;pointer-events:none;
+}
+.btn-primary:hover::before,.btn-sortear:hover::before,.selbar button:hover::before{left:140%}
+
+/* Pulso de glow no CTA do sorteio na nav */
+.nav-links .nav-sorteio{animation:glowPulse 2.8s ease-in-out infinite}
+@keyframes glowPulse{50%{box-shadow:0 6px 26px -4px rgba(242,107,46,.95)}}
+
+/* Reveal on scroll (staggered) */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .75s cubic-bezier(.2,.7,.3,1),transform .75s cubic-bezier(.2,.7,.3,1);transition-delay:var(--rd,0s)}
+.reveal.in{opacity:1;transform:none}
+
+/* Acessibilidade: respeita quem prefere menos movimento */
+@media (prefers-reduced-motion: reduce){
+  .bg-fx .blob,.float-badge,.nav-links .nav-sorteio{animation:none !important}
+  .reveal{opacity:1 !important;transform:none !important;transition:none !important}
+  .tilt{transition:none !important}
+}
+
 </style>
 </head>
 <body>
@@ -602,6 +697,14 @@ window.FIREBASE_CONFIG = {
 };
 </script>
 <script type="module" src="firebase-sync.js"></script>
+
+<!-- Nebulosa de fundo + barra de progresso de scroll -->
+<div class="scroll-progress" id="scroll-progress"></div>
+<div class="bg-fx" aria-hidden="true">
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="blob blob-3"></div>
+</div>
 
 <!-- ============ HEADER ============ -->
 <header id="topo">
@@ -980,7 +1083,7 @@ window.FIREBASE_CONFIG = {
     <div>
       <h5>Sorteio</h5>
       <p>Evento beneficente · Festa da Igreja 2026.</p>
-      <p>Data: <b style="color:var(--orange)">[definir]</b></p>
+      <p>Data: <b style="color:var(--orange)">13 de agosto de 2026</b></p>
       <p>Autorização: <b style="color:var(--orange)">[SPA/MF nº]</b></p>
     </div>
   </div>
@@ -1009,7 +1112,7 @@ window.FIREBASE_CONFIG = {
    CONFIGURAÇÃO — Grazi ajusta esses valores
    ============================================================ */
 const TOTAL_NUMEROS = 100;
-const PRECO_POR_NUM = 100;
+const PRECO_POR_NUM = 50;
 const DIGITOS = 2;
 const SENHA_ADMIN = 'santidade2026';
 
@@ -1025,7 +1128,7 @@ const EVENTOS = [
   {dia:'24', mes:'Jul', tag:'Meia semana', titulo:'Culto de Quinta',       quando:'Qui · 19h30', local:'Santuário IBSS'},
   {dia:'26', mes:'Jul', tag:'Connect',  titulo:'Level Up · Procuradores', quando:'Sáb · 18h30 e 19h30', local:'Santuário IBSS'},
   {dia:'02', mes:'Ago', tag:'Especial', titulo:'Festa da Igreja 2026',    quando:'Sáb · 17h', local:'Sede da IBSS · Barão Geraldo'},
-  {dia:'02', mes:'Ago', tag:'Sorteio',  titulo:'Sorteio da Moto Elétrica', quando:'Sáb · 21h', local:'Ao vivo na festa'},
+  {dia:'13', mes:'Ago', tag:'Sorteio',  titulo:'Sorteio da Moto Elétrica', quando:'Qui · 21h', local:'Ao vivo na festa'},
   {dia:'10', mes:'Ago', tag:'Grupos',   titulo:'GC – Grupos em Casa',      quando:'Vários dias', local:'Casas dos anfitriões'}
 ];
 
@@ -1085,7 +1188,8 @@ window.ibss = {
     banner.style.display = 'block';
 
     /* Se o painel admin está aberto, re-renderiza pra mostrar o card final */
-    if(document.getElementById('sorteio').classList.contains('active')){
+    const painel = document.getElementById('painel-sorteio');
+    if(painel && painel.style.display !== 'none'){
       renderizarPainelSorteio();
     }
   }
@@ -1132,32 +1236,12 @@ document.getElementById('busca').addEventListener('input',e=>{
   });
 });
 
-function irPara(id){
-  document.querySelectorAll('.tela').forEach(t=>t.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-  const ordem=['grade','dados','pagamento','confirmacao'];
-  const idx=ordem.indexOf(id);
-  document.querySelectorAll('.steps .st').forEach((s,i)=>{
-    s.classList.toggle('now',i===idx);
-    s.classList.toggle('done',i<idx);
-  });
-  window.scrollTo({top:0,behavior:'smooth'});
-}
-function irParaDados(){
-  if(selecionados.size===0){alert('Escolha pelo menos um número 🙂');return;}
-  const lista=[...selecionados].sort((a,b)=>a-b).map(pad);
-  const total=selecionados.size*PRECO_POR_NUM;
-  document.getElementById('chips-dados').innerHTML=lista.map(n=>`<span class="n">${n}</span>`).join('');
-  document.getElementById('total-dados').textContent=brl(total);
-  irPara('dados');
-}
-function scrollGrade(e){e.preventDefault();document.getElementById('areagrade').scrollIntoView({behavior:'smooth'});}
 function validarDados(){
   const nome=document.getElementById('in-nome').value.trim();
   const wpp=document.getElementById('in-wpp').value.trim();
   if(!nome||!wpp){alert('Preencha pelo menos nome e WhatsApp 🙂');return;}
   document.getElementById('total-pag').textContent=brl(selecionados.size*PRECO_POR_NUM);
-  irPara('pagamento');
+  irOverlay('pag');
 }
 function selPay(tipo){
   pagamentoTipo=tipo;
@@ -1232,9 +1316,9 @@ function mostrarAguardando(numeros,nome){
     <div><span>Números reservados</span><b>${lista.join(', ')}</b></div>
     <div><span>Status</span><b style="color:var(--orange)">⏳ Aguardando pagamento…</b></div>
     <div><span>Prazo</span><b>15 minutos</b></div>`;
-  document.querySelector('#confirmacao .done h3').textContent='Números reservados!';
-  document.querySelector('#confirmacao .done p').textContent='Faça o pagamento em até 15 minutos. Assim que o Asaas confirmar, seus números viram "vendidos" no seu nome automaticamente.';
-  irPara('confirmacao');
+  document.getElementById('done-titulo').textContent='Números reservados!';
+  document.getElementById('done-txt').textContent='Faça o pagamento em até 15 minutos. Assim que o Asaas confirmar, seus números viram "vendidos" no seu nome automaticamente.';
+  irOverlay('conf');
 }
 
 function mostrarConfirmacao(numeros,nome,tipo){
@@ -1245,9 +1329,10 @@ function mostrarConfirmacao(numeros,nome,tipo){
     <div><span>Números</span><b>${lista.join(', ')}</b></div>
     <div><span>Pagamento</span><b>${tipo==='pix'?'Pix':'Cartão'} ✓ confirmado</b></div>
     <div><span>Total</span><b>${brl(total)}</b></div>`;
-  document.querySelector('#confirmacao .done h3').textContent='Deu tudo certo!';
-  document.querySelector('#confirmacao .done p').textContent='Pagamento confirmado. Seus números estão oficialmente no seu nome. Boa sorte no sorteio! 🍀';
-  const check = document.querySelector('#confirmacao .done .check');
+  document.getElementById('done-titulo').textContent='Deu tudo certo!';
+  document.getElementById('done-txt').textContent='Pagamento confirmado. Seus números estão oficialmente no seu nome. Boa sorte no sorteio! 🍀';
+  irOverlay('conf');
+  const check = document.querySelector('#ov-conf .done-box .check');
   if(check) check.style.animation='pop .5s cubic-bezier(.2,.9,.3,1.4) both';
 }
 function reiniciar(){location.reload();}
@@ -1299,17 +1384,6 @@ if('serviceWorker' in navigator){
 /* ============================================================
    SORTEIO — Tela admin
    ============================================================ */
-function abrirSorteio(){
-  document.querySelectorAll('.tela').forEach(t=>t.classList.remove('active'));
-  document.getElementById('sorteio').classList.add('active');
-  document.getElementById('login-sorteio').style.display='block';
-  document.getElementById('painel-sorteio').style.display='none';
-  document.getElementById('senha-admin').value='';
-  document.getElementById('erro-senha').textContent='';
-  document.querySelectorAll('.steps .st').forEach(s=>{s.classList.remove('now','done')});
-  window.scrollTo({top:0,behavior:'smooth'});
-  setTimeout(()=>document.getElementById('senha-admin').focus(),300);
-}
 document.getElementById('senha-admin').addEventListener('keypress',e=>{if(e.key==='Enter')validarSenha();});
 function validarSenha(){
   const s=document.getElementById('senha-admin').value;
@@ -1514,8 +1588,6 @@ function confete(){
     else c.remove();
   })();
 }
-if(location.search.includes('sortear')||location.hash==='#sortear'){setTimeout(abrirSorteio,100);}
-
 /* ── FUNÇÕES NOVAS (estrutura por seções) ── */
 function navTo(e,id){
   e.preventDefault(); fecharMenu();
@@ -1563,7 +1635,7 @@ function irOverlay(tela){
     tela==='dados'?'Seus dados':tela==='pag'?'Pagamento':'Pedido confirmado!';
 }
 function reiniciarSelecao(){
-  selecionados.clear(); reconstruirGrade(); renderSelbar();
+  selecionados.clear(); reconstruirGrade(); render();
 }
 function abrirPainelSorteio(){
   const s=document.getElementById('sorteio-admin-section');
@@ -1583,6 +1655,95 @@ const _obs=new IntersectionObserver(entries=>{
 _secoes.forEach(id=>{const el=document.getElementById(id);if(el)_obs.observe(el);});
 
 if(location.hash==='#sorteio'||location.search.includes('sortear')) setTimeout(abrirPainelSorteio,300);
+</script>
+
+<script>
+/* ============================================================
+   PREMIUM FX — parallax 3D · reveals · contadores · progresso
+   ============================================================ */
+(function(){
+  const reduzMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const ponteiroFino = matchMedia('(pointer: fine)').matches;
+
+  /* 1. Barra de progresso + parallax suave da nebulosa */
+  const barra = document.getElementById('scroll-progress');
+  const bgfx = document.querySelector('.bg-fx');
+  let ticking = false;
+  function aoScroll(){
+    if(ticking) return;
+    ticking = true;
+    requestAnimationFrame(()=>{
+      const doc = document.documentElement;
+      const max = doc.scrollHeight - innerHeight;
+      if(barra) barra.style.width = (max > 0 ? (scrollY / max) * 100 : 0) + '%';
+      if(bgfx && !reduzMotion) bgfx.style.transform = 'translateY(' + (scrollY * -0.05) + 'px)';
+      ticking = false;
+    });
+  }
+  addEventListener('scroll', aoScroll, { passive: true });
+  aoScroll();
+
+  /* 2. Reveal staggered on scroll */
+  if(!reduzMotion && 'IntersectionObserver' in window){
+    const alvos = document.querySelectorAll(
+      '.section-head, .como-card, .evento, .dual-card, .contrib, .legend, .tools, .grade, .horarios-hero, .prize-tag, .mini-facts, .cta-row, .social-row, .cosmo-block'
+    );
+    alvos.forEach(el=>{
+      /* stagger pela posição entre irmãos com a mesma classe */
+      const irmaos = el.parentElement ? [...el.parentElement.children] : [el];
+      el.style.setProperty('--rd', ((irmaos.indexOf(el) % 6) * 0.09) + 's');
+      el.classList.add('reveal');
+    });
+    const obs = new IntersectionObserver(entries=>{
+      entries.forEach(e=>{
+        if(e.isIntersecting){ e.target.classList.add('in'); obs.unobserve(e.target); }
+      });
+    },{ threshold: .12, rootMargin: '0px 0px -40px 0px' });
+    alvos.forEach(el=>obs.observe(el));
+  }
+
+  /* 3. Tilt 3D nos cards (só desktop com mouse) */
+  if(ponteiroFino && !reduzMotion){
+    document.querySelectorAll('.moto-frame, .como-card, .evento').forEach(el=>{
+      el.classList.add('tilt');
+      const forca = el.classList.contains('moto-frame') ? 5 : 8;
+      el.addEventListener('mousemove', ev=>{
+        const r = el.getBoundingClientRect();
+        const px = (ev.clientX - r.left) / r.width - .5;
+        const py = (ev.clientY - r.top) / r.height - .5;
+        el.style.transform = 'perspective(900px) rotateX(' + (-py * forca) + 'deg) rotateY(' + (px * forca) + 'deg) translateY(-4px)';
+      });
+      el.addEventListener('mouseleave', ()=>{ el.style.transform = ''; });
+    });
+  }
+
+  /* 4. Contador animado nos mini-facts (números sobem) */
+  function contarAte(el){
+    const fim = parseInt(el.textContent.replace(/\D/g,''), 10);
+    if(isNaN(fim) || fim <= 0) return;
+    const ehMoeda = el.textContent.includes('R$');
+    const dur = 1200, t0 = performance.now();
+    (function passo(t){
+      const p = Math.min((t - t0) / dur, 1);
+      const suave = 1 - Math.pow(1 - p, 3); /* ease-out cubic */
+      const val = Math.round(fim * suave);
+      el.textContent = ehMoeda ? brl(val) : String(val);
+      if(p < 1) requestAnimationFrame(passo);
+    })(t0);
+  }
+  if(!reduzMotion && 'IntersectionObserver' in window){
+    const obsNum = new IntersectionObserver(entries=>{
+      entries.forEach(e=>{
+        if(e.isIntersecting){ contarAte(e.target); obsNum.unobserve(e.target); }
+      });
+    },{ threshold: .6 });
+    document.querySelectorAll('.mini-facts b').forEach(el=>{
+      const txt = el.textContent.trim();
+      if(txt.includes('%')) return; /* "100% pra igreja" fica como está */
+      if(/\d/.test(txt)) obsNum.observe(el);
+    });
+  }
+})();
 </script>
 </body>
 </html>

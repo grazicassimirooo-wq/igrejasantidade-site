@@ -54,7 +54,7 @@ Guia pra ativar o sistema automático depois do primeiro deploy.
    | `ASAAS_API_KEY` | chave gerada no Asaas |
    | `ASAAS_ENV` | `prod` (ou `sandbox` pra testes) |
    | `ASAAS_WEBHOOK_TOKEN` | o token que você definiu no cadastro do webhook |
-   | `PRECO_POR_NUM` | `100` (ou o valor por número) |
+   | `PRECO_POR_NUM` | `50` (valor por número em reais) |
    | `TOTAL_NUMEROS` | `100` |
    | `INIT_SECRET` | uma senha aleatória forte pra rodar o `/api/init` uma vez |
    | `CRON_SECRET` | uma senha aleatória forte pro cron de limpeza |
