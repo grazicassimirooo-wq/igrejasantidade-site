@@ -1,0 +1,18 @@
+# Ambientes
+.env
+.env.local
+.env.*.local
+
+# Deps (só quando adicionarmos backend)
+node_modules/
+.vercel/
+
+# Sistema
+.DS_Store
+Thumbs.db
+*.log
+
+# Editores
+.vscode/
+.idea/
+*.swp

@@ -1,0 +1,1588 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Igreja Santidade ao Senhor · IBSS · Campinas/SP</title>
+<meta name="description" content="Igreja Santidade ao Senhor (IBSS) em Barão Geraldo, Campinas/SP. Celebrações, agenda, playlist e sorteio beneficente da moto elétrica.">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#F26B2E" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0A0A0A" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="ic-192.png">
+<link rel="apple-touch-icon" href="ic-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="IBSS">
+<meta name="mobile-web-app-capable" content="yes">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&display=swap" rel="stylesheet">
+<style>
+
+/* ============================================================
+   TEMA — dark padrão + light overrides
+   ============================================================ */
+:root, [data-theme="dark"]{
+  --bg:#0A0A0A;
+  --bg-2:#141414;
+  --bg-3:#1C1C1C;
+  --line:rgba(255,255,255,.08);
+  --line-strong:rgba(255,255,255,.14);
+  --text:#FFFFFF;
+  --text-2:#A8A8A8;
+  --text-3:#6B6B6B;
+  --orange:#F26B2E;
+  --orange-soft:#FF8C4A;
+  --orange-deep:#C4501F;
+  --sage:#E8E5DE;
+  --shadow:0 24px 60px -20px rgba(0,0,0,.8);
+  --logo-invert:1;         /* inverte logo pra branco no dark */
+  --noise-opacity:.5;
+  --scratch-opacity:.4;
+}
+[data-theme="light"]{
+  --bg:#FAF7F0;
+  --bg-2:#FFFFFF;
+  --bg-3:#F0EBE0;
+  --line:rgba(15,20,15,.10);
+  --line-strong:rgba(15,20,15,.18);
+  --text:#0A0A0A;
+  --text-2:#4A4A4A;
+  --text-3:#7A7A7A;
+  --orange:#E85A20;
+  --orange-soft:#F26B2E;
+  --orange-deep:#B04416;
+  --sage:#5A6B3E;
+  --shadow:0 24px 60px -20px rgba(15,20,15,.18);
+  --logo-invert:0;         /* logo mantém a cor original no light */
+  --noise-opacity:.15;
+  --scratch-opacity:.15;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:"DM Sans",system-ui,sans-serif;color:var(--text);background:var(--bg);
+  line-height:1.55;-webkit-font-smoothing:antialiased;min-height:100vh;position:relative;
+  transition:background .35s ease, color .35s ease;
+}
+/* Grunge noise no dark, sutil no light */
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:var(--noise-opacity);
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='420' height='420'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .08 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  transition:opacity .35s;
+}
+body::after{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:var(--scratch-opacity);
+  background-image:
+    linear-gradient(102deg, transparent 30%, rgba(0,0,0,.015) 30.2%, transparent 30.8%),
+    linear-gradient(93deg, transparent 60%, rgba(0,0,0,.02) 60.4%, transparent 61%);
+  transition:opacity .35s;
+}
+[data-theme="dark"] body::after{
+  background-image:
+    linear-gradient(102deg, transparent 30%, rgba(255,255,255,.015) 30.2%, transparent 30.8%),
+    linear-gradient(93deg, transparent 60%, rgba(255,255,255,.02) 60.4%, transparent 61%);
+}
+main,header,footer{position:relative;z-index:1}
+img{max-width:100%;display:block}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+a{color:inherit}
+.wrap{width:min(1200px,92vw);margin-inline:auto}
+
+.display{font-family:"Anton",Impact,sans-serif;text-transform:uppercase;letter-spacing:.02em;line-height:.95}
+.editorial{font-family:"Bricolage Grotesque",Georgia,serif;font-weight:500;letter-spacing:-.01em;line-height:1.05}
+
+/* ---------- HEADER ---------- */
+header{
+  position:sticky;top:0;z-index:50;
+  background:color-mix(in oklab, var(--bg) 82%, transparent);backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--line);transition:background .35s;
+}
+.nav{display:flex;align-items:center;justify-content:space-between;padding:14px 0;gap:12px}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--text)}
+.brand .selo{
+  width:46px;height:46px;border-radius:50%;background:var(--orange);
+  display:grid;place-items:center;box-shadow:0 6px 18px -6px rgba(242,107,46,.6);
+  flex-shrink:0;position:relative;overflow:hidden;
+}
+.brand .selo::after{
+  content:"";position:absolute;inset:0;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='60' height='60'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/><feColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .18 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  mix-blend-mode:multiply;opacity:.5;
+}
+.brand .selo img{width:60%;height:60%;object-fit:contain;filter:brightness(0) invert(1);position:relative;z-index:1}
+.brand b{font-family:"Anton",Impact,sans-serif;font-size:1.15rem;letter-spacing:.03em;text-transform:uppercase;line-height:1}
+.brand span{display:block;font-size:.66rem;letter-spacing:.28em;color:var(--text-2);text-transform:uppercase;font-weight:600;margin-top:4px}
+
+.nav-actions{display:flex;align-items:center;gap:8px}
+.theme-toggle{
+  width:42px;height:42px;border-radius:999px;border:1.5px solid var(--line-strong);
+  display:grid;place-items:center;transition:.22s;color:var(--text);
+}
+.theme-toggle:hover{background:var(--bg-2);border-color:var(--orange);color:var(--orange)}
+.theme-toggle svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+[data-theme="dark"] .theme-toggle .ic-sun{display:block}
+[data-theme="dark"] .theme-toggle .ic-moon{display:none}
+[data-theme="light"] .theme-toggle .ic-sun{display:none}
+[data-theme="light"] .theme-toggle .ic-moon{display:block}
+
+.wpp{
+  display:inline-flex;align-items:center;gap:8px;font-weight:600;font-size:.85rem;
+  color:var(--text);text-decoration:none;padding:10px 18px;border-radius:999px;
+  border:1.5px solid var(--line-strong);transition:.22s;white-space:nowrap;
+}
+.wpp:hover{background:var(--orange);border-color:var(--orange);color:#fff}
+@media(max-width:520px){.wpp span{display:none}.wpp::after{content:"WhatsApp"}}
+
+/* Botão instalar PWA */
+.btn-install{
+  display:none;align-items:center;gap:8px;background:var(--orange);color:#fff;
+  padding:9px 16px;border-radius:999px;font-weight:700;font-size:.82rem;
+  text-transform:uppercase;letter-spacing:.08em;transition:.22s;
+}
+.btn-install.show{display:inline-flex}
+.btn-install:hover{background:var(--orange-soft)}
+
+/* ---------- STEPPER ---------- */
+.steps{display:flex;gap:6px;justify-content:center;padding:14px 0 4px;flex-wrap:wrap}
+.steps .st{display:flex;align-items:center;gap:8px;font-size:.72rem;font-weight:700;color:var(--text-3);text-transform:uppercase;letter-spacing:.1em}
+.steps .st i{
+  width:24px;height:24px;border-radius:50%;display:grid;place-items:center;font-style:normal;
+  border:1.5px solid var(--line-strong);font-size:.78rem;background:var(--bg-2);transition:.25s;font-family:"Anton",sans-serif;
+}
+.steps .st.done i{background:var(--orange-deep);color:#fff;border-color:var(--orange-deep)}
+.steps .st.now{color:var(--text)}
+.steps .st.now i{background:var(--orange);color:#fff;border-color:var(--orange)}
+.steps .sep{width:22px;height:1.5px;background:var(--line);align-self:center}
+@media(max-width:640px){.steps .st span{display:none}.steps .sep{width:12px}}
+
+.tela{display:none;animation:fade .45s ease both}
+.tela.active{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+
+/* ---------- HERO ---------- */
+.hero{padding:52px 0 40px;position:relative;overflow:hidden}
+.hero::before{
+  content:"";position:absolute;top:-80px;right:-140px;width:640px;height:640px;
+  background:url('logo.png') center/contain no-repeat;opacity:.05;pointer-events:none;
+  transform:rotate(-6deg);filter:brightness(calc(var(--logo-invert) * 2 + (1 - var(--logo-invert)) * .5));
+}
+.hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:44px;align-items:center;position:relative}
+.selo-hero{
+  display:inline-flex;align-items:center;gap:8px;font-size:.7rem;font-weight:700;
+  text-transform:uppercase;letter-spacing:.24em;color:var(--orange);
+  background:rgba(242,107,46,.10);padding:9px 16px;border-radius:999px;margin-bottom:22px;
+  border:1px solid rgba(242,107,46,.28);
+}
+.selo-hero::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--orange);animation:pulse 1.8s infinite;box-shadow:0 0 12px var(--orange)}
+@keyframes pulse{50%{opacity:.35;transform:scale(.85)}}
+
+.hero h1{font-family:"Anton",Impact,sans-serif;text-transform:uppercase;font-size:clamp(2.8rem,7vw,5.2rem);line-height:.92;letter-spacing:0;color:var(--text)}
+.hero h1 em{font-family:"Bricolage Grotesque",serif;font-style:italic;color:var(--orange);font-weight:500;text-transform:none;letter-spacing:-.01em}
+.hero p.lead{font-size:1.05rem;color:var(--text-2);margin:22px 0 26px;max-width:46ch}
+
+.prize-tag{
+  display:inline-flex;flex-direction:column;background:var(--bg-2);color:var(--text);
+  padding:16px 24px;border-radius:14px;margin-bottom:28px;box-shadow:var(--shadow);
+  border:1px solid var(--line-strong);border-left:3px solid var(--orange);
+}
+.prize-tag small{font-size:.7rem;letter-spacing:.22em;text-transform:uppercase;color:var(--orange);font-weight:700}
+.prize-tag b{font-family:"Anton",sans-serif;font-size:1.9rem;font-weight:400;line-height:1;margin-top:4px;letter-spacing:.02em}
+
+.cta-row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.btn{
+  display:inline-flex;align-items:center;gap:9px;font-weight:700;font-size:.95rem;
+  padding:16px 28px;border-radius:999px;transition:.22s;text-decoration:none;line-height:1;
+  text-transform:uppercase;letter-spacing:.08em;
+}
+.btn-primary{background:var(--orange);color:#fff;box-shadow:0 14px 28px -12px rgba(242,107,46,.7)}
+.btn-primary:hover{transform:translateY(-2px);background:var(--orange-soft)}
+.btn-ghost{color:var(--text);border:1.5px solid var(--line-strong)}
+.btn-ghost:hover{background:var(--bg-2);border-color:var(--text-2)}
+
+.mini-facts{display:flex;gap:28px;margin-top:28px;flex-wrap:wrap}
+.mini-facts div{font-size:.78rem;color:var(--text-3);text-transform:uppercase;letter-spacing:.14em;font-weight:600}
+.mini-facts b{display:block;font-family:"Anton",sans-serif;font-size:1.7rem;color:var(--text);font-weight:400;letter-spacing:0;text-transform:none;margin-bottom:2px}
+
+/* Vídeo da moto no lugar do placeholder */
+.moto-frame{position:relative}
+.moto-video{
+  border-radius:20px;overflow:hidden;aspect-ratio:16/9;background:#000;box-shadow:var(--shadow);
+  border:1px solid var(--line-strong);position:relative;
+}
+.moto-video video{width:100%;height:100%;object-fit:cover;display:block}
+.moto-video::after{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(180deg,transparent 60%,rgba(0,0,0,.35) 100%);
+}
+.float-badge{
+  position:absolute;bottom:-14px;right:-8px;background:var(--orange);color:#fff;
+  font-family:"Anton",sans-serif;font-weight:400;padding:14px 20px;border-radius:14px;
+  box-shadow:var(--shadow);transform:rotate(-4deg);border:1px solid rgba(255,255,255,.15);z-index:2;
+}
+.float-badge small{display:block;font-family:"DM Sans",sans-serif;font-weight:700;font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;opacity:.9}
+.float-badge b{font-size:1.6rem;line-height:1;letter-spacing:.02em}
+@media(max-width:840px){.hero-grid{grid-template-columns:1fr;gap:32px}.moto-frame{order:-1}}
+
+/* ---------- COMO FUNCIONA ---------- */
+.como{padding:26px 0 6px}
+.como-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:18px}
+.como-card{background:var(--bg-2);border:1px solid var(--line);border-radius:16px;padding:24px;transition:.25s}
+.como-card:hover{border-color:var(--orange);transform:translateY(-4px)}
+.como-card i{font-style:normal;font-family:"Anton",sans-serif;font-size:2rem;color:var(--orange);font-weight:400;line-height:1}
+.como-card h4{font-family:"Anton",sans-serif;font-weight:400;text-transform:uppercase;letter-spacing:.03em;font-size:1.1rem;margin:10px 0 6px;color:var(--text)}
+.como-card p{font-size:.88rem;color:var(--text-2)}
+@media(max-width:720px){.como-cards{grid-template-columns:1fr}}
+
+/* ---------- SECTION HEADS ---------- */
+.section-head{text-align:center;padding:52px 0 8px}
+.section-head h2{font-family:"Anton",sans-serif;font-weight:400;text-transform:uppercase;font-size:clamp(2rem,4.6vw,3.2rem);color:var(--text);letter-spacing:.02em}
+.section-head h2 em{font-family:"Bricolage Grotesque",serif;font-style:italic;color:var(--orange);font-weight:500;text-transform:none;letter-spacing:-.01em}
+.section-head p{color:var(--text-2);margin-top:8px;font-size:.9rem}
+
+/* ---------- GRADE ---------- */
+.legend{display:flex;gap:18px;justify-content:center;flex-wrap:wrap;margin:24px 0 20px}
+.legend div{display:flex;align-items:center;gap:8px;font-size:.78rem;font-weight:600;color:var(--text-2);text-transform:uppercase;letter-spacing:.1em}
+.legend .chip{width:20px;height:20px;border-radius:6px}
+.chip.disp{background:var(--bg-2);border:1.5px solid var(--text-3)}
+.chip.sel{background:var(--orange)}
+.chip.res{background:repeating-linear-gradient(45deg,var(--bg-3),var(--bg-3) 4px,var(--bg-2) 4px,var(--bg-2) 8px);border:1.5px solid var(--line-strong)}
+.chip.vend{background:var(--orange-deep);opacity:.5}
+
+.tools{display:flex;gap:10px;justify-content:center;align-items:center;flex-wrap:wrap;margin-bottom:22px}
+.tools input{
+  font-family:inherit;font-size:.95rem;padding:12px 18px;border-radius:999px;
+  border:1.5px solid var(--line-strong);background:var(--bg-2);width:230px;color:var(--text);
+}
+.tools input:focus{outline:none;border-color:var(--orange)}
+.tools input::placeholder{color:var(--text-3)}
+.tools .count{font-size:.78rem;color:var(--text-2);font-weight:600;text-transform:uppercase;letter-spacing:.14em}
+
+.grade{display:grid;grid-template-columns:repeat(10,1fr);gap:9px;max-width:680px;margin:0 auto}
+.num{
+  aspect-ratio:1;border-radius:12px;font-family:"Anton",sans-serif;font-weight:400;font-size:1.15rem;
+  background:var(--bg-2);border:1.5px solid var(--line-strong);color:var(--text);
+  transition:transform .12s, background .18s, border-color .18s, box-shadow .18s;letter-spacing:.02em;
+}
+.num:hover:not(:disabled){transform:translateY(-3px);border-color:var(--orange);background:var(--bg-3);box-shadow:0 8px 16px -8px rgba(242,107,46,.4)}
+.num.sel{background:var(--orange);border-color:var(--orange);color:#fff;box-shadow:0 8px 20px -8px rgba(242,107,46,.9);transform:translateY(-2px)}
+.num.res{background:repeating-linear-gradient(45deg,var(--bg-3),var(--bg-3) 5px,var(--bg-2) 5px,var(--bg-2) 10px);border-color:transparent;color:var(--text-3);cursor:not-allowed}
+.num.vend{background:var(--orange-deep);border-color:var(--orange-deep);color:rgba(255,255,255,.4);cursor:not-allowed;text-decoration:line-through;opacity:.6}
+.num:disabled{pointer-events:none}
+@media(max-width:600px){.grade{grid-template-columns:repeat(5,1fr);gap:8px}.num{font-size:1.05rem}}
+
+/* ---------- SELBAR ---------- */
+.selbar{
+  position:fixed;left:50%;bottom:18px;transform:translateX(-50%) translateY(140%);
+  width:min(680px,94vw);background:var(--bg-2);color:var(--text);
+  border-radius:16px;padding:14px 18px;display:flex;align-items:center;gap:16px;
+  box-shadow:0 24px 50px -18px rgba(0,0,0,.5);z-index:40;
+  border:1px solid var(--line-strong);border-top:2px solid var(--orange);
+  transition:transform .35s cubic-bezier(.2,.9,.3,1.2), background .35s;
+}
+.selbar.show{transform:translateX(-50%) translateY(0)}
+.selbar .info{flex:1;min-width:0}
+.selbar .info small{color:var(--orange);font-size:.68rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase}
+.selbar .info b{display:block;font-family:"Anton",sans-serif;font-size:1.4rem;font-weight:400;line-height:1.1;letter-spacing:.02em;margin-top:2px}
+.selbar .nums{font-size:.76rem;color:var(--text-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:2px}
+.selbar button{background:var(--orange);color:#fff;font-weight:700;padding:13px 22px;border-radius:999px;white-space:nowrap;transition:.2s;text-transform:uppercase;letter-spacing:.08em;font-size:.85rem}
+.selbar button:hover{background:var(--orange-soft)}
+
+/* ---------- CHECKOUT / DONE / PAY ---------- */
+.panel{max-width:580px;margin:0 auto;background:var(--bg-2);border:1px solid var(--line-strong);border-radius:22px;padding:36px;box-shadow:var(--shadow)}
+.panel h3{font-family:"Anton",sans-serif;font-weight:400;text-transform:uppercase;font-size:1.4rem;color:var(--text);margin-bottom:4px;letter-spacing:.04em}
+.panel .sub{color:var(--text-2);font-size:.88rem;margin-bottom:22px}
+.chips{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:24px}
+.chips .n{background:var(--bg-3);color:var(--orange);font-family:"Anton",sans-serif;font-weight:400;font-size:1rem;padding:6px 12px;border-radius:8px;border:1px solid var(--line);letter-spacing:.03em}
+.field{margin-bottom:16px}
+.field label{display:block;font-size:.72rem;font-weight:700;color:var(--text-2);margin-bottom:8px;text-transform:uppercase;letter-spacing:.12em}
+.field input{width:100%;font-family:inherit;font-size:1rem;padding:14px 16px;border-radius:11px;border:1.5px solid var(--line-strong);background:var(--bg);color:var(--text)}
+.field input::placeholder{color:var(--text-3)}
+.field input:focus{outline:none;border-color:var(--orange);background:var(--bg-3)}
+.total-box{display:flex;justify-content:space-between;align-items:center;padding:18px 0;border-top:1px dashed var(--line-strong);margin-top:8px}
+.total-box span{color:var(--text-2);text-transform:uppercase;font-size:.78rem;letter-spacing:.14em;font-weight:600}
+.total-box b{font-family:"Anton",sans-serif;font-size:1.7rem;color:var(--orange);font-weight:400;letter-spacing:.02em}
+.actions{display:flex;gap:10px;margin-top:24px}
+.actions .btn{flex:1;justify-content:center;font-size:.85rem;padding:15px}
+.btn-back{background:var(--bg-3);color:var(--text);border:1px solid var(--line-strong)}
+
+.pay-opts{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px}
+.pay{border:1.5px solid var(--line-strong);border-radius:14px;padding:18px;text-align:center;transition:.2s;background:var(--bg);cursor:pointer}
+.pay.active{border-color:var(--orange);background:var(--bg-3);box-shadow:0 8px 18px -12px rgba(242,107,46,.8)}
+.pay i{font-style:normal;font-size:1.6rem}
+.pay b{display:block;margin-top:6px;font-size:1rem;color:var(--text);font-family:"Anton",sans-serif;font-weight:400;text-transform:uppercase;letter-spacing:.04em}
+.pay small{font-size:.72rem;color:var(--text-2)}
+.pay-body{display:none}.pay-body.active{display:block;animation:fade .3s both}
+.pix-slot{text-align:center;padding:22px;border:1.5px dashed var(--orange);border-radius:14px;background:var(--bg);color:var(--text)}
+.pix-slot .qr{width:150px;height:150px;margin:0 auto 12px;border-radius:12px;background:repeating-linear-gradient(45deg,var(--bg-2),var(--bg-2) 10px,var(--bg-3) 10px,var(--bg-3) 20px);display:grid;place-items:center;font-size:2rem}
+.pix-slot b{font-family:"Anton",sans-serif;text-transform:uppercase;letter-spacing:.04em;font-weight:400;font-size:1rem}
+.copia{display:flex;gap:8px;margin-top:14px}
+.copia input{flex:1;font-family:monospace;font-size:.78rem;padding:11px;border-radius:9px;border:1.5px solid var(--line-strong);background:var(--bg-2);color:var(--text)}
+.copia button{background:var(--orange);color:#fff;padding:0 18px;border-radius:9px;font-weight:700;text-transform:uppercase;font-size:.78rem;letter-spacing:.08em}
+
+.done{max-width:540px;margin:0 auto;text-align:center;background:var(--bg-2);border:1px solid var(--line-strong);border-radius:22px;padding:48px 32px;box-shadow:var(--shadow)}
+.done .check{width:78px;height:78px;border-radius:50%;background:var(--orange);color:#fff;display:grid;place-items:center;font-size:2.4rem;margin:0 auto 20px;animation:pop .5s cubic-bezier(.2,.9,.3,1.4) both;box-shadow:0 12px 30px -8px rgba(242,107,46,.6)}
+@keyframes pop{from{transform:scale(0)}to{transform:scale(1)}}
+.done h3{font-family:"Anton",sans-serif;font-weight:400;text-transform:uppercase;font-size:1.7rem;color:var(--text);letter-spacing:.04em}
+.done p{color:var(--text-2);margin:12px 0 20px}
+.done .resumo{background:var(--bg);border:1px solid var(--line);border-radius:14px;padding:20px;text-align:left;margin-bottom:22px}
+.done .resumo div{display:flex;justify-content:space-between;font-size:.88rem;padding:5px 0;gap:12px}
+.done .resumo span{color:var(--text-2);text-transform:uppercase;font-size:.72rem;letter-spacing:.12em;font-weight:600;flex-shrink:0}
+.done .resumo b{color:var(--text);text-align:right}
+
+.demo-note{max-width:580px;margin:22px auto 0;font-size:.78rem;color:var(--text-2);text-align:center;padding:14px;border:1px dashed var(--line-strong);border-radius:12px;background:rgba(242,107,46,.06)}
+
+/* ---------- CONHEÇA ---------- */
+.church-block{padding:80px 0 20px;position:relative}
+.church-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:44px;align-items:center;margin-top:30px}
+.video-wrap{border-radius:20px;overflow:hidden;box-shadow:var(--shadow);border:1px solid var(--line-strong);background:#000;aspect-ratio:16/9;position:relative}
+.video-wrap video{width:100%;height:100%;object-fit:cover;display:block}
+.church-info h3{font-family:"Bricolage Grotesque",serif;font-weight:500;font-size:1.7rem;color:var(--text);line-height:1.15;letter-spacing:-.015em}
+.church-info h3 em{font-style:italic;color:var(--orange);font-weight:500}
+.church-info p{color:var(--text-2);margin:16px 0 20px;font-size:.98rem}
+.church-info .horarios{background:var(--bg-2);border-left:3px solid var(--orange);padding:14px 18px;border-radius:0 12px 12px 0;font-size:.9rem;color:var(--text);margin-bottom:22px;border-top:1px solid var(--line);border-right:1px solid var(--line);border-bottom:1px solid var(--line)}
+.church-info .horarios b{display:block;font-family:"Anton",sans-serif;font-size:.8rem;margin-bottom:6px;text-transform:uppercase;letter-spacing:.16em;color:var(--orange);font-weight:400}
+.social-row{display:flex;gap:10px;flex-wrap:wrap}
+.social-btn{display:inline-flex;align-items:center;gap:8px;padding:11px 18px;border-radius:999px;border:1.5px solid var(--line-strong);color:var(--text);text-decoration:none;font-weight:600;font-size:.82rem;transition:.2s;text-transform:uppercase;letter-spacing:.08em}
+.social-btn:hover{background:var(--orange);color:#fff;border-color:var(--orange)}
+@media(max-width:840px){.church-grid{grid-template-columns:1fr}}
+
+.dual{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:50px}
+.dual-card{background:var(--bg-2);border:1px solid var(--line-strong);border-radius:22px;padding:28px;box-shadow:var(--shadow)}
+.dual-card h4{font-family:"Anton",sans-serif;font-weight:400;text-transform:uppercase;font-size:1.35rem;color:var(--text);margin-bottom:6px;letter-spacing:.03em}
+.dual-card h4 em{font-family:"Bricolage Grotesque",serif;font-style:italic;color:var(--orange);font-weight:500;text-transform:none;letter-spacing:-.01em}
+.dual-card > p{color:var(--text-2);font-size:.9rem;margin-bottom:20px}
+.spotify-embed{border-radius:14px;overflow:hidden}
+.spotify-embed iframe{display:block;border-radius:14px;width:100%}
+.contrib-list{display:flex;flex-direction:column;gap:10px}
+.contrib{display:flex;align-items:center;gap:14px;padding:16px;border-radius:14px;background:var(--bg);text-decoration:none;color:var(--text);border:1.5px solid transparent;transition:.2s}
+.contrib:hover{border-color:var(--orange);transform:translateX(4px)}
+.contrib .ico{width:44px;height:44px;border-radius:50%;background:var(--orange);color:#fff;display:grid;place-items:center;font-family:"Anton",sans-serif;font-size:1.3rem;flex-shrink:0;font-weight:400}
+.contrib b{display:block;font-family:"Anton",sans-serif;font-weight:400;font-size:.95rem;text-transform:uppercase;letter-spacing:.04em}
+.contrib small{display:block;font-size:.76rem;color:var(--text-2);margin-top:3px;text-transform:none;letter-spacing:0}
+.contrib .arrow{margin-left:auto;color:var(--orange);font-weight:700;font-size:1.2rem}
+@media(max-width:840px){.dual{grid-template-columns:1fr}}
+
+/* ---------- AGENDA ---------- */
+.agenda{padding:40px 0 20px}
+.agenda-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;margin-top:26px}
+.evento{background:var(--bg-2);border:1px solid var(--line);border-radius:18px;padding:22px;transition:.25s;position:relative;overflow:hidden}
+.evento:hover{border-color:var(--orange);transform:translateY(-4px)}
+.evento .data{display:flex;align-items:baseline;gap:10px;margin-bottom:12px}
+.evento .dia{font-family:"Anton",sans-serif;font-size:2.8rem;line-height:.9;color:var(--orange);letter-spacing:.02em}
+.evento .mes{font-family:"Anton",sans-serif;font-size:.9rem;color:var(--text-2);text-transform:uppercase;letter-spacing:.14em}
+.evento h5{font-family:"Anton",sans-serif;font-weight:400;text-transform:uppercase;font-size:1.15rem;letter-spacing:.03em;color:var(--text);margin-bottom:6px;line-height:1.15}
+.evento .quando{font-size:.82rem;color:var(--text-2);margin-bottom:8px;text-transform:uppercase;letter-spacing:.08em;font-weight:600}
+.evento p{font-size:.88rem;color:var(--text-2);line-height:1.5}
+.evento .tag{position:absolute;top:16px;right:16px;font-size:.62rem;font-weight:800;text-transform:uppercase;letter-spacing:.14em;padding:5px 10px;border-radius:999px;background:rgba(242,107,46,.15);color:var(--orange);border:1px solid rgba(242,107,46,.3)}
+
+/* ---------- SORTEIO ---------- */
+.tela-sorteio{background:radial-gradient(ellipse at top,rgba(242,107,46,.08),transparent 60%),var(--bg-2);color:var(--text);min-height:80vh;border-radius:24px;padding:44px 24px;margin-top:24px;position:relative;overflow:hidden;border:1px solid var(--line-strong)}
+.tela-sorteio::before{content:"";position:absolute;top:-100px;right:-100px;width:600px;height:600px;background:url('logo.png') center/contain no-repeat;opacity:.04;pointer-events:none;filter:brightness(calc(var(--logo-invert) * 2 + (1 - var(--logo-invert)) * .5))}
+.tela-sorteio h2{font-family:"Anton",sans-serif;font-weight:400;text-transform:uppercase;font-size:clamp(2.2rem,5vw,3.4rem);text-align:center;color:var(--text);letter-spacing:.02em}
+.tela-sorteio h2 em{font-family:"Bricolage Grotesque",serif;font-style:italic;color:var(--orange);font-weight:500;text-transform:none;letter-spacing:-.01em}
+.tela-sorteio .subt{text-align:center;color:var(--text-2);margin-top:8px;margin-bottom:40px;font-size:.85rem;text-transform:uppercase;letter-spacing:.14em;font-weight:600}
+
+.login-box{max-width:420px;margin:60px auto;background:var(--bg);border:1px solid var(--line-strong);border-radius:18px;padding:34px;text-align:center}
+.login-box h3{font-family:"Anton",sans-serif;font-weight:400;text-transform:uppercase;font-size:1.3rem;color:var(--orange);margin-bottom:8px;letter-spacing:.04em}
+.login-box p{font-size:.85rem;color:var(--text-2);margin-bottom:22px}
+.login-box input{width:100%;padding:16px;font-size:1.05rem;border-radius:12px;border:1.5px solid var(--line-strong);background:var(--bg-2);color:var(--text);font-family:"Anton",sans-serif;text-align:center;letter-spacing:.3em;text-transform:uppercase}
+.login-box input:focus{outline:none;border-color:var(--orange)}
+.login-box button{width:100%;margin-top:14px;background:var(--orange);color:#fff;font-weight:700;padding:15px;border-radius:12px;font-size:.85rem;text-transform:uppercase;letter-spacing:.12em}
+.login-box .erro{color:#E85A20;font-size:.82rem;margin-top:10px;min-height:1.2em;text-transform:uppercase;letter-spacing:.08em;font-weight:600}
+
+.painel-sorteio{max-width:820px;margin:0 auto}
+.stats-sorteio{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:40px}
+.stat{background:var(--bg);border:1px solid var(--line-strong);border-radius:16px;padding:22px;text-align:center}
+.stat small{color:var(--orange);font-size:.68rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase}
+.stat b{display:block;font-family:"Anton",sans-serif;font-size:2rem;color:var(--text);font-weight:400;margin-top:8px;letter-spacing:.02em}
+@media(max-width:600px){.stats-sorteio{grid-template-columns:1fr}}
+
+.roleta{background:var(--bg);border:2px solid var(--line-strong);border-radius:24px;padding:54px 20px;text-align:center;margin-bottom:26px;position:relative;overflow:hidden}
+.roleta::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(242,107,46,.15),transparent 60%);pointer-events:none}
+.roleta.rodando{border-color:var(--orange)}
+.roleta.rodando::before{background:radial-gradient(ellipse at center,rgba(242,107,46,.35),transparent 60%);animation:glow 1s infinite alternate}
+@keyframes glow{to{opacity:.6}}
+.roleta .display{font-family:"Anton",sans-serif;font-weight:400;font-size:clamp(6rem,18vw,11rem);color:var(--orange);line-height:1;letter-spacing:-.01em;text-shadow:0 0 80px rgba(242,107,46,.5);transition:transform .3s;position:relative}
+.roleta.rodando .display{animation:tremer .08s infinite}
+@keyframes tremer{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+.roleta .rot-label{font-size:.72rem;letter-spacing:.28em;text-transform:uppercase;color:var(--text-2);font-weight:700;margin-bottom:16px;position:relative}
+
+.btn-sortear{background:var(--orange);color:#fff;font-family:"Anton",sans-serif;font-weight:400;font-size:1.3rem;padding:22px 48px;border-radius:999px;letter-spacing:.08em;text-transform:uppercase;box-shadow:0 20px 40px -14px rgba(242,107,46,.9);transition:.25s;display:block;margin:0 auto;min-width:300px}
+.btn-sortear:hover:not(:disabled){transform:translateY(-3px);background:var(--orange-soft)}
+.btn-sortear:disabled{opacity:.4;cursor:not-allowed}
+
+.ganhador-card{margin-top:40px;background:linear-gradient(145deg,rgba(242,107,46,.12),rgba(242,107,46,.03));border:2px solid var(--orange);border-radius:22px;padding:36px;text-align:center;display:none;animation:pop .6s cubic-bezier(.2,.9,.3,1.4) both;box-shadow:0 20px 60px -20px rgba(242,107,46,.4)}
+.ganhador-card.show{display:block}
+.ganhador-card small{color:var(--orange);font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;font-weight:700}
+.ganhador-card h3{font-family:"Bricolage Grotesque",serif;font-weight:500;font-size:2rem;color:var(--text);margin:8px 0 4px;letter-spacing:-.01em}
+.ganhador-card .nums-vencedor{font-family:"Anton",sans-serif;font-size:5.5rem;font-weight:400;color:var(--orange);line-height:1;margin:12px 0;letter-spacing:0}
+.ganhador-card .contato{color:var(--text-2);font-size:.95rem;margin-top:14px}
+.ganhador-card .actions{margin-top:26px;justify-content:center}
+
+.aviso-admin{position:fixed;top:18px;right:18px;background:var(--orange);color:#fff;font-family:"Anton",sans-serif;font-size:.72rem;font-weight:400;padding:8px 14px;border-radius:999px;letter-spacing:.16em;text-transform:uppercase;z-index:60;box-shadow:var(--shadow)}
+
+/* ---------- BANNER PÚBLICO DO RESULTADO ---------- */
+.banner-resultado{
+  background:linear-gradient(90deg,var(--orange),var(--orange-deep));
+  color:#fff;padding:16px 0;border-bottom:2px solid var(--orange-soft);
+  position:relative;overflow:hidden;
+}
+.banner-resultado::before{
+  content:"";position:absolute;top:-40px;right:-40px;width:180px;height:180px;
+  background:url('logo.png') center/contain no-repeat;opacity:.12;pointer-events:none;
+  filter:brightness(0) invert(1);
+}
+.br-inner{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;position:relative}
+.br-lado{display:flex;align-items:center;gap:18px}
+.br-num-big{
+  font-family:"Anton",sans-serif;font-size:3.4rem;line-height:.9;letter-spacing:.02em;
+  background:rgba(0,0,0,.2);padding:8px 18px;border-radius:12px;border:2px solid rgba(255,255,255,.3);
+}
+.br-txt small{display:block;font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;font-weight:800;opacity:.9}
+.br-txt b{display:block;font-family:"Anton",sans-serif;font-size:1.4rem;letter-spacing:.02em;margin-top:2px}
+.br-txt span{display:block;font-size:.82rem;opacity:.9;margin-top:2px}
+.br-data{font-family:"Anton",sans-serif;font-size:.9rem;opacity:.85;letter-spacing:.12em;text-transform:uppercase}
+@media(max-width:640px){.br-num-big{font-size:2.4rem}.br-txt b{font-size:1.15rem}}
+
+/* Card grande de resultado dentro do painel admin (quando já sorteado) */
+.resultado-oficial{
+  margin:20px auto;max-width:640px;background:linear-gradient(145deg,rgba(242,107,46,.18),rgba(242,107,46,.03));
+  border:2px solid var(--orange);border-radius:22px;padding:34px;text-align:center;box-shadow:0 20px 60px -20px rgba(242,107,46,.4);
+}
+.resultado-oficial .selo-ok{display:inline-block;background:var(--orange);color:#fff;padding:6px 14px;border-radius:999px;font-size:.7rem;font-weight:800;letter-spacing:.18em;text-transform:uppercase;margin-bottom:16px}
+.resultado-oficial .num-final{font-family:"Anton",sans-serif;font-size:5.5rem;color:var(--orange);line-height:1;letter-spacing:.02em;text-shadow:0 0 60px rgba(242,107,46,.5)}
+.resultado-oficial h3{font-family:"Bricolage Grotesque",serif;font-weight:500;font-size:1.7rem;color:var(--text);margin:10px 0 4px;letter-spacing:-.01em}
+.resultado-oficial .contato{color:var(--text-2);font-size:.95rem}
+.resultado-oficial .meta{margin-top:20px;padding-top:16px;border-top:1px solid var(--line-strong);display:flex;justify-content:space-around;gap:16px;flex-wrap:wrap;font-size:.78rem;color:var(--text-2);text-transform:uppercase;letter-spacing:.1em;font-weight:600}
+.resultado-oficial .meta b{display:block;color:var(--text);font-family:"Anton",sans-serif;font-weight:400;font-size:1.2rem;letter-spacing:.02em;margin-top:4px;text-transform:none}
+.aviso-travado{margin-top:20px;padding:12px 18px;background:rgba(242,107,46,.1);border-left:3px solid var(--orange);border-radius:0 10px 10px 0;font-size:.82rem;color:var(--text-2);text-align:left}
+.aviso-travado b{color:var(--orange);font-family:"Anton",sans-serif;font-weight:400;text-transform:uppercase;letter-spacing:.1em;font-size:.85rem}
+
+/* ---------- FOOTER ---------- */
+footer{margin-top:70px;background:var(--bg-3);color:var(--text);padding:56px 0 26px;position:relative;overflow:hidden;border-top:1px solid var(--line)}
+[data-theme="dark"] footer{background:#000}
+footer::before{content:"";position:absolute;bottom:-120px;left:-70px;width:420px;height:420px;background:url('logo.png') center/contain no-repeat;opacity:.04;pointer-events:none;filter:brightness(calc(var(--logo-invert) * 2 + (1 - var(--logo-invert)) * .5))}
+.foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:34px;position:relative}
+footer h5{font-family:"Anton",sans-serif;font-weight:400;text-transform:uppercase;font-size:1.05rem;margin-bottom:14px;color:var(--orange);letter-spacing:.08em}
+footer p,footer a{color:var(--text-2);font-size:.86rem;text-decoration:none;line-height:1.85;display:block}
+footer a:hover{color:var(--orange)}
+footer .brand-foot{display:flex;align-items:center;gap:14px;margin-bottom:14px}
+footer .brand-foot .selo{width:52px;height:52px;border-radius:50%;background:var(--orange);display:grid;place-items:center;flex-shrink:0;position:relative;overflow:hidden}
+footer .brand-foot .selo img{width:60%;height:60%;object-fit:contain;filter:brightness(0) invert(1);position:relative;z-index:1}
+footer .brand-foot b{font-family:"Anton",sans-serif;font-size:1.15rem;font-weight:400;color:var(--text);text-transform:uppercase;letter-spacing:.03em}
+
+.cosmo-block{margin-top:36px;padding:22px;background:var(--bg-2);border:1px solid var(--line);border-radius:16px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;position:relative}
+.cosmo-block .cosmo-mark{width:44px;height:44px;border-radius:12px;background:linear-gradient(145deg,#020817,#1E1B4B);color:#A855F7;display:grid;place-items:center;font-family:"Bricolage Grotesque",serif;font-weight:700;font-size:1.3rem;font-style:italic;flex-shrink:0;letter-spacing:-.02em;box-shadow:inset 0 0 0 1px rgba(168,85,247,.3)}
+.cosmo-block .cosmo-info{flex:1;min-width:200px}
+.cosmo-block .cosmo-info small{display:block;font-size:.68rem;text-transform:uppercase;letter-spacing:.2em;color:var(--text-3);font-weight:700;margin-bottom:3px}
+.cosmo-block .cosmo-info b{font-family:"Bricolage Grotesque",serif;font-weight:700;font-size:1rem;color:var(--text);letter-spacing:-.01em}
+.cosmo-block .cosmo-info i{font-style:normal;font-size:.82rem;color:var(--text-2);margin-left:6px}
+.cosmo-contact{display:flex;gap:8px;flex-wrap:wrap}
+.cosmo-contact a{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:999px;border:1px solid var(--line-strong);color:var(--text);text-decoration:none;font-weight:600;font-size:.78rem;transition:.2s}
+.cosmo-contact a:hover{background:var(--orange);color:#fff;border-color:var(--orange)}
+
+.foot-bottom{border-top:1px solid var(--line);margin-top:32px;padding-top:22px;font-size:.74rem;color:var(--text-3);display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;position:relative}
+.foot-bottom .cnpj{font-family:monospace;letter-spacing:.06em}
+.link-admin{color:var(--text-3);font-size:.68rem;text-decoration:underline;cursor:pointer;background:none;border:none;font-family:inherit}
+.link-admin:hover{color:var(--orange)}
+@media(max-width:720px){.foot-grid{grid-template-columns:1fr}}
+
+
+/* ============================================================
+   NAVEGAÇÃO PRINCIPAL
+   ============================================================ */
+.nav-links{display:flex;align-items:center;gap:4px}
+.nav-links a{font-size:.85rem;font-weight:600;padding:8px 12px;border-radius:10px;color:var(--text-2);transition:.2s;text-transform:uppercase;letter-spacing:.08em}
+.nav-links a:hover,.nav-links a.ativo{color:var(--text);background:var(--bg-2)}
+.nav-links .nav-sorteio{background:var(--orange);color:#fff !important;padding:8px 16px;border-radius:999px;box-shadow:0 6px 16px -8px rgba(242,107,46,.7)}
+.nav-links .nav-sorteio:hover{background:var(--orange-soft) !important;background:var(--orange-soft)}
+@media(max-width:860px){.nav-links{display:none}}
+.nav-actions{display:flex;align-items:center;gap:8px}
+
+/* Hamburger */
+.hamburger{display:none;width:40px;height:40px;border-radius:10px;border:1.5px solid var(--line-strong);align-items:center;justify-content:center;flex-direction:column;gap:5px;padding:11px;transition:.2s;cursor:pointer}
+.hamburger span{display:block;width:18px;height:2px;background:var(--text);border-radius:2px;transition:.25s}
+.hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.hamburger.open span:nth-child(2){opacity:0}
+.hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+@media(max-width:860px){.hamburger{display:flex}}
+
+/* Menu mobile */
+.mobile-menu{position:fixed;inset:0;top:71px;background:var(--bg);z-index:49;transform:translateX(100%);transition:transform .3s cubic-bezier(.4,0,.2,1);padding:24px;display:flex;flex-direction:column;gap:8px;overflow-y:auto}
+.mobile-menu.open{transform:translateX(0)}
+.mobile-menu a{font-family:"Anton",sans-serif;font-size:1.6rem;font-weight:400;letter-spacing:.04em;text-transform:uppercase;color:var(--text);padding:14px 0;border-bottom:1px solid var(--line);display:block;transition:.2s}
+.mobile-menu a:hover{color:var(--orange);padding-left:8px}
+.mobile-menu a.nav-sorteio{color:var(--orange)}
+.mobile-menu .mob-actions{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap}
+
+/* ── SEÇÕES ── */
+.section-divider{border:none;height:1px;background:var(--line);margin:60px 0 0}
+.section-head{text-align:center;padding:64px 0 8px}
+.section-head h2{font-family:"Anton",sans-serif;font-weight:400;text-transform:uppercase;font-size:clamp(2rem,4.5vw,3rem);color:var(--text);letter-spacing:.02em}
+.section-head h2 em{font-family:"Bricolage Grotesque",serif;font-style:italic;color:var(--orange);font-weight:500;text-transform:none;letter-spacing:-.01em}
+.section-head p{color:var(--text-2);margin-top:8px;font-size:.9rem}
+
+/* ── HOME / HERO ── */
+#home{padding:56px 0 0;position:relative;overflow:hidden}
+#home::before{content:"";position:absolute;top:-60px;right:-120px;width:560px;height:560px;background:url('logo.png') center/contain no-repeat;opacity:.05;pointer-events:none;transform:rotate(-6deg);filter:brightness(calc(var(--logo-invert)*2+(1 - var(--logo-invert))*.5))}
+.hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:50px;align-items:center;position:relative}
+.horarios-hero{background:var(--bg-2);border-left:3px solid var(--orange);padding:14px 18px;border-radius:0 12px 12px 0;font-size:.9rem;color:var(--text);margin-bottom:22px;border:1px solid var(--line-strong);border-left-width:3px;border-left-color:var(--orange)}
+.horarios-hero b{display:block;font-family:"Anton",sans-serif;font-size:.78rem;margin-bottom:6px;text-transform:uppercase;letter-spacing:.16em;color:var(--orange);font-weight:400}
+.video-hero{border-radius:20px;overflow:hidden;box-shadow:var(--shadow);border:1px solid var(--line-strong);background:#000;aspect-ratio:16/9}
+.video-hero video{width:100%;height:100%;object-fit:cover;display:block}
+@media(max-width:860px){.hero-grid{grid-template-columns:1fr;gap:28px}.video-hero{order:-1}}
+
+/* ── SORTEIO HERO ── */
+.sorteio-hero{background:var(--bg-2);border:1px solid var(--line-strong);border-radius:24px;padding:40px;position:relative;overflow:hidden;margin-top:24px}
+.sorteio-hero::before{content:"";position:absolute;top:-80px;right:-80px;width:360px;height:360px;background:url('logo.png') center/contain no-repeat;opacity:.04;pointer-events:none;filter:brightness(calc(var(--logo-invert)*2+(1 - var(--logo-invert))*.5))}
+.sorteio-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center;position:relative}
+@media(max-width:860px){.sorteio-grid{grid-template-columns:1fr;gap:26px}.moto-frame{order:-1}}
+
+/* ── OVERLAY DE COMPRA ── */
+.overlay{position:fixed;inset:0;z-index:60;display:none;background:rgba(0,0,0,.7);backdrop-filter:blur(6px);align-items:flex-end;justify-content:center}
+.overlay.open{display:flex;animation:fadeIn .2s ease}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.overlay-box{background:var(--bg-2);border-radius:22px 22px 0 0;padding:30px;width:min(620px,100%);max-height:90vh;overflow-y:auto;border:1px solid var(--line-strong);border-bottom:none;animation:slideUp .3s cubic-bezier(.2,.9,.3,1) both;transition:background .35s}
+@keyframes slideUp{from{transform:translateY(60px);opacity:0}to{transform:none;opacity:1}}
+.overlay-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+.overlay-header h3{font-family:"Anton",sans-serif;font-weight:400;text-transform:uppercase;font-size:1.3rem;color:var(--text);letter-spacing:.04em}
+.overlay-close{width:36px;height:36px;border-radius:50%;border:1.5px solid var(--line-strong);display:grid;place-items:center;font-size:1rem;color:var(--text-2);transition:.2s;background:none;cursor:pointer}
+.overlay-close:hover{background:var(--bg-3);color:var(--text)}
+.ov-steps{display:flex;gap:6px;justify-content:center;margin-bottom:20px}
+.ov-steps .st{display:flex;align-items:center;gap:6px;font-size:.72rem;font-weight:700;color:var(--text-3);text-transform:uppercase;letter-spacing:.08em}
+.ov-steps .st i{width:22px;height:22px;border-radius:50%;display:grid;place-items:center;font-style:normal;border:1.5px solid var(--line-strong);font-size:.75rem;background:var(--bg);transition:.25s;font-family:"Anton",sans-serif}
+.ov-steps .st.done i{background:var(--orange-deep);color:#fff;border-color:var(--orange-deep)}
+.ov-steps .st.now{color:var(--text)}.ov-steps .st.now i{background:var(--orange);color:#fff;border-color:var(--orange)}
+.ov-steps .sep{width:18px;height:1.5px;background:var(--line);align-self:center}
+.ov-tela{display:none;animation:fade .35s ease both}.ov-tela.active{display:block}
+.ov-actions{display:flex;gap:10px;margin-top:18px}
+.ov-actions .btn{flex:1;justify-content:center;font-size:.88rem;padding:14px}
+.done-box{text-align:center;padding:10px 0}
+.done-box .check{width:68px;height:68px;border-radius:50%;background:var(--orange);color:#fff;display:grid;place-items:center;font-size:2.2rem;margin:0 auto 14px;animation:pop .5s cubic-bezier(.2,.9,.3,1.4) both;box-shadow:0 12px 30px -8px rgba(242,107,46,.6)}
+.done-box h3{font-family:"Anton",sans-serif;font-weight:400;text-transform:uppercase;font-size:1.5rem;color:var(--text);letter-spacing:.04em}
+.done-box p{color:var(--text-2);margin:10px 0 16px}
+.resumo{background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:16px;text-align:left;margin-bottom:16px}
+.resumo div{display:flex;justify-content:space-between;font-size:.88rem;padding:4px 0;gap:10px}
+.resumo span{color:var(--text-2);text-transform:uppercase;font-size:.72rem;letter-spacing:.1em;font-weight:600;flex-shrink:0}
+.resumo b{color:var(--text);text-align:right}
+.demo-note{font-size:.76rem;color:var(--text-3);text-align:center;padding:12px;border:1px dashed var(--line-strong);border-radius:10px;background:rgba(242,107,46,.05);margin-top:12px}
+
+/* ── BANNER RESULTADO ── */
+.banner-resultado{background:linear-gradient(90deg,var(--orange),var(--orange-deep));color:#fff;padding:14px 0;position:relative;overflow:hidden}
+.banner-resultado::before{content:"";position:absolute;top:-40px;right:-40px;width:160px;height:160px;background:url('logo.png') center/contain no-repeat;opacity:.12;pointer-events:none;filter:brightness(0) invert(1)}
+.br-inner{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;position:relative}
+.br-lado{display:flex;align-items:center;gap:16px}
+.br-num{font-family:"Anton",sans-serif;font-size:2.8rem;line-height:.9;letter-spacing:.02em;background:rgba(0,0,0,.2);padding:6px 16px;border-radius:10px;border:2px solid rgba(255,255,255,.25)}
+.br-txt small{display:block;font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;font-weight:800;opacity:.9}
+.br-txt b{display:block;font-family:"Anton",sans-serif;font-size:1.2rem;letter-spacing:.02em;margin-top:2px}
+.br-txt span{display:block;font-size:.8rem;opacity:.85;margin-top:1px}
+.br-data{font-size:.82rem;opacity:.8;text-align:right;font-weight:600}
+@media(max-width:640px){.br-num{font-size:2rem}.br-txt b{font-size:1rem}.br-data{display:none}}
+
+/* ── SORTEIO ADMIN ── */
+#sorteio-admin{background:radial-gradient(ellipse at top,rgba(242,107,46,.08),transparent 60%),var(--bg-2);border:1px solid var(--line-strong);border-radius:24px;padding:44px 24px;margin:28px 0 60px;position:relative;overflow:hidden;min-height:50vh}
+#sorteio-admin::before{content:"";position:absolute;top:-80px;right:-80px;width:500px;height:500px;background:url('logo.png') center/contain no-repeat;opacity:.04;pointer-events:none;filter:brightness(calc(var(--logo-invert)*2+(1 - var(--logo-invert))*.5))}
+#sorteio-admin h2{font-family:"Anton",sans-serif;font-weight:400;text-transform:uppercase;font-size:clamp(2rem,5vw,3rem);text-align:center;color:var(--text);letter-spacing:.02em}
+.aviso-admin-badge{position:fixed;top:18px;right:18px;background:var(--orange);color:#fff;font-family:"Anton",sans-serif;font-size:.7rem;font-weight:400;padding:7px 12px;border-radius:999px;letter-spacing:.14em;text-transform:uppercase;z-index:60;box-shadow:var(--shadow);display:none}
+.btn-login{width:100%;margin-top:14px;background:var(--orange);color:#fff;font-weight:700;padding:14px;border-radius:12px;font-size:.9rem;text-transform:uppercase;letter-spacing:.1em;cursor:pointer;border:none;font-family:inherit}
+
+</style>
+</head>
+<body>
+
+<script>
+window.FIREBASE_CONFIG = {
+  apiKey: "COLE_AQUI_apiKey_do_console_firebase",
+  authDomain: "seu-projeto.firebaseapp.com",
+  projectId: "seu-projeto",
+  storageBucket: "seu-projeto.appspot.com",
+  messagingSenderId: "000000000000",
+  appId: "1:000000000000:web:xxxxxxxxxxxxxxxxxxxxxx"
+};
+</script>
+<script type="module" src="firebase-sync.js"></script>
+
+<!-- ============ HEADER ============ -->
+<header id="topo">
+  <div class="wrap nav">
+    <a class="brand" href="#home">
+      <span class="selo"><img src="logo.png" alt="IBSS"></span>
+      <span><b>Igreja Santidade</b><span>ao Senhor · IBSS</span></span>
+    </a>
+    <nav class="nav-links" aria-label="Navegação">
+      <a href="#home" onclick="navTo(event,'home')">Início</a>
+      <a href="#agenda" onclick="navTo(event,'agenda')">Agenda</a>
+      <a href="#contribua" onclick="navTo(event,'contribua')">Contribua</a>
+      <a href="#sorteio-moto" class="nav-sorteio" onclick="navTo(event,'sorteio-moto')">🎯 Sorteio da Moto</a>
+    </nav>
+    <div class="nav-actions">
+      <button class="btn-install" id="btn-install" onclick="instalarApp()" title="Instalar app">⬇ Instalar</button>
+      <button class="theme-toggle" onclick="toggleTheme()" title="Tema" aria-label="Alternar tema">
+        <svg class="ic-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+        <svg class="ic-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+      <a class="wpp" href="https://wa.me/5519981686809" target="_blank" rel="noopener">
+        <span>💬 WhatsApp</span>
+      </a>
+      <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- Menu mobile -->
+<div class="mobile-menu" id="mobile-menu">
+  <a href="#home" onclick="fecharMenu();navTo(event,'home')">Início</a>
+  <a href="#agenda" onclick="fecharMenu();navTo(event,'agenda')">Agenda</a>
+  <a href="#sorteio-moto" onclick="fecharMenu();navTo(event,'sorteio-moto')" class="nav-sorteio">🎯 Sorteio da Moto</a>
+  <a href="#contribua" onclick="fecharMenu();navTo(event,'contribua')">Contribua</a>
+  <div class="mob-actions">
+    <a class="btn btn-primary" href="https://wa.me/5519981686809" target="_blank" rel="noopener">💬 WhatsApp</a>
+    <button class="btn btn-ghost" onclick="fecharMenu();toggleTheme()">☀️ / 🌙 Tema</button>
+  </div>
+</div>
+
+<!-- Banner resultado sorteio (aparece pra todos quando sorteio é realizado) -->
+<div class="banner-resultado" id="banner-resultado" style="display:none">
+  <div class="wrap br-inner">
+    <div class="br-lado">
+      <div class="br-num" id="br-num">–</div>
+      <div class="br-txt">
+        <small>🏆 Sorteio realizado · Moto Elétrica</small>
+        <b id="br-ganhador">–</b>
+        <span id="br-contato">–</span>
+      </div>
+    </div>
+    <div class="br-data" id="br-data">–</div>
+  </div>
+</div>
+
+<div class="aviso-admin-badge" id="aviso-admin">🔒 Modo admin</div>
+
+<main>
+
+  <!-- ══════════════════════════════════════════════════════
+       SEÇÃO 1 · INÍCIO / SOBRE A IGREJA
+       ══════════════════════════════════════════════════════ -->
+  <section id="home" class="wrap">
+    <div style="height:56px"></div>
+    <div class="hero-grid">
+      <div>
+        <span class="selo-hero">Um lugar pra ser família</span>
+        <h1>Igreja<br><em>Santidade</em><br>ao Senhor</h1>
+        <p class="lead">Somos a IBSS em Barão Geraldo, Campinas. Venha fazer parte — todos são bem-vindos.</p>
+        <div class="horarios-hero">
+          <b>Nossas celebrações</b>
+          Domingo 18h30 · Quinta 19h30<br>
+          Sábado Connect: Level Up 18h30 · Procuradores 19h30
+        </div>
+        <div class="social-row">
+          <a href="https://www.instagram.com/igrejasantidade_ibss" target="_blank" rel="noopener" class="social-btn">📸 Instagram</a>
+          <a href="https://www.youtube.com/@igrejasantidade_ibss" target="_blank" rel="noopener" class="social-btn">▶️ YouTube</a>
+          <a href="https://wa.me/5519981686809" target="_blank" rel="noopener" class="social-btn">💬 WhatsApp</a>
+        </div>
+      </div>
+      <div class="video-hero">
+        <video controls poster="poster-video.jpg" preload="metadata">
+          <source src="video-igreja.mp4" type="video/mp4">
+          Seu navegador não suporta vídeo.
+        </video>
+      </div>
+    </div>
+    <div style="height:64px"></div>
+  </section>
+
+  <hr class="section-divider">
+
+  <!-- ══════════════════════════════════════════════════════
+       SEÇÃO 2 · AGENDA DE EVENTOS
+       ══════════════════════════════════════════════════════ -->
+  <section id="agenda" class="wrap">
+    <div class="section-head">
+      <h2>Próximos <em>eventos</em></h2>
+      <p>Instale o app da IBSS e fique por dentro de tudo</p>
+    </div>
+    <div class="agenda-grid" id="agenda-grid"></div>
+    <div style="height:64px"></div>
+  </section>
+
+  <hr class="section-divider">
+
+  <!-- ══════════════════════════════════════════════════════
+       SEÇÃO 3 · SORTEIO DA MOTO
+       ══════════════════════════════════════════════════════ -->
+  <section id="sorteio-moto" class="wrap">
+    <div class="section-head">
+      <h2>Sorteio da <em>Moto Elétrica</em></h2>
+      <p>Sorteio beneficente · Festa da Igreja 2026</p>
+    </div>
+
+    <div class="sorteio-hero">
+      <div class="sorteio-grid">
+        <div>
+          <span class="selo-hero">Festa da Igreja · Edição 2026</span>
+          <h1 style="font-size:clamp(2rem,4.5vw,3.4rem)">Concorra a uma <em>moto elétrica</em> zero km</h1>
+          <p class="lead">Escolha seus números do jeito mais fácil — igual a marcar poltrona de avião. Selecione, pague pelo Pix ou cartão e pronto.</p>
+          <div class="prize-tag">
+            <small>Prêmio único</small>
+            <b>Moto Elétrica · R$ 5.000</b>
+          </div>
+          <div class="cta-row">
+            <button class="btn btn-primary" onclick="scrollParaGrade()">Escolher meus números →</button>
+            <a href="https://wa.me/5519981686809" target="_blank" rel="noopener" class="btn btn-ghost">Tirar dúvidas</a>
+          </div>
+          <div class="mini-facts">
+            <div><b id="fDisp">–</b>disponíveis</div>
+            <div><b id="fPreco">–</b>por número</div>
+            <div><b>100%</b>pra igreja</div>
+          </div>
+        </div>
+        <div class="moto-frame">
+          <div class="moto-video">
+            <video autoplay loop muted playsinline poster="moto-poster.jpg" preload="metadata">
+              <source src="moto.mp4" type="video/mp4">
+            </video>
+          </div>
+          <div class="float-badge">
+            <small>Valor do prêmio</small>
+            <b>R$ 5.000</b>
+          </div>
+        </div>
+      </div>
+      <div class="como-cards" style="margin-top:28px">
+        <div class="como-card"><i>01</i><h4>Escolha os números</h4><p>Toque nos disponíveis na grade. Pegue quantos quiser.</p></div>
+        <div class="como-card"><i>02</i><h4>Pague online</h4><p>Pix na hora ou cartão. Sem sair de casa.</p></div>
+        <div class="como-card"><i>03</i><h4>Confirmação automática</h4><p>Seus números ficam reservados no seu nome.</p></div>
+      </div>
+    </div>
+    <div style="height:36px"></div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════
+       SEÇÃO 4 · GRADE DE NÚMEROS
+       ══════════════════════════════════════════════════════ -->
+  <section id="grade-section" class="wrap">
+    <div class="section-head" style="padding-top:0">
+      <h2>Escolha <em>seus números</em></h2>
+      <p>Cinza = livre · Laranja = seu · Riscado = já vendido</p>
+    </div>
+    <div class="legend">
+      <div><span class="chip disp"></span> Disponível</div>
+      <div><span class="chip sel"></span> Selecionado</div>
+      <div><span class="chip res"></span> Reservado</div>
+      <div><span class="chip vend"></span> Vendido</div>
+    </div>
+    <div class="tools">
+      <input type="text" id="busca" inputmode="numeric" placeholder="🔍 Buscar número…" maxlength="3">
+      <span class="count" id="livres"></span>
+    </div>
+    <div class="grade" id="grade-grid"></div>
+    <div style="height:110px"></div>
+  </section>
+
+  <hr class="section-divider">
+
+  <!-- ══════════════════════════════════════════════════════
+       SEÇÃO 5 · CONTRIBUA + PLAYLIST
+       ══════════════════════════════════════════════════════ -->
+  <section id="contribua" class="wrap">
+    <div class="section-head">
+      <h2>Contribua com a <em>IBSS</em></h2>
+      <p>Além do sorteio, outras formas de fazer parte</p>
+    </div>
+    <div class="dual">
+      <div class="dual-card">
+        <h4>Louvores <em>2026</em></h4>
+        <p>Nossa playlist oficial no Spotify.</p>
+        <div class="spotify-embed">
+          <iframe src="https://open.spotify.com/embed/playlist/2GCShiFBvPonFamCmUSGzm?utm_source=generator&theme=0"
+                  height="352" frameborder="0" allowfullscreen=""
+                  allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                  loading="lazy"></iframe>
+        </div>
+      </div>
+      <div class="dual-card">
+        <h4>Outras formas de <em>contribuir</em></h4>
+        <p>Cada contribuição fortalece nossa comunidade:</p>
+        <div class="contrib-list">
+          <a href="https://www.asaas.com/c/xipv10qi5qruv31q" target="_blank" rel="noopener" class="contrib">
+            <div class="ico">♡</div>
+            <div><b>Generosidade</b><small>Oferta via Pix ou cartão</small></div>
+            <div class="arrow">→</div>
+          </a>
+          <a href="https://www.asaas.com/c/rdy4qh9jtxhcha89" target="_blank" rel="noopener" class="contrib">
+            <div class="ico">🍕</div>
+            <div><b>Pizza IBSS</b><small>Peça e ajude a igreja</small></div>
+            <div class="arrow">→</div>
+          </a>
+          <a href="https://www.asaas.com/c/g36m99j5vqipy409" target="_blank" rel="noopener" class="contrib">
+            <div class="ico">🚀</div>
+            <div><b>Rockets Camp</b><small>Inscrições e contribuições</small></div>
+            <div class="arrow">→</div>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div style="height:64px"></div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════
+       SEÇÃO 6 · PAINEL ADMIN (oculto, acesso por senha)
+       ══════════════════════════════════════════════════════ -->
+  <section id="sorteio-admin-section" style="display:none">
+    <div class="wrap">
+      <div id="sorteio-admin">
+        <h2>Sorteio da <em>Moto Elétrica</em></h2>
+        <p class="subt" style="text-align:center;color:var(--text-2);margin-top:6px;margin-bottom:34px;font-size:.85rem;text-transform:uppercase;letter-spacing:.14em;font-weight:600">Painel oficial · IBSS · Igreja Santidade ao Senhor</p>
+        <div class="login-box" id="login-sorteio">
+          <h3>🔒 Acesso restrito</h3>
+          <p>Área exclusiva para realizar o sorteio ao vivo</p>
+          <input type="password" id="senha-admin" placeholder="• • • • • • •" maxlength="20">
+          <button class="btn-login" onclick="validarSenha()">Entrar</button>
+          <div class="erro" id="erro-senha"></div>
+        </div>
+        <div class="painel-sorteio" id="painel-sorteio" style="display:none">
+          <div class="stats-sorteio">
+            <div class="stat"><small>Números vendidos</small><b id="stat-vendidos">–</b></div>
+            <div class="stat"><small>Total arrecadado</small><b id="stat-total">–</b></div>
+            <div class="stat"><small>Data / Hora</small><b id="stat-data">–</b></div>
+          </div>
+          <div class="roleta" id="roleta">
+            <div class="rot-label">Número sorteado</div>
+            <div class="display" id="display-num">– –</div>
+          </div>
+          <button class="btn-sortear" id="btn-sortear" onclick="sortear()">▶ Sortear agora</button>
+          <div class="ganhador-card" id="card-ganhador">
+            <small>🏆 Ganhador oficial</small>
+            <div class="nums-vencedor" id="num-ganhador"></div>
+            <h3 id="nome-ganhador">–</h3>
+            <div class="contato" id="contato-ganhador">–</div>
+            <div class="actions" style="display:flex;gap:10px;margin-top:20px;justify-content:center">
+              <button class="btn btn-primary" onclick="copiarResultado()">📋 Copiar resultado</button>
+            </div>
+          </div>
+          <div class="resultado-oficial" id="card-oficial" style="display:none"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ══════════════════════════════════════════════════════
+     OVERLAY DE COMPRA (abre ao clicar em Continuar)
+     ══════════════════════════════════════════════════════ -->
+<div class="overlay" id="overlay" onclick="fecharOverlayFora(event)">
+  <div class="overlay-box">
+    <div class="overlay-header">
+      <h3 id="ov-titulo">Finalizar compra</h3>
+      <button class="overlay-close" onclick="fecharOverlay()">✕</button>
+    </div>
+    <div class="ov-steps" id="ov-steps">
+      <div class="st now"><i>1</i><span>Dados</span></div>
+      <div class="sep"></div>
+      <div class="st"><i>2</i><span>Pagamento</span></div>
+      <div class="sep"></div>
+      <div class="st"><i>3</i><span>Pronto!</span></div>
+    </div>
+    <!-- Tela A: Dados -->
+    <div class="ov-tela active" id="ov-dados">
+      <p style="font-size:.88rem;color:var(--text-2);margin-bottom:12px">Números selecionados:</p>
+      <div class="chips" id="chips-dados"></div>
+      <div class="field"><label>Nome completo</label><input type="text" id="in-nome" placeholder="Como no documento"></div>
+      <div class="field"><label>WhatsApp (com DDD)</label><input type="tel" id="in-wpp" placeholder="(19) 99999-9999"></div>
+      <div class="field"><label>E-mail</label><input type="email" id="in-email" placeholder="voce@email.com"></div>
+      <div class="field"><label>Cidade</label><input type="text" id="in-cidade" placeholder="Sua cidade"></div>
+      <div class="total-box"><span>Total</span><b id="total-dados">R$ 0</b></div>
+      <div class="ov-actions">
+        <button class="btn btn-back" onclick="fecharOverlay()">← Cancelar</button>
+        <button class="btn btn-primary" onclick="validarDados()">Continuar →</button>
+      </div>
+    </div>
+    <!-- Tela B: Pagamento -->
+    <div class="ov-tela" id="ov-pag">
+      <div class="pay-opts">
+        <div class="pay active" data-pay="pix" onclick="selPay('pix')"><i>⚡</i><b>Pix</b><small>Aprovação na hora</small></div>
+        <div class="pay" data-pay="cartao" onclick="selPay('cartao')"><i>💳</i><b>Cartão</b><small>Crédito</small></div>
+      </div>
+      <div class="pay-body active" id="body-pix">
+        <div class="pix-slot">
+          <div class="qr">📱</div>
+          <b>Escaneie o QR Code no seu banco</b>
+          <div style="font-size:.78rem;color:var(--text-2);margin-top:4px">ou use o Pix copia e cola:</div>
+          <div class="copia">
+            <input type="text" id="pix-code" value="00020126...gerado-pelo-Asaas" readonly>
+            <button onclick="copiarPix(event)">Copiar</button>
+          </div>
+        </div>
+      </div>
+      <div class="pay-body" id="body-cartao">
+        <div class="field"><label>Número do cartão</label><input type="text" placeholder="0000 0000 0000 0000" inputmode="numeric"></div>
+        <div class="field"><label>Nome no cartão</label><input type="text" placeholder="Igual está impresso"></div>
+        <div style="display:flex;gap:10px">
+          <div class="field" style="flex:1"><label>Validade</label><input type="text" placeholder="MM/AA"></div>
+          <div class="field" style="flex:1"><label>CVV</label><input type="text" placeholder="000" maxlength="4"></div>
+        </div>
+      </div>
+      <div class="total-box"><span>Total a pagar</span><b id="total-pag">R$ 0</b></div>
+      <div class="ov-actions">
+        <button class="btn btn-back" onclick="irOverlay('dados')">← Voltar</button>
+        <button class="btn btn-primary" id="btn-confirmar" onclick="finalizar(event)">Confirmar pagamento →</button>
+      </div>
+      <div class="demo-note">⚠️ Protótipo: pagamento real via Asaas na versão final.</div>
+    </div>
+    <!-- Tela C: Confirmação -->
+    <div class="ov-tela" id="ov-conf">
+      <div class="done-box">
+        <div class="check">✓</div>
+        <h3 id="done-titulo">Números reservados!</h3>
+        <p id="done-txt">Faça o pagamento em até 15 minutos. Confirmado, seus números ficam no seu nome.</p>
+        <div class="resumo" id="resumo-final"></div>
+        <a href="https://wa.me/5519981686809" target="_blank" rel="noopener" class="btn btn-primary" style="width:100%;justify-content:center">Enviar comprovante no WhatsApp</a>
+        <button class="btn btn-ghost" style="width:100%;justify-content:center;margin-top:10px" onclick="fecharOverlay();reiniciarSelecao()">Comprar mais números</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Barra sticky de seleção -->
+<div class="selbar" id="selbar">
+  <div class="info">
+    <small>Selecionados</small>
+    <b><span id="sb-qtd">0</span> nº · <span id="sb-total">R$ 0</span></b>
+    <div class="nums" id="sb-nums"></div>
+  </div>
+  <button onclick="abrirOverlay()">Continuar →</button>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     FOOTER
+     ══════════════════════════════════════════════════════ -->
+<footer>
+  <div class="wrap foot-grid">
+    <div>
+      <div class="brand-foot">
+        <span class="selo"><img src="logo.png" alt=""></span>
+        <b>Igreja Santidade<br>ao Senhor</b>
+      </div>
+      <p>Comunidade cristã em Barão Geraldo, Campinas/SP. Um lugar pra ser família.</p>
+      <p style="margin-top:12px">📍 Rua Emília Signori Bonatto, 65<br>Jardim Santa Genebra II · Barão Geraldo<br>Campinas / SP · CEP 13084-751</p>
+    </div>
+    <div>
+      <h5>Contato</h5>
+      <a href="https://wa.me/5519981686809">💬 (19) 98168-6809</a>
+      <a href="tel:+551974204981">📞 (19) 97420-4981</a>
+      <a href="mailto:ibsantidadeaosenhor@gmail.com">✉️ ibsantidadeaosenhor@gmail.com</a>
+      <a href="https://www.instagram.com/igrejasantidade_ibss" target="_blank" rel="noopener">📸 @igrejasantidade_ibss</a>
+    </div>
+    <div>
+      <h5>Sorteio</h5>
+      <p>Evento beneficente · Festa da Igreja 2026.</p>
+      <p>Data: <b style="color:var(--orange)">[definir]</b></p>
+      <p>Autorização: <b style="color:var(--orange)">[SPA/MF nº]</b></p>
+    </div>
+  </div>
+  <div class="wrap">
+    <div class="cosmo-block">
+      <div class="cosmo-mark">C</div>
+      <div class="cosmo-info">
+        <small>Desenvolvido por</small>
+        <b>Cosmo Digital</b><i>· Soluções Digitais</i>
+      </div>
+      <div class="cosmo-contact">
+        <a href="https://wa.me/5511945453144" target="_blank" rel="noopener">💬 (11) 94545-3144</a>
+        <a href="tel:+5511945453144">📞 Ligar</a>
+      </div>
+    </div>
+  </div>
+  <div class="wrap foot-bottom">
+    <span>© 2026 Igreja Santidade ao Senhor · Todos os direitos reservados</span>
+    <span class="cnpj">CNPJ 22.912.900/0001-48</span>
+    <button class="link-admin" onclick="abrirPainelSorteio()">Área de sorteio</button>
+  </div>
+</footer>
+
+<script>
+/* ============================================================
+   CONFIGURAÇÃO — Grazi ajusta esses valores
+   ============================================================ */
+const TOTAL_NUMEROS = 100;
+const PRECO_POR_NUM = 100;
+const DIGITOS = 2;
+const SENHA_ADMIN = 'santidade2026';
+
+/* Fase 1 (hoje): tudo vazio — 100 números disponíveis pra vender.
+   Fase 2 (backend): estas listas vêm do Supabase em tempo real via fetch('/api/status'). */
+let VENDIDOS   = [];
+let RESERVADOS = [];
+let COMPRADORES = {};
+
+/* AGENDA DE EVENTOS — Grazi/igreja edita aqui */
+const EVENTOS = [
+  {dia:'20', mes:'Jul', tag:'Culto',    titulo:'Celebração de Domingo',   quando:'Dom · 18h30', local:'Santuário IBSS'},
+  {dia:'24', mes:'Jul', tag:'Meia semana', titulo:'Culto de Quinta',       quando:'Qui · 19h30', local:'Santuário IBSS'},
+  {dia:'26', mes:'Jul', tag:'Connect',  titulo:'Level Up · Procuradores', quando:'Sáb · 18h30 e 19h30', local:'Santuário IBSS'},
+  {dia:'02', mes:'Ago', tag:'Especial', titulo:'Festa da Igreja 2026',    quando:'Sáb · 17h', local:'Sede da IBSS · Barão Geraldo'},
+  {dia:'02', mes:'Ago', tag:'Sorteio',  titulo:'Sorteio da Moto Elétrica', quando:'Sáb · 21h', local:'Ao vivo na festa'},
+  {dia:'10', mes:'Ago', tag:'Grupos',   titulo:'GC – Grupos em Casa',      quando:'Vários dias', local:'Casas dos anfitriões'}
+];
+
+/* ============================================================ */
+const brl = v => v.toLocaleString('pt-BR',{style:'currency',currency:'BRL',minimumFractionDigits:0});
+const pad = n => String(n).padStart(DIGITOS,'0');
+const selecionados = new Set();
+let pagamentoTipo = 'pix';
+
+document.getElementById('fDisp').textContent = TOTAL_NUMEROS - VENDIDOS.length - RESERVADOS.length;
+document.getElementById('fPreco').textContent = brl(PRECO_POR_NUM);
+
+/* Grade — reconstrói sempre que Firestore atualiza (via firebase-sync.js) */
+const grid = document.getElementById('grade-grid');
+function reconstruirGrade(){
+  grid.innerHTML = '';
+  for(let i=0;i<TOTAL_NUMEROS;i++){
+    const b=document.createElement('button');
+    b.className='num';b.textContent=pad(i);b.dataset.n=i;
+    if(VENDIDOS.includes(i)){b.classList.add('vend');b.disabled=true;b.title='Já vendido';}
+    else if(RESERVADOS.includes(i)){b.classList.add('res');b.disabled=true;b.title='Reservado';}
+    else{
+      if(selecionados.has(i)) b.classList.add('sel');
+      b.onclick=()=>toggle(i,b);
+    }
+    grid.appendChild(b);
+  }
+  atualizaLivres();
+  document.getElementById('fDisp').textContent = TOTAL_NUMEROS - VENDIDOS.length - RESERVADOS.length;
+}
+reconstruirGrade();
+
+/* Ponte pública que firebase-sync.js usa pra atualizar em tempo real */
+window.ibss = {
+  updateGrid(v, r, c){
+    VENDIDOS = v || [];
+    RESERVADOS = r || [];
+    COMPRADORES = c || {};
+    /* remove da seleção qualquer número que outra pessoa acabou de comprar */
+    [...selecionados].forEach(n => {
+      if(VENDIDOS.includes(n) || RESERVADOS.includes(n)) selecionados.delete(n);
+    });
+    reconstruirGrade();
+    render();
+  },
+  updateSorteio(data){
+    sorteioAtual = data;
+    const banner = document.getElementById('banner-resultado');
+    if(!data){ banner.style.display='none'; return; }
+
+    /* Atualiza banner público (aparece pra todo mundo, sem precisar de senha) */
+    document.getElementById('br-num').textContent = pad(data.numero);
+    document.getElementById('br-ganhador').textContent = data.ganhador?.nome || '—';
+    document.getElementById('br-contato').textContent = '📱 ' + (data.ganhador?.wpp || '—');
+    const dt = data.sorteadoEm?.toDate?.() || new Date();
+    document.getElementById('br-data').textContent = dt.toLocaleString('pt-BR',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'});
+    banner.style.display = 'block';
+
+    /* Se o painel admin está aberto, re-renderiza pra mostrar o card final */
+    if(document.getElementById('sorteio').classList.contains('active')){
+      renderizarPainelSorteio();
+    }
+  }
+};
+
+/* Agenda */
+const agendaGrid = document.getElementById('agenda-grid');
+EVENTOS.forEach(ev => {
+  const el=document.createElement('div');
+  el.className='evento';
+  el.innerHTML=`
+    <span class="tag">${ev.tag}</span>
+    <div class="data"><span class="dia">${ev.dia}</span><span class="mes">${ev.mes}</span></div>
+    <h5>${ev.titulo}</h5>
+    <div class="quando">${ev.quando}</div>
+    <p>📍 ${ev.local}</p>`;
+  agendaGrid.appendChild(el);
+});
+
+function toggle(i,btn){
+  if(selecionados.has(i)){selecionados.delete(i);btn.classList.remove('sel');}
+  else{selecionados.add(i);btn.classList.add('sel');}
+  render();atualizaLivres();
+}
+function render(){
+  const qtd=selecionados.size,total=qtd*PRECO_POR_NUM;
+  const lista=[...selecionados].sort((a,b)=>a-b).map(pad);
+  document.getElementById('sb-qtd').textContent=qtd;
+  document.getElementById('sb-total').textContent=brl(total);
+  document.getElementById('sb-nums').textContent=lista.length?('Nº '+lista.join(', ')):'';
+  document.getElementById('selbar').classList.toggle('show',qtd>0);
+}
+function atualizaLivres(){
+  const livres=TOTAL_NUMEROS-VENDIDOS.length-RESERVADOS.length-selecionados.size;
+  document.getElementById('livres').textContent=`${livres} de ${TOTAL_NUMEROS} livres`;
+}
+document.getElementById('busca').addEventListener('input',e=>{
+  const v=e.target.value.replace(/\D/g,'');
+  document.querySelectorAll('.num').forEach(n=>n.style.opacity='1');
+  if(v==='')return;
+  const alvo=parseInt(v,10);
+  document.querySelectorAll('.num').forEach(n=>{
+    n.style.opacity = (parseInt(n.dataset.n,10)===alvo)?'1':'.25';
+  });
+});
+
+function irPara(id){
+  document.querySelectorAll('.tela').forEach(t=>t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  const ordem=['grade','dados','pagamento','confirmacao'];
+  const idx=ordem.indexOf(id);
+  document.querySelectorAll('.steps .st').forEach((s,i)=>{
+    s.classList.toggle('now',i===idx);
+    s.classList.toggle('done',i<idx);
+  });
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function irParaDados(){
+  if(selecionados.size===0){alert('Escolha pelo menos um número 🙂');return;}
+  const lista=[...selecionados].sort((a,b)=>a-b).map(pad);
+  const total=selecionados.size*PRECO_POR_NUM;
+  document.getElementById('chips-dados').innerHTML=lista.map(n=>`<span class="n">${n}</span>`).join('');
+  document.getElementById('total-dados').textContent=brl(total);
+  irPara('dados');
+}
+function scrollGrade(e){e.preventDefault();document.getElementById('areagrade').scrollIntoView({behavior:'smooth'});}
+function validarDados(){
+  const nome=document.getElementById('in-nome').value.trim();
+  const wpp=document.getElementById('in-wpp').value.trim();
+  if(!nome||!wpp){alert('Preencha pelo menos nome e WhatsApp 🙂');return;}
+  document.getElementById('total-pag').textContent=brl(selecionados.size*PRECO_POR_NUM);
+  irPara('pagamento');
+}
+function selPay(tipo){
+  pagamentoTipo=tipo;
+  document.querySelectorAll('.pay').forEach(p=>p.classList.toggle('active',p.dataset.pay===tipo));
+  document.getElementById('body-pix').classList.toggle('active',tipo==='pix');
+  document.getElementById('body-cartao').classList.toggle('active',tipo==='cartao');
+}
+function copiarPix(e){
+  const el=document.getElementById('pix-code');el.select();
+  navigator.clipboard?.writeText(el.value);
+  const btn=e.target;btn.textContent='Copiado!';
+  setTimeout(()=>btn.textContent='Copiar',1500);
+}
+let compraAtualId = null;
+let sorteioAtual = null;   /* preenchido pelo listener do Firestore */
+let senhaAdminAtual = null; /* guardada em memória durante a sessão */
+async function finalizar(){
+  const numeros=[...selecionados].sort((a,b)=>a-b);
+  const nome=document.getElementById('in-nome').value.trim();
+  const wpp=document.getElementById('in-wpp').value.trim();
+  const email=document.getElementById('in-email').value.trim();
+  const cidade=document.getElementById('in-cidade').value.trim();
+  if(!numeros.length){alert('Escolha ao menos um número');return;}
+  if(!nome||!wpp){alert('Preencha nome e WhatsApp');return;}
+
+  const btn=event?.target;
+  const txt=btn?.textContent;
+  if(btn){btn.disabled=true;btn.textContent='Gerando cobrança…';}
+
+  try{
+    const r=await fetch('/api/reservar',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({numeros,nome,wpp,email,cidade,tipo:pagamentoTipo})
+    });
+    const data=await r.json();
+    if(!r.ok) throw new Error(data.erro || 'Erro ao gerar cobrança');
+
+    compraAtualId = data.compraId;
+
+    /* Preenche o QR real vindo do Asaas */
+    if(pagamentoTipo==='pix' && data.pixCopyPaste){
+      document.getElementById('pix-code').value = data.pixCopyPaste;
+      if(data.pixQrImageBase64){
+        const qr=document.querySelector('#body-pix .qr');
+        qr.innerHTML = `<img src="data:image/png;base64,${data.pixQrImageBase64}" style="width:100%;height:100%;object-fit:contain">`;
+      }
+    }
+    if(pagamentoTipo==='cartao' && data.invoiceUrl){
+      window.open(data.invoiceUrl,'_blank');
+    }
+
+    /* Escuta o Firestore pra saber quando o Asaas confirmar */
+    window.ibss?.escutarCompra?.(data.compraId, (status)=>{
+      if(status==='pago') mostrarConfirmacao(numeros,nome,pagamentoTipo);
+    });
+
+    /* Mostra tela intermediária: aguardando */
+    mostrarAguardando(numeros,nome);
+
+  }catch(e){
+    alert('Erro: '+e.message+'. Tente novamente ou fale no WhatsApp.');
+  }finally{
+    if(btn){btn.disabled=false;btn.textContent=txt;}
+  }
+}
+
+function mostrarAguardando(numeros,nome){
+  const lista=numeros.map(pad);
+  document.getElementById('resumo-final').innerHTML=`
+    <div><span>Nome</span><b>${nome}</b></div>
+    <div><span>Números reservados</span><b>${lista.join(', ')}</b></div>
+    <div><span>Status</span><b style="color:var(--orange)">⏳ Aguardando pagamento…</b></div>
+    <div><span>Prazo</span><b>15 minutos</b></div>`;
+  document.querySelector('#confirmacao .done h3').textContent='Números reservados!';
+  document.querySelector('#confirmacao .done p').textContent='Faça o pagamento em até 15 minutos. Assim que o Asaas confirmar, seus números viram "vendidos" no seu nome automaticamente.';
+  irPara('confirmacao');
+}
+
+function mostrarConfirmacao(numeros,nome,tipo){
+  const lista=numeros.map(pad);
+  const total=numeros.length*PRECO_POR_NUM;
+  document.getElementById('resumo-final').innerHTML=`
+    <div><span>Nome</span><b>${nome}</b></div>
+    <div><span>Números</span><b>${lista.join(', ')}</b></div>
+    <div><span>Pagamento</span><b>${tipo==='pix'?'Pix':'Cartão'} ✓ confirmado</b></div>
+    <div><span>Total</span><b>${brl(total)}</b></div>`;
+  document.querySelector('#confirmacao .done h3').textContent='Deu tudo certo!';
+  document.querySelector('#confirmacao .done p').textContent='Pagamento confirmado. Seus números estão oficialmente no seu nome. Boa sorte no sorteio! 🍀';
+  const check = document.querySelector('#confirmacao .done .check');
+  if(check) check.style.animation='pop .5s cubic-bezier(.2,.9,.3,1.4) both';
+}
+function reiniciar(){location.reload();}
+
+/* ============================================================
+   TEMA CLARO/ESCURO
+   ============================================================ */
+(function initTheme(){
+  try{
+    const saved=localStorage.getItem('ibss-theme');
+    const sysDark=window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const theme=saved || (sysDark ? 'dark' : 'light');
+    document.documentElement.setAttribute('data-theme', theme);
+  }catch(e){}
+})();
+function toggleTheme(){
+  const cur=document.documentElement.getAttribute('data-theme');
+  const novo=cur==='dark'?'light':'dark';
+  document.documentElement.setAttribute('data-theme', novo);
+  try{localStorage.setItem('ibss-theme', novo);}catch(e){}
+}
+
+/* ============================================================
+   PWA — Instalação e Service Worker
+   ============================================================ */
+let deferredPrompt=null;
+window.addEventListener('beforeinstallprompt', e => {
+  e.preventDefault();
+  deferredPrompt=e;
+  document.getElementById('btn-install').classList.add('show');
+});
+function instalarApp(){
+  if(!deferredPrompt)return;
+  deferredPrompt.prompt();
+  deferredPrompt.userChoice.finally(()=>{
+    deferredPrompt=null;
+    document.getElementById('btn-install').classList.remove('show');
+  });
+}
+window.addEventListener('appinstalled', ()=>{
+  document.getElementById('btn-install').classList.remove('show');
+});
+if('serviceWorker' in navigator){
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').catch(()=>{});
+  });
+}
+
+/* ============================================================
+   SORTEIO — Tela admin
+   ============================================================ */
+function abrirSorteio(){
+  document.querySelectorAll('.tela').forEach(t=>t.classList.remove('active'));
+  document.getElementById('sorteio').classList.add('active');
+  document.getElementById('login-sorteio').style.display='block';
+  document.getElementById('painel-sorteio').style.display='none';
+  document.getElementById('senha-admin').value='';
+  document.getElementById('erro-senha').textContent='';
+  document.querySelectorAll('.steps .st').forEach(s=>{s.classList.remove('now','done')});
+  window.scrollTo({top:0,behavior:'smooth'});
+  setTimeout(()=>document.getElementById('senha-admin').focus(),300);
+}
+document.getElementById('senha-admin').addEventListener('keypress',e=>{if(e.key==='Enter')validarSenha();});
+function validarSenha(){
+  const s=document.getElementById('senha-admin').value;
+  if(s===SENHA_ADMIN){
+    senhaAdminAtual = s; /* guarda em memória pra enviar no /api/sortear */
+    document.getElementById('login-sorteio').style.display='none';
+    document.getElementById('painel-sorteio').style.display='block';
+    montarStats();
+    renderizarPainelSorteio();
+  } else {
+    document.getElementById('erro-senha').textContent='Senha incorreta';
+    document.getElementById('senha-admin').value='';
+  }
+}
+
+function renderizarPainelSorteio(){
+  const roleta = document.getElementById('roleta');
+  const btn = document.getElementById('btn-sortear');
+  const cardOficial = document.getElementById('card-oficial');
+
+  if(sorteioAtual){
+    /* Sorteio já foi realizado — mostra card oficial travado */
+    roleta.style.display='none';
+    btn.style.display='none';
+    document.getElementById('card-ganhador').classList.remove('show');
+
+    const dt = sorteioAtual.sorteadoEm?.toDate?.() || new Date();
+    cardOficial.innerHTML = `
+      <div class="selo-ok">✓ Sorteio oficial · Resultado travado</div>
+      <div class="num-final">${pad(sorteioAtual.numero)}</div>
+      <h3>${sorteioAtual.ganhador?.nome || '—'}</h3>
+      <div class="contato">📱 ${sorteioAtual.ganhador?.wpp || '—'}</div>
+      <div class="meta">
+        <div>Data<b>${dt.toLocaleDateString('pt-BR')} ${dt.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})}</b></div>
+        <div>Nº vendidos<b>${sorteioAtual.totalVendidos}</b></div>
+        <div>Arrecadado<b>${brl(sorteioAtual.totalArrecadado)}</b></div>
+      </div>
+      <div class="aviso-travado">
+        <b>Resultado imutável.</b> Salvo no banco de dados e não pode ser refeito. Qualquer pessoa acessando o site vê esse mesmo resultado no topo da página.
+      </div>
+      <div class="actions">
+        <button class="btn btn-primary" onclick="copiarResultado()">📋 Copiar pra divulgar</button>
+      </div>
+    `;
+    cardOficial.style.display='block';
+  } else {
+    /* Sorteio ainda não aconteceu — mostra roleta + botão */
+    roleta.style.display='block';
+    btn.style.display='block';
+    cardOficial.style.display='none';
+  }
+}
+function montarStats(){
+  document.getElementById('stat-vendidos').textContent=VENDIDOS.length;
+  document.getElementById('stat-total').textContent=brl(VENDIDOS.length*PRECO_POR_NUM);
+  const hoje=new Date().toLocaleString('pt-BR',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'});
+  document.getElementById('stat-data').textContent=hoje;
+}
+let sorteando=false;
+async function sortear(){
+  if(sorteando)return;
+  if(sorteioAtual){alert('O sorteio já foi realizado.');return;}
+  if(VENDIDOS.length===0){alert('Nenhum número foi vendido ainda 🙂');return;}
+
+  sorteando=true;
+  document.getElementById('btn-sortear').disabled=true;
+  document.getElementById('card-ganhador').classList.remove('show');
+  const display=document.getElementById('display-num');
+  const roleta=document.getElementById('roleta');
+  roleta.classList.add('rodando');
+  display.textContent = '– –';
+
+  /* 1. Chama o servidor: ele sorteia e SALVA no Firestore (imutável).
+     Se estiver em modo demo (sem backend), cai no fallback local. */
+  let ganhador = null;
+  let dadosResultado = null;
+
+  try {
+    const r = await fetch('/api/sortear', {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ secret: senhaAdminAtual })
+    });
+    const data = await r.json();
+
+    if(r.status === 409 && data.resultado){
+      /* Já tinha sido sorteado — atualiza estado e mostra */
+      roleta.classList.remove('rodando');
+      sorteando = false;
+      document.getElementById('btn-sortear').disabled = false;
+      alert('O sorteio já havia sido realizado. Mostrando resultado oficial.');
+      return;
+    }
+    if(!r.ok) throw new Error(data.erro || 'Erro no servidor');
+
+    dadosResultado = data.resultado;
+    ganhador = data.resultado.numero;
+
+  } catch(e) {
+    /* Fallback MODO DEMO: sem backend, sorteia local (não fica travado) */
+    console.warn('[sortear] backend indisponível, modo demo:', e.message);
+    if(!confirm('Modo demo (sem backend). Sortear localmente? O resultado NÃO ficará salvo.')){
+      roleta.classList.remove('rodando');
+      sorteando = false;
+      document.getElementById('btn-sortear').disabled = false;
+      return;
+    }
+    ganhador = VENDIDOS[Math.floor(Math.random()*VENDIDOS.length)];
+  }
+
+  /* 2. Animação de embaralhamento até parar no número escolhido */
+  let tempo=0,intervalo=40;
+  const passo=setInterval(()=>{
+    const rnd=VENDIDOS[Math.floor(Math.random()*VENDIDOS.length)];
+    display.textContent=pad(rnd);
+    tempo+=intervalo;
+    if(tempo>3000){
+      intervalo=Math.min(intervalo*1.15,400);
+      clearInterval(passo);
+      setTimeout(()=>desacelera(display,ganhador,intervalo,dadosResultado),0);
+    }
+  },intervalo);
+
+  function desacelera(el,alvo,iv,dados){
+    const p=setInterval(()=>{
+      const rnd=VENDIDOS[Math.floor(Math.random()*VENDIDOS.length)];
+      el.textContent=pad(rnd);
+      iv=iv*1.15;
+      if(iv>800){
+        clearInterval(p);
+        el.textContent=pad(alvo);
+        roleta.classList.remove('rodando');
+        if(dados){
+          /* Modo produção: mostra card com dados do servidor */
+          revelarGanhadorOficial(dados);
+        } else {
+          /* Modo demo: usa o COMPRADORES local */
+          revelarGanhador(alvo);
+        }
+        sorteando=false;
+        document.getElementById('btn-sortear').disabled=false;
+      } else {
+        clearInterval(p);
+        setTimeout(()=>desacelera(el,alvo,iv,dados),iv);
+      }
+    },iv);
+  }
+}
+
+function revelarGanhadorOficial(dados){
+  document.getElementById('num-ganhador').textContent=pad(dados.numero);
+  document.getElementById('nome-ganhador').textContent=dados.ganhador?.nome || '—';
+  document.getElementById('contato-ganhador').textContent='📱 '+(dados.ganhador?.wpp || '—');
+  document.getElementById('card-ganhador').classList.add('show');
+  confete();
+  /* O listener do Firestore vai atualizar sorteioAtual + banner + painel em 1s */
+}
+function revelarGanhador(num){
+  const info=COMPRADORES[num]||{nome:'Ganhador desconhecido',wpp:'—'};
+  document.getElementById('num-ganhador').textContent=pad(num);
+  document.getElementById('nome-ganhador').textContent=info.nome;
+  document.getElementById('contato-ganhador').textContent='📱 '+info.wpp;
+  document.getElementById('card-ganhador').classList.add('show');
+  confete();
+}
+function copiarResultado(){
+  const num=document.getElementById('num-ganhador').textContent;
+  const nome=document.getElementById('nome-ganhador').textContent;
+  const wpp=document.getElementById('contato-ganhador').textContent.replace('📱 ','');
+  const texto=`🏆 SORTEIO IBSS — MOTO ELÉTRICA
+Data: ${new Date().toLocaleString('pt-BR')}
+Número: ${num}
+Ganhador: ${nome}
+Contato: ${wpp}`;
+  navigator.clipboard?.writeText(texto);
+  alert('Resultado copiado! Cole no WhatsApp ou onde quiser.');
+}
+function confete(){
+  const c=document.createElement('canvas');
+  c.style.cssText='position:fixed;inset:0;pointer-events:none;z-index:100';
+  c.width=innerWidth;c.height=innerHeight;
+  document.body.appendChild(c);
+  const ctx=c.getContext('2d');
+  const cores=['#F26B2E','#FF8C4A','#FFFFFF','#E8E5DE','#C4501F'];
+  const parts=Array.from({length:140},()=>({
+    x:Math.random()*c.width,y:-20,
+    vx:(Math.random()-.5)*4,vy:Math.random()*3+2,
+    s:Math.random()*8+4,r:Math.random()*Math.PI,
+    vr:(Math.random()-.5)*.2,cor:cores[Math.floor(Math.random()*cores.length)]
+  }));
+  let frames=0;
+  (function loop(){
+    ctx.clearRect(0,0,c.width,c.height);
+    parts.forEach(p=>{
+      p.x+=p.vx;p.y+=p.vy;p.vy+=.05;p.r+=p.vr;
+      ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.r);
+      ctx.fillStyle=p.cor;ctx.fillRect(-p.s/2,-p.s/2,p.s,p.s*.4);
+      ctx.restore();
+    });
+    frames++;
+    if(frames<220)requestAnimationFrame(loop);
+    else c.remove();
+  })();
+}
+if(location.search.includes('sortear')||location.hash==='#sortear'){setTimeout(abrirSorteio,100);}
+
+/* ── FUNÇÕES NOVAS (estrutura por seções) ── */
+function navTo(e,id){
+  e.preventDefault(); fecharMenu();
+  document.getElementById(id)?.scrollIntoView({behavior:'smooth',block:'start'});
+}
+function scrollParaGrade(){
+  document.getElementById('grade-section')?.scrollIntoView({behavior:'smooth',block:'start'});
+}
+function toggleMenu(){
+  const h=document.getElementById('hamburger');
+  const m=document.getElementById('mobile-menu');
+  h.classList.toggle('open'); m.classList.toggle('open');
+  document.body.style.overflow=m.classList.contains('open')?'hidden':'';
+}
+function fecharMenu(){
+  document.getElementById('hamburger').classList.remove('open');
+  document.getElementById('mobile-menu').classList.remove('open');
+  document.body.style.overflow='';
+}
+function abrirOverlay(){
+  if(!selecionados.size){alert('Escolha pelo menos um número 🙂');return;}
+  const lista=[...selecionados].sort((a,b)=>a-b).map(pad);
+  const total=selecionados.size*PRECO_POR_NUM;
+  document.getElementById('chips-dados').innerHTML=lista.map(n=>`<span class="n">${n}</span>`).join('');
+  document.getElementById('total-dados').textContent=brl(total);
+  document.getElementById('total-pag').textContent=brl(total);
+  irOverlay('dados');
+  document.getElementById('overlay').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function fecharOverlay(){
+  document.getElementById('overlay').classList.remove('open');
+  document.body.style.overflow='';
+}
+function fecharOverlayFora(e){if(e.target.id==='overlay')fecharOverlay();}
+function irOverlay(tela){
+  document.querySelectorAll('.ov-tela').forEach(t=>t.classList.remove('active'));
+  document.getElementById('ov-'+tela).classList.add('active');
+  const mapa={dados:0,pag:1,conf:2};
+  const idx=mapa[tela]??0;
+  document.querySelectorAll('.ov-steps .st').forEach((s,i)=>{
+    s.classList.toggle('now',i===idx); s.classList.toggle('done',i<idx);
+  });
+  document.getElementById('ov-titulo').textContent=
+    tela==='dados'?'Seus dados':tela==='pag'?'Pagamento':'Pedido confirmado!';
+}
+function reiniciarSelecao(){
+  selecionados.clear(); reconstruirGrade(); renderSelbar();
+}
+function abrirPainelSorteio(){
+  const s=document.getElementById('sorteio-admin-section');
+  s.style.display='block';
+  document.getElementById('aviso-admin').style.display='block';
+  s.scrollIntoView({behavior:'smooth',block:'start'});
+  setTimeout(()=>document.getElementById('senha-admin')?.focus(),400);
+}
+/* Scroll spy pra nav ativo */
+const _secoes=['home','agenda','sorteio-moto','contribua'];
+const _obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting) document.querySelectorAll('.nav-links a').forEach(a=>
+      a.classList.toggle('ativo',a.getAttribute('href')==='#'+e.target.id));
+  });
+},{threshold:.3});
+_secoes.forEach(id=>{const el=document.getElementById(id);if(el)_obs.observe(el);});
+
+if(location.hash==='#sorteio'||location.search.includes('sortear')) setTimeout(abrirPainelSorteio,300);
+</script>
+</body>
+</html>

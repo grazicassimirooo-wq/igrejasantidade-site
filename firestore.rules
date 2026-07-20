@@ -1,0 +1,30 @@
+rules_version = '2';
+
+/* ============================================================
+   Regras de segurança do Firestore
+   Regra de ouro: só o backend (via firebase-admin) escreve.
+   Frontend só lê o que precisa mostrar.
+   ============================================================ */
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    /* Grade de números — leitura pública (todo mundo vê o estado) */
+    match /numeros/{n} {
+      allow read: if true;
+      allow write: if false;
+    }
+
+    /* Compras — leitura pública apenas do documento específico
+       (o cliente escuta apenas a compra que ele mesmo iniciou) */
+    match /compras/{id} {
+      allow read: if true;
+      allow write: if false;
+    }
+
+    /* Resultado do sorteio — leitura pública */
+    match /sorteio/{doc} {
+      allow read: if true;
+      allow write: if false;
+    }
+  }
+}

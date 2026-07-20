@@ -1,0 +1,32 @@
+{
+  "name": "IBSS · Igreja Santidade ao Senhor",
+  "short_name": "IBSS",
+  "description": "Igreja Santidade ao Senhor — Sorteio da Moto, agenda de eventos e comunidade em Barão Geraldo, Campinas/SP.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0A0A0A",
+  "theme_color": "#F26B2E",
+  "lang": "pt-BR",
+  "icons": [
+    { "src": "ic-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "ic-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "ic-maskable-192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
+    { "src": "ic-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "shortcuts": [
+    {
+      "name": "Sorteio da Moto",
+      "short_name": "Sorteio",
+      "url": "./#sorteio",
+      "icons": [{ "src": "ic-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Agenda de eventos",
+      "short_name": "Agenda",
+      "url": "./#agenda",
+      "icons": [{ "src": "ic-192.png", "sizes": "192x192" }]
+    }
+  ]
+}
