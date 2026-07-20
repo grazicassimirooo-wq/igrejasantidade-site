@@ -3,12 +3,16 @@
   "crons": [
     {
       "path": "/api/limpar-expirados",
-      "schedule": "*/10 * * * *"
+      "schedule": "0 6 * * *"
     }
   ],
   "functions": {
     "api/*.js": {
       "maxDuration": 15
     }
-  }
+  },
+  "rewrites": [
+    { "source": "/api/(.*)", "destination": "/api/$1" },
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
 }
