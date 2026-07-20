@@ -408,6 +408,76 @@ header{
 .contrib .arrow{margin-left:auto;color:var(--orange);font-weight:700;font-size:1.2rem}
 @media(max-width:840px){.dual{grid-template-columns:1fr}}
 
+/* ---------- CARROSSEL ---------- */
+.carousel-section{padding:20px 0 10px;overflow:hidden}
+.carousel{position:relative;width:100%;user-select:none}
+.carousel-track{
+  display:flex;gap:20px;overflow-x:auto;scroll-snap-type:x mandatory;
+  -webkit-overflow-scrolling:touch;scrollbar-width:none;padding:12px 0 24px;
+}
+.carousel-track::-webkit-scrollbar{display:none}
+.carousel-slide{
+  flex:0 0 min(360px,82vw);scroll-snap-align:center;border-radius:20px;
+  overflow:hidden;position:relative;aspect-ratio:4/5;
+  background:var(--bg-2);border:1px solid var(--glass-border);
+  box-shadow:0 16px 40px -16px rgba(0,0,0,.4);transition:transform .35s,box-shadow .35s;
+}
+.carousel-slide:hover{transform:translateY(-6px);box-shadow:0 24px 50px -18px rgba(242,107,46,.3)}
+.carousel-slide img{width:100%;height:100%;object-fit:cover;display:block}
+.carousel-slide .slide-placeholder{
+  width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:14px;padding:28px;text-align:center;
+}
+.carousel-slide .slide-placeholder .sl-icon{font-size:3rem;line-height:1}
+.carousel-slide .slide-placeholder h4{
+  font-family:"Anton",sans-serif;font-weight:400;text-transform:uppercase;
+  font-size:1.2rem;color:var(--text);letter-spacing:.04em;
+}
+.carousel-slide .slide-placeholder p{font-size:.85rem;color:var(--text-2);line-height:1.45}
+.carousel-slide .slide-overlay{
+  position:absolute;bottom:0;left:0;right:0;
+  padding:20px 18px 16px;
+  background:linear-gradient(transparent,rgba(0,0,0,.75));
+  color:#fff;z-index:2;
+}
+.carousel-slide .slide-overlay h4{
+  font-family:"Anton",sans-serif;font-weight:400;text-transform:uppercase;
+  font-size:1.05rem;letter-spacing:.04em;margin-bottom:2px;
+}
+.carousel-slide .slide-overlay small{font-size:.72rem;opacity:.8;text-transform:uppercase;letter-spacing:.1em}
+
+/* Carousel arrows */
+.carousel-nav{display:flex;justify-content:center;gap:10px;margin-top:4px;align-items:center}
+.carousel-arrow{
+  width:42px;height:42px;border-radius:50%;display:grid;place-items:center;
+  border:1.5px solid var(--line-strong);color:var(--text);background:var(--glass);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  transition:all .25s;cursor:pointer;font-size:1.1rem;
+}
+.carousel-arrow:hover{border-color:var(--orange);color:var(--orange);background:rgba(242,107,46,.1)}
+.carousel-arrow svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+
+/* Carousel dots */
+.carousel-dots{display:flex;gap:8px;align-items:center}
+.carousel-dot{
+  width:8px;height:8px;border-radius:50%;background:var(--text-3);
+  border:none;cursor:pointer;transition:all .3s;padding:0;
+}
+.carousel-dot.active{background:var(--orange);width:24px;border-radius:4px}
+
+/* Gradient backgrounds for placeholder slides */
+.sl-bg-1{background:linear-gradient(135deg,#1a1a2e 0%,#16213e 50%,#0f3460 100%)}
+.sl-bg-2{background:linear-gradient(135deg,#2d1b69 0%,#11998e 100%)}
+.sl-bg-3{background:linear-gradient(135deg,#f12711 0%,#f5af19 100%)}
+.sl-bg-4{background:linear-gradient(135deg,#0f0c29 0%,#302b63 50%,#24243e 100%)}
+.sl-bg-5{background:linear-gradient(135deg,#c94b4b 0%,#4b134f 100%)}
+.sl-bg-6{background:linear-gradient(135deg,#134e5e 0%,#71b280 100%)}
+
+@media(max-width:600px){
+  .carousel-slide{flex:0 0 85vw}
+  .carousel-track{gap:14px}
+}
+
 /* ---------- AGENDA ---------- */
 .agenda{padding:40px 0 20px}
 .agenda-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;margin-top:26px}
@@ -945,6 +1015,78 @@ window.FIREBASE_CONFIG = {
       </div>
     </div>
     <div style="height:64px"></div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════
+       CARROSSEL · GALERIA DA IGREJA
+       ══════════════════════════════════════════════════════ -->
+  <section id="galeria" class="wrap carousel-section">
+    <div class="section-head">
+      <h2>Nossa <em>comunidade</em></h2>
+      <p>Momentos especiais da vida da IBSS</p>
+    </div>
+    <div class="carousel" id="carousel">
+      <div class="carousel-track" id="carousel-track">
+        <!-- Slides: substitua os placeholders por <img src="sua-foto.jpg" alt="descrição"> -->
+        <div class="carousel-slide">
+          <div class="slide-placeholder sl-bg-1">
+            <div class="sl-icon">🙏</div>
+            <h4>Celebração de Domingo</h4>
+            <p>Louvor, palavra e comunhão — todo domingo às 18h30</p>
+          </div>
+          <div class="slide-overlay"><h4>Culto de Domingo</h4><small>Domingo · 18h30</small></div>
+        </div>
+        <div class="carousel-slide">
+          <div class="slide-placeholder sl-bg-2">
+            <div class="sl-icon">🎸</div>
+            <h4>Ministério de Louvor</h4>
+            <p>A música que toca o coração e leva à presença de Deus</p>
+          </div>
+          <div class="slide-overlay"><h4>Louvor IBSS</h4><small>Equipe de louvor</small></div>
+        </div>
+        <div class="carousel-slide">
+          <div class="slide-placeholder sl-bg-3">
+            <div class="sl-icon">🏍️</div>
+            <h4>Sorteio da Moto</h4>
+            <p>Moto elétrica zero km — sorteio beneficente na Festa da Igreja</p>
+          </div>
+          <div class="slide-overlay"><h4>Moto Elétrica</h4><small>13 de Agosto · 2026</small></div>
+        </div>
+        <div class="carousel-slide">
+          <div class="slide-placeholder sl-bg-4">
+            <div class="sl-icon">🚀</div>
+            <h4>Rockets Camp</h4>
+            <p>Acampamento que transforma vidas — jovens conectados com Deus</p>
+          </div>
+          <div class="slide-overlay"><h4>Rockets Camp</h4><small>Ministério jovem</small></div>
+        </div>
+        <div class="carousel-slide">
+          <div class="slide-placeholder sl-bg-5">
+            <div class="sl-icon">🎉</div>
+            <h4>Festa da Igreja</h4>
+            <p>Comida, louvor, sorteio e muita alegria — edição 2026</p>
+          </div>
+          <div class="slide-overlay"><h4>Festa da Igreja</h4><small>02 de Agosto · 2026</small></div>
+        </div>
+        <div class="carousel-slide">
+          <div class="slide-placeholder sl-bg-6">
+            <div class="sl-icon">🏠</div>
+            <h4>Grupos em Casa</h4>
+            <p>Comunhão e estudo bíblico nas casas dos anfitriões — venha participar</p>
+          </div>
+          <div class="slide-overlay"><h4>GC · Grupos em Casa</h4><small>Vários dias da semana</small></div>
+        </div>
+      </div>
+      <div class="carousel-nav">
+        <button class="carousel-arrow" id="car-prev" aria-label="Anterior">
+          <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <div class="carousel-dots" id="carousel-dots"></div>
+        <button class="carousel-arrow" id="car-next" aria-label="Próximo">
+          <svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg>
+        </button>
+      </div>
+    </div>
   </section>
 
   <hr class="section-divider">
@@ -1820,6 +1962,80 @@ const _obs=new IntersectionObserver(entries=>{
 _secoes.forEach(id=>{const el=document.getElementById(id);if(el)_obs.observe(el);});
 
 if(location.hash==='#sorteio'||location.search.includes('sortear')) setTimeout(abrirPainelSorteio,300);
+
+/* ============================================================
+   CARROSSEL · auto-scroll + swipe + dots + arrows
+   ============================================================ */
+(function(){
+  const track = document.getElementById('carousel-track');
+  const dotsBox = document.getElementById('carousel-dots');
+  if(!track || !dotsBox) return;
+
+  const slides = track.querySelectorAll('.carousel-slide');
+  const total = slides.length;
+  if(!total) return;
+
+  /* Create dots */
+  slides.forEach((_,i) => {
+    const d = document.createElement('button');
+    d.className = 'carousel-dot' + (i===0?' active':'');
+    d.setAttribute('aria-label','Slide '+(i+1));
+    d.onclick = () => goTo(i);
+    dotsBox.appendChild(d);
+  });
+  const dots = dotsBox.querySelectorAll('.carousel-dot');
+
+  let current = 0;
+  let autoTimer;
+
+  function goTo(idx){
+    current = ((idx % total) + total) % total;
+    const slide = slides[current];
+    track.scrollTo({ left: slide.offsetLeft - track.offsetLeft - (track.clientWidth - slide.offsetWidth)/2, behavior:'smooth' });
+    updateDots();
+  }
+
+  function updateDots(){
+    dots.forEach((d,i) => d.classList.toggle('active', i===current));
+  }
+
+  /* Detect scroll position to sync dots */
+  let scrollTick = false;
+  track.addEventListener('scroll', () => {
+    if(scrollTick) return;
+    scrollTick = true;
+    requestAnimationFrame(() => {
+      const center = track.scrollLeft + track.clientWidth / 2;
+      let closest = 0, minDist = Infinity;
+      slides.forEach((s,i) => {
+        const mid = s.offsetLeft - track.offsetLeft + s.offsetWidth/2;
+        const dist = Math.abs(center - mid);
+        if(dist < minDist){ minDist = dist; closest = i; }
+      });
+      if(closest !== current){ current = closest; updateDots(); }
+      scrollTick = false;
+    });
+  }, {passive:true});
+
+  /* Arrows */
+  document.getElementById('car-prev').onclick = () => { stopAuto(); goTo(current - 1); startAuto(); };
+  document.getElementById('car-next').onclick = () => { stopAuto(); goTo(current + 1); startAuto(); };
+
+  /* Auto-play */
+  function startAuto(){
+    stopAuto();
+    autoTimer = setInterval(() => goTo(current + 1), 4500);
+  }
+  function stopAuto(){ clearInterval(autoTimer); }
+
+  /* Pause on hover/touch */
+  track.addEventListener('mouseenter', stopAuto);
+  track.addEventListener('mouseleave', startAuto);
+  track.addEventListener('touchstart', stopAuto, {passive:true});
+  track.addEventListener('touchend', () => setTimeout(startAuto, 3000), {passive:true});
+
+  startAuto();
+})();
 </script>
 
 <script>
@@ -1851,7 +2067,7 @@ if(location.hash==='#sorteio'||location.search.includes('sortear')) setTimeout(a
   /* 2. Reveal staggered on scroll */
   if(!reduzMotion && 'IntersectionObserver' in window){
     const alvos = document.querySelectorAll(
-      '.section-head, .como-card, .evento, .dual-card, .contrib, .legend, .tools, .grade, .horarios-hero, .prize-tag, .mini-facts, .cta-row, .social-row, .cosmo-block'
+      '.section-head, .como-card, .evento, .dual-card, .contrib, .legend, .tools, .grade, .horarios-hero, .prize-tag, .mini-facts, .cta-row, .social-row, .cosmo-block, .carousel-slide, .carousel-nav'
     );
     alvos.forEach(el=>{
       /* stagger pela posição entre irmãos com a mesma classe */
