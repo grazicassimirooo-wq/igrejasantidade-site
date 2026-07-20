@@ -49,7 +49,7 @@ if (!CONFIG.projectId || CONFIG.projectId === 'seu-projeto') {
       const fotos = [];
       snap.forEach(d => {
         const data = d.data();
-        if(data.url) fotos.push({ id: d.id, url: data.url, titulo: data.titulo || '', legenda: data.legenda || '', nome: data.nome || '' });
+        if(data.url) fotos.push({ id: d.id, url: data.url, titulo: data.titulo || '', legenda: data.legenda || '', nome: data.nome || '', tipo: data.tipo || 'image' });
       });
       window.ibss?.updateGaleria?.(fotos);
       window.ibss?.renderGaleriaAdmin?.(fotos);

@@ -2,7 +2,7 @@
    Service Worker · IBSS App
    Estratégia: cache first pra estáticos, network first pra HTML
    ============================================================ */
-const CACHE = 'ibss-v4';
+const CACHE = 'ibss-v5';
 const STATIC = [
   './',
   './index.html',

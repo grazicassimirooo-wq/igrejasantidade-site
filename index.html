@@ -423,7 +423,7 @@ header{
   box-shadow:0 16px 40px -16px rgba(0,0,0,.4);transition:transform .35s,box-shadow .35s;
 }
 .carousel-slide:hover{transform:translateY(-6px);box-shadow:0 24px 50px -18px rgba(242,107,46,.3)}
-.carousel-slide img{width:100%;height:100%;object-fit:cover;display:block}
+.carousel-slide img,.carousel-slide video{width:100%;height:100%;object-fit:cover;display:block}
 .carousel-slide .slide-placeholder{
   width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;
   gap:14px;padding:28px;text-align:center;
@@ -741,7 +741,7 @@ footer .brand-foot b{font-family:"Anton",sans-serif;font-size:1.15rem;font-weigh
   position:relative;border-radius:14px;overflow:hidden;aspect-ratio:4/5;
   background:var(--bg);border:1px solid var(--line-strong);
 }
-.galeria-item img{width:100%;height:100%;object-fit:cover;display:block}
+.galeria-item img,.galeria-item video{width:100%;height:100%;object-fit:cover;display:block}
 .galeria-item .gi-overlay{
   position:absolute;inset:0;background:rgba(0,0,0,.55);
   display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;
@@ -755,6 +755,11 @@ footer .brand-foot b{font-family:"Anton",sans-serif;font-size:1.15rem;font-weigh
   font-size:.85rem;transition:all .2s;
 }
 .galeria-item .gi-del:hover{background:rgba(255,0,0,.7);border-color:#fff}
+.galeria-item .gi-badge,.carousel-slide .slide-badge{
+  position:absolute;top:8px;left:8px;background:rgba(0,0,0,.6);color:#fff;
+  font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;
+  padding:3px 8px;border-radius:6px;z-index:3;backdrop-filter:blur(6px);
+}
 .galeria-vazia{text-align:center;padding:28px 16px;color:var(--text-3);font-size:.85rem}
 @media(max-width:640px){
   .upload-meta{grid-template-columns:1fr}
@@ -1322,11 +1327,11 @@ window.FIREBASE_CONFIG = {
           <!-- ── GALERIA ADMIN ── -->
           <div class="galeria-admin" id="galeria-admin">
             <h3>Galeria do Carrossel</h3>
-            <p class="subt-gal">Envie imagens que aparecem automaticamente no carrossel do site</p>
+            <p class="subt-gal">Envie imagens e vídeos que aparecem automaticamente no carrossel do site</p>
             <div class="upload-dropzone" id="upload-dropzone">
               <span class="dz-icon">📷</span>
-              <div class="dz-text">Arraste imagens aqui ou <b>clique para enviar</b><br><small>JPG, PNG ou WebP · até 5 MB</small></div>
-              <input type="file" id="file-galeria" accept="image/jpeg,image/png,image/webp" multiple>
+              <div class="dz-text">Arraste imagens ou vídeos aqui ou <b>clique para enviar</b><br><small>JPG, PNG, WebP · até 5 MB | MP4, WebM · até 50 MB</small></div>
+              <input type="file" id="file-galeria" accept="image/jpeg,image/png,image/webp,video/mp4,video/webm" multiple>
             </div>
             <div class="upload-meta">
               <input type="text" id="slide-titulo" placeholder="Título (ex: Culto de Domingo)" maxlength="60">
@@ -1335,7 +1340,7 @@ window.FIREBASE_CONFIG = {
             <button class="btn-upload" id="btn-upload" disabled>Enviar para o carrossel</button>
             <div class="upload-progress" id="upload-progress"><div class="bar" id="upload-bar"></div></div>
             <div class="galeria-grid" id="galeria-grid"></div>
-            <div class="galeria-vazia" id="galeria-vazia">Nenhuma imagem na galeria ainda</div>
+            <div class="galeria-vazia" id="galeria-vazia">Nenhuma imagem ou vídeo na galeria ainda</div>
           </div>
 
         </div>
@@ -2124,8 +2129,17 @@ if(location.hash==='#sorteio'||location.search.includes('sortear')) setTimeout(a
     fotos.forEach(f => {
       const s = document.createElement('div');
       s.className = 'carousel-slide';
-      s.innerHTML = '<img src="'+f.url+'" alt="'+(f.titulo||'Foto IBSS')+'" loading="lazy">'
+      const isVid = f.tipo === 'video';
+      const media = isVid
+        ? '<video src="'+f.url+'" muted loop playsinline preload="metadata"></video><span class="slide-badge">video</span>'
+        : '<img src="'+f.url+'" alt="'+(f.titulo||'Foto IBSS')+'" loading="lazy">';
+      s.innerHTML = media
         + '<div class="slide-overlay"><h4>'+(f.titulo||'')+'</h4><small>'+(f.legenda||'')+'</small></div>';
+      if(isVid){
+        const vid = s.querySelector('video');
+        const ob = new IntersectionObserver(([e]) => { e.isIntersecting ? vid.play().catch(()=>{}) : vid.pause(); }, {threshold:.5});
+        ob.observe(s);
+      }
       track.appendChild(s);
     });
     rebuildCarousel();
@@ -2189,14 +2203,26 @@ if(location.hash==='#sorteio'||location.search.includes('sortear')) setTimeout(a
 
   fileInput.addEventListener('change', onFileSelect);
 
+  const TIPOS_IMG = ['image/jpeg','image/png','image/webp'];
+  const TIPOS_VID = ['video/mp4','video/webm'];
+  const MAX_IMG = 5*1024*1024;
+  const MAX_VID = 50*1024*1024;
+
   function onFileSelect(){
-    selectedFiles = Array.from(fileInput.files).filter(f =>
-      ['image/jpeg','image/png','image/webp'].includes(f.type) && f.size <= 5*1024*1024
-    );
+    selectedFiles = Array.from(fileInput.files).filter(f => {
+      if(TIPOS_IMG.includes(f.type)) return f.size <= MAX_IMG;
+      if(TIPOS_VID.includes(f.type)) return f.size <= MAX_VID;
+      return false;
+    });
     btnUpload.disabled = !selectedFiles.length;
     if(selectedFiles.length){
+      const nImg = selectedFiles.filter(f => f.type.startsWith('image/')).length;
+      const nVid = selectedFiles.filter(f => f.type.startsWith('video/')).length;
+      const partes = [];
+      if(nImg) partes.push(nImg + ' imagem(ns)');
+      if(nVid) partes.push(nVid + ' vídeo(s)');
       dropzone.querySelector('.dz-text').innerHTML =
-        '<b>' + selectedFiles.length + ' imagem(ns) selecionada(s)</b><br><small>Clique em "Enviar" para publicar</small>';
+        '<b>' + partes.join(' + ') + '</b><br><small>Clique em "Enviar" para publicar</small>';
     }
   }
 
@@ -2231,11 +2257,13 @@ if(location.hash==='#sorteio'||location.search.includes('sortear')) setTimeout(a
         await uploadBytes(storageRef, file);
         const url = await getDownloadURL(storageRef);
 
+        const tipo = file.type.startsWith('video/') ? 'video' : 'image';
         await addDoc(collection(db, 'galeria'), {
           url: url,
           titulo: titulo || '',
           legenda: legenda || '',
           nome: nome,
+          tipo: tipo,
           ordem: Date.now(),
           criadoEm: serverTimestamp()
         });
@@ -2247,7 +2275,7 @@ if(location.hash==='#sorteio'||location.search.includes('sortear')) setTimeout(a
       fileInput.value = '';
       tituloInput.value = '';
       legendaInput.value = '';
-      dropzone.querySelector('.dz-text').innerHTML = 'Arraste imagens aqui ou <b>clique para enviar</b><br><small>JPG, PNG ou WebP · até 5 MB</small>';
+      dropzone.querySelector('.dz-text').innerHTML = 'Arraste imagens ou vídeos aqui ou <b>clique para enviar</b><br><small>JPG, PNG, WebP · até 5 MB | MP4, WebM · até 50 MB</small>';
       progressBar.style.width = '100%';
       setTimeout(() => { progressWrap.style.display = 'none'; progressBar.style.width = '0'; }, 1500);
     } catch(e){
@@ -2267,7 +2295,11 @@ if(location.hash==='#sorteio'||location.search.includes('sortear')) setTimeout(a
     fotos.forEach(f => {
       const item = document.createElement('div');
       item.className = 'galeria-item';
-      item.innerHTML = '<img src="'+f.url+'" alt="'+(f.titulo||'')+'" loading="lazy">'
+      const isVid = f.tipo === 'video';
+      const media = isVid
+        ? '<video src="'+f.url+'" muted preload="metadata"></video><span class="gi-badge">video</span>'
+        : '<img src="'+f.url+'" alt="'+(f.titulo||'')+'" loading="lazy">';
+      item.innerHTML = media
         + '<div class="gi-overlay">'
         + '<span class="gi-title">'+(f.titulo||'Sem título')+'</span>'
         + '<button class="gi-del" title="Excluir" data-id="'+f.id+'" data-nome="'+f.nome+'">✕</button>'
@@ -2277,7 +2309,7 @@ if(location.hash==='#sorteio'||location.search.includes('sortear')) setTimeout(a
 
     gridEl.querySelectorAll('.gi-del').forEach(btn => {
       btn.addEventListener('click', async () => {
-        if(!confirm('Excluir esta imagem da galeria?')) return;
+        if(!confirm('Excluir este item da galeria?')) return;
         try {
           const { getStorage, ref, deleteObject } = await import('https://www.gstatic.com/firebasejs/10.7.0/firebase-storage.js');
           const { getFirestore, doc, deleteDoc } = await import('https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js');
