@@ -5,7 +5,7 @@
    ============================================================ */
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js';
 import {
-  getFirestore, collection, onSnapshot, doc
+  getFirestore, collection, onSnapshot, doc, query, orderBy
 } from 'https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js';
 
 const CONFIG = window.FIREBASE_CONFIG || {};
@@ -44,7 +44,18 @@ if (!CONFIG.projectId || CONFIG.projectId === 'seu-projeto') {
       window.ibss?.updateSorteio?.(data);
     }, (err) => console.error('[IBSS] Erro no listener de sorteio:', err));
 
-    /* 3. API pública pro index.html escutar UMA compra específica */
+    /* 3. Escuta da galeria de imagens do carrossel */
+    onSnapshot(query(collection(db, 'galeria'), orderBy('ordem', 'asc')), (snap) => {
+      const fotos = [];
+      snap.forEach(d => {
+        const data = d.data();
+        if(data.url) fotos.push({ id: d.id, url: data.url, titulo: data.titulo || '', legenda: data.legenda || '', nome: data.nome || '' });
+      });
+      window.ibss?.updateGaleria?.(fotos);
+      window.ibss?.renderGaleriaAdmin?.(fotos);
+    }, (err) => console.error('[IBSS] Erro no listener de galeria:', err));
+
+    /* 4. API pública pro index.html escutar UMA compra específica */
     window.ibss = window.ibss || {};
     window.ibss.escutarCompra = (compraId, cb) => {
       if (!compraId) return () => {};
