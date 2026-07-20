@@ -675,11 +675,105 @@ header{background:color-mix(in oklab, var(--bg) 60%, transparent);backdrop-filte
 .reveal{opacity:0;transform:translateY(28px);transition:opacity .75s cubic-bezier(.2,.7,.3,1),transform .75s cubic-bezier(.2,.7,.3,1);transition-delay:var(--rd,0s)}
 .reveal.in{opacity:1;transform:none}
 
+/* ============================================================
+   AWESOME FX — inspirado em seungyeub/awesome-web-styling
+   ============================================================ */
+
+/* 1. Shining text sweep nas section headings */
+.section-head h2 em, .hero h1 em{
+  background:linear-gradient(90deg, var(--orange) 0%, var(--orange-soft) 40%, #fff 50%, var(--orange-soft) 60%, var(--orange) 100%);
+  background-size:250% 100%;
+  background-clip:text;-webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  animation:textShine 5s ease-in-out infinite;
+}
+@keyframes textShine{
+  0%,100%{background-position:0% center}
+  50%{background-position:250% center}
+}
+
+/* 2. Glowing gradient aura nos botões primários */
+.btn-primary,.btn-sortear{position:relative;z-index:1}
+.btn-primary::after,.btn-sortear::after{
+  content:"";position:absolute;inset:-4px;z-index:-1;
+  background:linear-gradient(90deg, var(--orange), #f441a5, #ffeb3b, var(--orange));
+  background-size:400%;border-radius:999px;
+  opacity:0;filter:blur(16px);
+  transition:opacity .45s;
+}
+.btn-primary:hover::after,.btn-sortear:hover::after{
+  opacity:.65;animation:btnGlow 6s linear infinite;
+}
+@keyframes btnGlow{0%{background-position:0%}100%{background-position:400%}}
+
+/* 3. Cursor spotlight (desktop via JS) */
+.cursor-light{
+  position:fixed;width:420px;height:420px;
+  background:radial-gradient(circle, rgba(242,107,46,.08) 0%, transparent 60%);
+  border-radius:50%;pointer-events:none;z-index:1;
+  transform:translate(-50%,-50%);
+  transition:opacity .3s;opacity:0;
+}
+.cursor-light.active{opacity:1}
+
+/* 4. Number grid ripple on click */
+.num{position:relative;overflow:hidden}
+.num .ripple{
+  position:absolute;border-radius:50%;
+  background:rgba(242,107,46,.5);
+  transform:scale(0);animation:numRipple .5s ease-out forwards;
+  pointer-events:none;
+}
+@keyframes numRipple{to{transform:scale(3);opacity:0}}
+
+/* 5. Magnetic card hover (CSS part — JS sets custom properties) */
+.magnetic{transition:transform .28s cubic-bezier(.25,.46,.45,.94)}
+
+/* 6. Stat counter glow pulse when animated */
+.mini-facts b.counting{text-shadow:0 0 20px rgba(242,107,46,.6)}
+
+/* 7. Section divider glow */
+.section-divider{
+  border:none;height:1px;margin:0 auto;width:min(600px,80vw);
+  background:linear-gradient(90deg, transparent, var(--orange), transparent);
+  opacity:.35;animation:dividerPulse 4s ease-in-out infinite;
+}
+@keyframes dividerPulse{0%,100%{opacity:.2;transform:scaleX(.9)}50%{opacity:.55;transform:scaleX(1)}}
+
+/* 8. Enhanced card hover — neumorphic press-in on active */
+.como-card:active,.evento:active,.dual-card:active,.contrib:active{
+  transform:translateY(0) scale(.97);
+  box-shadow:inset 4px 4px 12px rgba(0,0,0,.2), inset -4px -4px 12px var(--glass-shine);
+  transition:transform .1s, box-shadow .1s;
+}
+
+/* 9. Hero selo badge sparkle */
+.selo-hero{position:relative;overflow:hidden}
+.selo-hero::after{
+  content:"";position:absolute;top:0;left:-100%;width:60%;height:100%;
+  background:linear-gradient(105deg, transparent 30%, rgba(255,255,255,.35) 50%, transparent 70%);
+  animation:seloSparkle 3.5s ease-in-out infinite;
+}
+@keyframes seloSparkle{0%,100%{left:-100%}50%{left:120%}}
+
+/* 10. Grade number entrance stagger */
+.num.entering{animation:numEnter .35s ease-out forwards}
+@keyframes numEnter{
+  from{opacity:0;transform:scale(.6) translateY(10px)}
+  to{opacity:1;transform:scale(1) translateY(0)}
+}
+
 /* Acessibilidade: respeita quem prefere menos movimento */
 @media (prefers-reduced-motion: reduce){
   .bg-fx .blob,.float-badge,.nav-links .nav-sorteio{animation:none !important}
   .reveal{opacity:1 !important;transform:none !important;transition:none !important}
   .tilt{transition:none !important}
+  .section-head h2 em,.hero h1 em{animation:none !important;-webkit-text-fill-color:var(--orange) !important}
+  .btn-primary::after,.btn-sortear::after{display:none !important}
+  .cursor-light{display:none !important}
+  .num.entering{animation:none !important;opacity:1 !important}
+  .selo-hero::after{animation:none !important}
+  .section-divider{animation:none !important}
 }
 
 </style>
@@ -698,8 +792,9 @@ window.FIREBASE_CONFIG = {
 </script>
 <script type="module" src="firebase-sync.js"></script>
 
-<!-- Nebulosa de fundo + barra de progresso de scroll -->
+<!-- Nebulosa de fundo + barra de progresso de scroll + cursor light -->
 <div class="scroll-progress" id="scroll-progress"></div>
+<div class="cursor-light" id="cursor-light"></div>
 <div class="bg-fx" aria-hidden="true">
   <div class="blob blob-1"></div>
   <div class="blob blob-2"></div>
@@ -1153,6 +1248,11 @@ function reconstruirGrade(){
     else{
       if(selecionados.has(i)) b.classList.add('sel');
       b.onclick=()=>toggle(i,b);
+    }
+    if(!matchMedia('(prefers-reduced-motion: reduce)').matches){
+      b.classList.add('entering');
+      b.style.animationDelay = (i * 12) + 'ms';
+      b.addEventListener('animationend', ()=>b.classList.remove('entering'), {once:true});
     }
     grid.appendChild(b);
   }
@@ -1717,11 +1817,40 @@ if(location.hash==='#sorteio'||location.search.includes('sortear')) setTimeout(a
     });
   }
 
+  /* 3b. Cursor spotlight (desktop only, inspired by awesome-web-styling/mouse) */
+  if(ponteiroFino && !reduzMotion){
+    const cursorEl = document.getElementById('cursor-light');
+    if(cursorEl){
+      document.addEventListener('mousemove', ev=>{
+        cursorEl.style.left = ev.clientX + 'px';
+        cursorEl.style.top = ev.clientY + 'px';
+        if(!cursorEl.classList.contains('active')) cursorEl.classList.add('active');
+      });
+      document.addEventListener('mouseleave', ()=>cursorEl.classList.remove('active'));
+    }
+  }
+
+  /* 3c. Ripple on number click (inspired by awesome-web-styling/button) */
+  document.addEventListener('click', function(ev){
+    const num = ev.target.closest('.num');
+    if(!num || reduzMotion) return;
+    const rip = document.createElement('span');
+    rip.className = 'ripple';
+    const sz = Math.max(num.offsetWidth, num.offsetHeight) * 2;
+    rip.style.width = rip.style.height = sz + 'px';
+    const r = num.getBoundingClientRect();
+    rip.style.left = (ev.clientX - r.left - sz/2) + 'px';
+    rip.style.top = (ev.clientY - r.top - sz/2) + 'px';
+    num.appendChild(rip);
+    rip.addEventListener('animationend', ()=>rip.remove());
+  });
+
   /* 4. Contador animado nos mini-facts (números sobem) */
   function contarAte(el){
     const fim = parseInt(el.textContent.replace(/\D/g,''), 10);
     if(isNaN(fim) || fim <= 0) return;
     const ehMoeda = el.textContent.includes('R$');
+    el.classList.add('counting');
     const dur = 1200, t0 = performance.now();
     (function passo(t){
       const p = Math.min((t - t0) / dur, 1);
@@ -1729,6 +1858,7 @@ if(location.hash==='#sorteio'||location.search.includes('sortear')) setTimeout(a
       const val = Math.round(fim * suave);
       el.textContent = ehMoeda ? brl(val) : String(val);
       if(p < 1) requestAnimationFrame(passo);
+      else el.classList.remove('counting');
     })(t0);
   }
   if(!reduzMotion && 'IntersectionObserver' in window){
