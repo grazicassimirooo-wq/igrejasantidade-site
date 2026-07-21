@@ -1512,7 +1512,10 @@ window.FIREBASE_CONFIG = {
             </div>
 
             <div class="agenda-lista" id="agenda-lista"></div>
-            <div class="galeria-vazia" id="agenda-vazia">Usando eventos padrão do código. Adicione um evento acima para começar a gerenciar pelo Firestore.</div>
+            <div class="galeria-vazia" id="agenda-vazia">
+              Nenhum evento no Firestore ainda. O site está mostrando os eventos padrão do código.<br>
+              <button class="btn-upload" id="btn-importar-agenda" style="margin-top:14px;padding:10px 20px">📥 Importar eventos padrão para editar</button>
+            </div>
           </div>
 
           <!-- ── GALERIA ADMIN ── -->
@@ -1701,8 +1704,8 @@ let VENDIDOS   = [];
 let RESERVADOS = [];
 let COMPRADORES = {};
 
-/* AGENDA DE EVENTOS — Grazi/igreja edita aqui */
-const EVENTOS = [
+/* AGENDA DE EVENTOS — usado como fallback e como base pra importar no admin */
+const EVENTOS = window.EVENTOS = [
   {dia:'20', mes:'Jul', tag:'Culto',    titulo:'Celebração de Domingo',   quando:'Dom · 18h30', local:'Santuário IBSS'},
   {dia:'24', mes:'Jul', tag:'Meia semana', titulo:'Culto de Quinta',       quando:'Qui · 19h30', local:'Santuário IBSS'},
   {dia:'26', mes:'Jul', tag:'Connect',  titulo:'Level Up · Procuradores', quando:'Sáb · 18h30 e 19h30', local:'Santuário IBSS'},
@@ -2879,6 +2882,37 @@ if(location.hash==='#sorteio'||location.search.includes('sortear')) setTimeout(a
       console.error('[IBSS] Erro ao excluir evento:', e);
       alert('Erro ao excluir: ' + e.message);
     }
+  }
+
+  /* Botão importar eventos padrão para o Firestore */
+  const btnImportar = document.getElementById('btn-importar-agenda');
+  if(btnImportar){
+    btnImportar.onclick = async () => {
+      if(!checkFirebase()) return;
+      if(!window.EVENTOS || !window.EVENTOS.length){
+        alert('Não há eventos padrão definidos no código.');
+        return;
+      }
+      if(!confirm('Copiar os ' + window.EVENTOS.length + ' eventos padrão para o Firestore? Você poderá editar/apagar cada um depois.')) return;
+      btnImportar.disabled = true;
+      btnImportar.textContent = 'Importando...';
+      try {
+        const { getFirestore, collection, addDoc, serverTimestamp } = await import('https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js');
+        const { getApp } = await import('https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js');
+        const db = getFirestore(getApp());
+        const col = collection(db, 'agenda');
+        const base = Date.now();
+        for(let i = 0; i < window.EVENTOS.length; i++){
+          await addDoc(col, { ...window.EVENTOS[i], ordem: base + i, criadoEm: serverTimestamp() });
+        }
+      } catch(e){
+        console.error('[IBSS] Erro ao importar:', e);
+        alert('Erro ao importar: ' + e.message);
+      } finally {
+        btnImportar.disabled = false;
+        btnImportar.textContent = '📥 Importar eventos padrão para editar';
+      }
+    };
   }
 
   const esc = s => String(s||'').replace(/[<>&"]/g, c => ({'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;'}[c]));
