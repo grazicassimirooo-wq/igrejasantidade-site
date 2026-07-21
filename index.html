@@ -59,11 +59,12 @@
   --scratch-opacity:.15;
 }
 *{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth}
+html{scroll-behavior:smooth;overflow-x:hidden}
 body{
   font-family:"DM Sans",system-ui,sans-serif;color:var(--text);background:var(--bg);
   line-height:1.55;-webkit-font-smoothing:antialiased;min-height:100vh;position:relative;
   transition:background .35s ease, color .35s ease;
+  overflow-x:hidden;
 }
 /* Grunge noise no dark, sutil no light */
 body::before{
@@ -99,7 +100,7 @@ header{
   border-bottom:1px solid var(--line);transition:background .35s;
 }
 .nav{display:flex;align-items:center;justify-content:space-between;padding:14px 0;gap:12px}
-.brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--text)}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--text);min-width:0;flex:0 1 auto}
 .brand .selo{
   width:46px;height:46px;border-radius:50%;background:var(--orange);
   display:grid;place-items:center;box-shadow:0 6px 18px -6px rgba(242,107,46,.6);
@@ -113,6 +114,12 @@ header{
 .brand .selo img{width:60%;height:60%;object-fit:contain;filter:brightness(0) invert(1);position:relative;z-index:1}
 .brand b{font-family:"Anton",Impact,sans-serif;font-size:1.15rem;letter-spacing:.03em;text-transform:uppercase;line-height:1}
 .brand span{display:block;font-size:.66rem;letter-spacing:.28em;color:var(--text-2);text-transform:uppercase;font-weight:600;margin-top:4px}
+@media(max-width:520px){
+  .brand .selo{width:38px;height:38px}
+  .brand b{font-size:.95rem}
+  .brand span{font-size:.58rem;letter-spacing:.18em;margin-top:3px}
+  .nav{gap:8px}
+}
 
 .nav-actions{display:flex;align-items:center;gap:8px}
 .theme-toggle{
@@ -132,7 +139,7 @@ header{
   border:1.5px solid var(--line-strong);transition:.22s;white-space:nowrap;
 }
 .wpp:hover{background:var(--orange);border-color:var(--orange);color:#fff}
-@media(max-width:520px){.wpp span{display:none}.wpp::after{content:"WhatsApp"}}
+@media(max-width:520px){.wpp{padding:10px;gap:0}.wpp span{display:none}}
 
 /* Botão instalar PWA */
 .btn-install{
@@ -142,6 +149,7 @@ header{
 }
 .btn-install.show{display:inline-flex}
 .btn-install:hover{background:var(--orange-soft)}
+@media(max-width:520px){.btn-install.show{display:none}}
 
 /* ---------- STEPPER ---------- */
 .steps{display:flex;gap:6px;justify-content:center;padding:14px 0 4px;flex-wrap:wrap}
