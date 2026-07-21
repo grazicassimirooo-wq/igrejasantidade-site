@@ -603,6 +603,8 @@ footer .brand-foot b{font-family:"Anton",sans-serif;font-size:1.15rem;font-weigh
 .cosmo-block .cosmo-info small{display:block;font-size:.68rem;text-transform:uppercase;letter-spacing:.2em;color:var(--text-3);font-weight:700;margin-bottom:3px}
 .cosmo-block .cosmo-info b{font-family:"Bricolage Grotesque",serif;font-weight:700;font-size:1rem;color:var(--text);letter-spacing:-.01em}
 .cosmo-block .cosmo-info i{font-style:normal;font-size:.82rem;color:var(--text-2);margin-left:6px}
+.cosmo-block .cosmo-pitch{display:block;font-size:.78rem;color:var(--text-2);margin-top:6px;line-height:1.5;max-width:520px}
+.cosmo-block .cosmo-pitch b{font-family:"DM Sans",sans-serif;font-size:inherit;color:var(--orange);letter-spacing:0;font-weight:700}
 .cosmo-contact{display:flex;gap:8px;flex-wrap:wrap}
 .cosmo-contact a{display:inline-flex;align-items:center;justify-content:center;gap:6px;width:38px;height:38px;border-radius:50%;border:1px solid var(--line-strong);color:#25D366;text-decoration:none;transition:.2s}
 .cosmo-contact a:hover{background:#25D366;color:#fff;border-color:#25D366;transform:scale(1.08)}
@@ -757,6 +759,8 @@ footer .brand-foot b{font-family:"Anton",sans-serif;font-size:1.15rem;font-weigh
 #sorteio-admin h2{font-family:"Anton",sans-serif;font-weight:400;text-transform:uppercase;font-size:clamp(2rem,5vw,3rem);text-align:center;color:var(--text);letter-spacing:.02em}
 .aviso-admin-badge{position:fixed;top:18px;right:18px;background:var(--orange);color:#fff;font-family:"Anton",sans-serif;font-size:.7rem;font-weight:400;padding:7px 12px;border-radius:999px;letter-spacing:.14em;text-transform:uppercase;z-index:60;box-shadow:var(--shadow);display:none}
 .btn-login{width:100%;margin-top:14px;background:var(--orange);color:#fff;font-weight:700;padding:14px;border-radius:12px;font-size:.9rem;text-transform:uppercase;letter-spacing:.1em;cursor:pointer;border:none;font-family:inherit}
+.btn-logout{display:inline-flex;align-items:center;background:transparent;border:1.5px solid var(--line-strong);color:var(--text-2);padding:8px 16px;border-radius:999px;font-family:inherit;font-weight:600;font-size:.78rem;text-transform:uppercase;letter-spacing:.08em;cursor:pointer;transition:.2s}
+.btn-logout:hover{border-color:#ef4444;color:#ef4444;background:rgba(239,68,68,.06)}
 
 /* ── GALLERY ADMIN ── */
 .galeria-admin{margin-top:44px;padding-top:36px;border-top:1px solid var(--line-strong)}
@@ -1425,6 +1429,12 @@ window.FIREBASE_CONFIG = {
           <div class="erro" id="erro-senha"></div>
         </div>
         <div class="painel-sorteio" id="painel-sorteio" style="display:none">
+          <div style="display:flex;justify-content:flex-end;margin-bottom:16px">
+            <button class="btn-logout" onclick="sairAdmin()" title="Sair do modo admin">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right:6px;vertical-align:-2px"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+              Sair do modo admin
+            </button>
+          </div>
           <div class="stats-sorteio">
             <div class="stat"><small>Números vendidos</small><b id="stat-vendidos">–</b></div>
             <div class="stat"><small>Total arrecadado</small><b id="stat-total">–</b></div>
@@ -1623,8 +1633,9 @@ window.FIREBASE_CONFIG = {
     <div class="cosmo-block">
       <div class="cosmo-mark">C</div>
       <div class="cosmo-info">
-        <small>Desenvolvido por</small>
-        <b>Cosmo Digital</b><i>· Soluções Digitais</i>
+        <small>Site desenvolvido por</small>
+        <b>Cosmo Digital</b>
+        <p class="cosmo-pitch">Sites, apps e sistemas sob medida para sua marca. Do design ao no ar. <b>Peça um orçamento →</b></p>
       </div>
       <div class="cosmo-contact">
         <a href="https://wa.me/5511945453144" target="_blank" rel="noopener" aria-label="WhatsApp Cosmo Digital" title="Fale no WhatsApp">
@@ -1943,6 +1954,17 @@ function validarSenha(){
     document.getElementById('erro-senha').textContent='Senha incorreta';
     document.getElementById('senha-admin').value='';
   }
+}
+
+function sairAdmin(){
+  senhaAdminAtual = null;
+  document.getElementById('painel-sorteio').style.display='none';
+  document.getElementById('login-sorteio').style.display='block';
+  const senhaInput = document.getElementById('senha-admin');
+  if(senhaInput) senhaInput.value = '';
+  const erro = document.getElementById('erro-senha');
+  if(erro) erro.textContent = '';
+  document.getElementById('home')?.scrollIntoView({behavior:'smooth'});
 }
 
 function renderizarPainelSorteio(){
