@@ -602,8 +602,9 @@ footer .brand-foot b{font-family:"Anton",sans-serif;font-size:1.15rem;font-weigh
 .cosmo-block .cosmo-info b{font-family:"Bricolage Grotesque",serif;font-weight:700;font-size:1rem;color:var(--text);letter-spacing:-.01em}
 .cosmo-block .cosmo-info i{font-style:normal;font-size:.82rem;color:var(--text-2);margin-left:6px}
 .cosmo-contact{display:flex;gap:8px;flex-wrap:wrap}
-.cosmo-contact a{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:999px;border:1px solid var(--line-strong);color:var(--text);text-decoration:none;font-weight:600;font-size:.78rem;transition:.2s}
-.cosmo-contact a:hover{background:var(--orange);color:#fff;border-color:var(--orange)}
+.cosmo-contact a{display:inline-flex;align-items:center;justify-content:center;gap:6px;width:38px;height:38px;border-radius:50%;border:1px solid var(--line-strong);color:#25D366;text-decoration:none;transition:.2s}
+.cosmo-contact a:hover{background:#25D366;color:#fff;border-color:#25D366;transform:scale(1.08)}
+.cosmo-contact a svg{display:block}
 
 .foot-bottom{border-top:1px solid var(--line);margin-top:32px;padding-top:22px;font-size:.74rem;color:var(--text-3);display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;position:relative}
 .foot-bottom .cnpj{font-family:monospace;letter-spacing:.06em}
@@ -812,6 +813,36 @@ header{background:color-mix(in oklab, var(--bg) 60%, transparent);backdrop-filte
   backdrop-filter:blur(14px) saturate(1.35);-webkit-backdrop-filter:blur(14px) saturate(1.35);
   border:1px solid var(--glass-border);
   box-shadow:inset 0 1px 0 var(--glass-shine), 0 20px 44px -26px rgba(0,0,0,.5);
+}
+
+/* Relevo 3D reforçado no modo claro — sem esse boost os cards somem no fundo bege */
+[data-theme="light"] .como-card,
+[data-theme="light"] .evento,
+[data-theme="light"] .dual-card,
+[data-theme="light"] .stat,
+[data-theme="light"] .prize-tag,
+[data-theme="light"] .horarios-hero,
+[data-theme="light"] .login-box,
+[data-theme="light"] .roleta,
+[data-theme="light"] .contrib,
+[data-theme="light"] .cosmo-block,
+[data-theme="light"] .carousel-slide{
+  background:#ffffff;
+  border:1px solid rgba(15,20,15,.08);
+  box-shadow:
+    0 1px 2px rgba(15,20,15,.04),
+    0 4px 12px -2px rgba(15,20,15,.08),
+    0 18px 40px -14px rgba(15,20,15,.18),
+    inset 0 1px 0 rgba(255,255,255,.9);
+}
+[data-theme="light"] .como-card:hover,
+[data-theme="light"] .evento:hover,
+[data-theme="light"] .dual-card:hover{
+  box-shadow:
+    0 2px 4px rgba(15,20,15,.05),
+    0 8px 20px -4px rgba(242,107,46,.15),
+    0 28px 60px -18px rgba(242,107,46,.28),
+    inset 0 1px 0 rgba(255,255,255,.95);
 }
 .sorteio-hero,#sorteio-admin{
   background:radial-gradient(ellipse at top,rgba(242,107,46,.10),transparent 60%),var(--glass);
@@ -1484,8 +1515,9 @@ window.FIREBASE_CONFIG = {
         <b>Cosmo Digital</b><i>· Soluções Digitais</i>
       </div>
       <div class="cosmo-contact">
-        <a href="https://wa.me/5511945453144" target="_blank" rel="noopener">💬 (11) 94545-3144</a>
-        <a href="tel:+5511945453144">📞 Ligar</a>
+        <a href="https://wa.me/5511945453144" target="_blank" rel="noopener" aria-label="WhatsApp Cosmo Digital" title="Fale no WhatsApp">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.47 14.38c-.3-.15-1.77-.87-2.04-.97-.27-.1-.47-.15-.67.15s-.77.97-.94 1.17c-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.14-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.03-.52-.07-.15-.67-1.61-.91-2.2-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37s-1.04 1.02-1.04 2.49 1.07 2.89 1.22 3.09c.15.2 2.1 3.2 5.08 4.49.71.31 1.27.49 1.7.63.71.23 1.36.2 1.87.12.57-.09 1.77-.72 2.02-1.42.25-.7.25-1.3.17-1.42-.07-.13-.27-.2-.57-.35zM12.05 21.75a9.72 9.72 0 0 1-4.96-1.36l-.36-.21-3.7.97.99-3.61-.23-.37a9.72 9.72 0 0 1-1.49-5.17c0-5.37 4.37-9.75 9.75-9.75a9.68 9.68 0 0 1 6.9 2.86A9.68 9.68 0 0 1 21.8 12c0 5.38-4.37 9.75-9.75 9.75zM12.05.25C5.56.25.25 5.56.25 12.05c0 2.12.56 4.12 1.54 5.84L.02 24l6.27-1.64a11.77 11.77 0 0 0 5.76 1.5c6.49 0 11.75-5.31 11.75-11.81A11.77 11.77 0 0 0 12.05.25z"/></svg>
+        </a>
       </div>
     </div>
   </div>
