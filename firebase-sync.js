@@ -63,7 +63,14 @@ if (!CONFIG.projectId || CONFIG.projectId === 'seu-projeto') {
       window.ibss?.renderAgendaAdmin?.(eventos);
     }, (err) => console.error('[IBSS] Erro no listener de agenda:', err));
 
-    /* 5. API pública pro index.html escutar UMA compra específica */
+    /* 5. Escuta da configuração do sorteio (textos + mídia do prêmio) */
+    onSnapshot(doc(db, 'config', 'sorteio-atual'), (snap) => {
+      const cfg = snap.exists() ? snap.data() : null;
+      window.ibss?.updateSorteioConfig?.(cfg);
+      window.ibss?.fillSorteioForm?.(cfg);
+    }, (err) => console.error('[IBSS] Erro no listener de config:', err));
+
+    /* 6. API pública pro index.html escutar UMA compra específica */
     window.ibss = window.ibss || {};
     window.ibss.escutarCompra = (compraId, cb) => {
       if (!compraId) return () => {};

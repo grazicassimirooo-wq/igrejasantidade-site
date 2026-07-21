@@ -818,8 +818,8 @@ footer .brand-foot b{font-family:"Anton",sans-serif;font-size:1.15rem;font-weigh
 .galeria-vazia{text-align:center;padding:28px 16px;color:var(--text-3);font-size:.85rem}
 .agenda-form{display:flex;flex-direction:column;gap:10px;margin:14px 0 20px}
 .agenda-row{display:grid;grid-template-columns:1fr 1fr 1.6fr;gap:10px}
-.agenda-form input{padding:10px 14px;border-radius:10px;border:1px solid var(--line-strong);background:var(--bg-2);color:var(--text);font-family:inherit;font-size:.88rem}
-.agenda-form input:focus{outline:none;border-color:var(--orange)}
+.agenda-form input,.agenda-form textarea{padding:10px 14px;border-radius:10px;border:1px solid var(--line-strong);background:var(--bg-2);color:var(--text);font-family:inherit;font-size:.88rem;resize:vertical}
+.agenda-form input:focus,.agenda-form textarea:focus{outline:none;border-color:var(--orange)}
 .agenda-form-actions{display:flex;gap:10px;flex-wrap:wrap}
 .agenda-lista{display:flex;flex-direction:column;gap:10px;margin-top:16px}
 .agenda-item{display:flex;align-items:center;gap:14px;padding:12px 14px;border:1px solid var(--line-strong);border-radius:12px;background:var(--bg-2)}
@@ -1300,19 +1300,19 @@ window.FIREBASE_CONFIG = {
        ══════════════════════════════════════════════════════ -->
   <section id="sorteio-moto" class="wrap">
     <div class="section-head">
-      <h2>Sorteio da <em>Moto Elétrica</em></h2>
-      <p>Sorteio beneficente · Festa da Igreja 2026</p>
+      <h2 id="sh-titulo">Sorteio da <em>Moto Elétrica</em></h2>
+      <p id="sh-subtitulo">Sorteio beneficente · Festa da Igreja 2026</p>
     </div>
 
     <div class="sorteio-hero">
       <div class="sorteio-grid">
         <div>
-          <span class="selo-hero">Festa da Igreja · Edição 2026</span>
-          <h1 style="font-size:clamp(2rem,4.5vw,3.4rem)">Concorra a uma <em>moto elétrica</em> zero km</h1>
-          <p class="lead">Escolha seus números do jeito mais fácil — igual a marcar poltrona de avião. Selecione, pague pelo Pix ou cartão e pronto.</p>
+          <span class="selo-hero" id="sh-selo">Festa da Igreja · Edição 2026</span>
+          <h1 id="sh-h1" style="font-size:clamp(2rem,4.5vw,3.4rem)">Concorra a uma <em>moto elétrica</em> zero km</h1>
+          <p class="lead" id="sh-lead">Escolha seus números do jeito mais fácil — igual a marcar poltrona de avião. Selecione, pague pelo Pix ou cartão e pronto.</p>
           <div class="prize-tag">
-            <small>Prêmio único</small>
-            <b>Moto Elétrica · R$ 5.000</b>
+            <small id="sh-prize-label">Prêmio único</small>
+            <b id="sh-prize-name">Moto Elétrica · R$ 5.000</b>
           </div>
           <div class="cta-row">
             <button class="btn btn-primary" onclick="scrollParaGrade()">Escolher meus números →</button>
@@ -1325,14 +1325,14 @@ window.FIREBASE_CONFIG = {
           </div>
         </div>
         <div class="moto-frame">
-          <div class="moto-video">
-            <video autoplay loop muted playsinline poster="moto-poster.jpg" preload="metadata">
+          <div class="moto-video" id="sh-media-frame">
+            <video id="sh-media-video" autoplay loop muted playsinline poster="moto-poster.jpg" preload="metadata">
               <source src="moto.mp4" type="video/mp4">
             </video>
           </div>
           <div class="float-badge">
-            <small>Valor do prêmio</small>
-            <b>R$ 5.000</b>
+            <small id="sh-badge-label">Valor do prêmio</small>
+            <b id="sh-badge-value">R$ 5.000</b>
           </div>
         </div>
       </div>
@@ -1455,6 +1455,41 @@ window.FIREBASE_CONFIG = {
             </div>
           </div>
           <div class="resultado-oficial" id="card-oficial" style="display:none"></div>
+
+          <!-- ── SORTEIO ADMIN (config editável) ── -->
+          <div class="galeria-admin" id="sorteio-config-admin">
+            <h3>Configurar Sorteio</h3>
+            <p class="subt-gal">Edite textos, valores e a imagem/vídeo do prêmio. Os campos vazios usam o valor padrão do site.</p>
+
+            <div class="agenda-form">
+              <input type="text" id="cf-titulo" placeholder='Título da seção (ex: Sorteio da Moto Elétrica)' maxlength="80">
+              <input type="text" id="cf-subtitulo" placeholder="Subtítulo (ex: Sorteio beneficente · Festa da Igreja 2026)" maxlength="80">
+              <input type="text" id="cf-selo" placeholder='Selo (ex: Festa da Igreja · Edição 2026)' maxlength="60">
+              <input type="text" id="cf-h1" placeholder="Título principal (ex: Concorra a uma moto elétrica zero km)" maxlength="120">
+              <textarea id="cf-lead" placeholder="Descrição (ex: Escolha seus números...)" maxlength="240" rows="2"></textarea>
+              <div class="agenda-row">
+                <input type="text" id="cf-prize-label" placeholder="Rótulo (ex: Prêmio único)" maxlength="30">
+                <input type="text" id="cf-prize-name" placeholder="Prêmio · valor (ex: Moto Elétrica · R$ 5.000)" maxlength="60" style="grid-column:span 2">
+              </div>
+              <div class="agenda-row">
+                <input type="text" id="cf-badge-label" placeholder='Rótulo do selo (ex: Valor do prêmio)' maxlength="30">
+                <input type="text" id="cf-badge-value" placeholder="Valor destaque (ex: R$ 5.000)" maxlength="30" style="grid-column:span 2">
+              </div>
+
+              <div class="upload-dropzone" id="cf-media-drop" style="margin-top:6px">
+                <span class="dz-icon">🏆</span>
+                <div class="dz-text">Clique para escolher <b>imagem ou vídeo</b> do prêmio<br><small>JPG, PNG, WebP, MP4 · até 20 MB</small></div>
+                <input type="file" id="cf-media-file" accept="image/jpeg,image/png,image/webp,video/mp4">
+              </div>
+              <div id="cf-media-preview" style="display:none;text-align:center"></div>
+
+              <div class="agenda-form-actions">
+                <button class="btn-upload" id="btn-salvar-sorteio">Salvar configuração</button>
+                <button class="btn-upload btn-cancel" id="btn-resetar-sorteio" style="background:transparent;border:1px solid var(--line-strong);color:var(--text-2)">Restaurar padrão</button>
+              </div>
+              <div class="upload-progress" id="cf-progress"><div class="bar" id="cf-progress-bar"></div></div>
+            </div>
+          </div>
 
           <!-- ── AGENDA ADMIN ── -->
           <div class="galeria-admin" id="agenda-admin">
@@ -2545,6 +2580,207 @@ if(location.hash==='#sorteio'||location.search.includes('sortear')) setTimeout(a
         }
       });
     });
+  };
+})();
+
+/* ============================================================
+   SORTEIO CONFIG — render dinâmico + admin
+   ============================================================ */
+(function(){
+  /* Guarda os valores originais do HTML como fallback */
+  const original = {
+    titulo: document.getElementById('sh-titulo')?.innerHTML,
+    subtitulo: document.getElementById('sh-subtitulo')?.textContent,
+    selo: document.getElementById('sh-selo')?.textContent,
+    h1: document.getElementById('sh-h1')?.innerHTML,
+    lead: document.getElementById('sh-lead')?.textContent,
+    prizeLabel: document.getElementById('sh-prize-label')?.textContent,
+    prizeName: document.getElementById('sh-prize-name')?.textContent,
+    badgeLabel: document.getElementById('sh-badge-label')?.textContent,
+    badgeValue: document.getElementById('sh-badge-value')?.textContent,
+    mediaFrame: document.getElementById('sh-media-frame')?.innerHTML,
+  };
+
+  function setText(id, val, fallback){
+    const el = document.getElementById(id);
+    if(!el) return;
+    el.textContent = val && val.trim() ? val : (fallback || '');
+  }
+  function setHtml(id, val, fallback){
+    const el = document.getElementById(id);
+    if(!el) return;
+    el.innerHTML = val && val.trim() ? val : (fallback || '');
+  }
+
+  window.ibss = window.ibss || {};
+  window.ibss.updateSorteioConfig = function(cfg){
+    cfg = cfg || {};
+    setHtml('sh-titulo',    cfg.titulo,     original.titulo);
+    setText('sh-subtitulo', cfg.subtitulo,  original.subtitulo);
+    setText('sh-selo',      cfg.selo,       original.selo);
+    setHtml('sh-h1',        cfg.h1,         original.h1);
+    setText('sh-lead',      cfg.lead,       original.lead);
+    setText('sh-prize-label', cfg.prizeLabel, original.prizeLabel);
+    setText('sh-prize-name',  cfg.prizeName,  original.prizeName);
+    setText('sh-badge-label', cfg.badgeLabel, original.badgeLabel);
+    setText('sh-badge-value', cfg.badgeValue, original.badgeValue);
+
+    /* Mídia: se mediaUrl configurado, substitui vídeo/imagem */
+    const frame = document.getElementById('sh-media-frame');
+    if(frame){
+      if(cfg.mediaUrl){
+        const isVideo = /\.(mp4|webm|mov)(\?|$)/i.test(cfg.mediaUrl) || cfg.mediaType === 'video';
+        frame.innerHTML = isVideo
+          ? '<video autoplay loop muted playsinline preload="metadata"><source src="'+cfg.mediaUrl+'"></video>'
+          : '<img src="'+cfg.mediaUrl+'" alt="Prêmio do sorteio" style="width:100%;height:100%;object-fit:cover;display:block">';
+      } else {
+        frame.innerHTML = original.mediaFrame;
+      }
+    }
+  };
+
+  /* ── Admin: form de edição ── */
+  const inputs = {
+    titulo: document.getElementById('cf-titulo'),
+    subtitulo: document.getElementById('cf-subtitulo'),
+    selo: document.getElementById('cf-selo'),
+    h1: document.getElementById('cf-h1'),
+    lead: document.getElementById('cf-lead'),
+    prizeLabel: document.getElementById('cf-prize-label'),
+    prizeName: document.getElementById('cf-prize-name'),
+    badgeLabel: document.getElementById('cf-badge-label'),
+    badgeValue: document.getElementById('cf-badge-value'),
+  };
+  const btnSalvar = document.getElementById('btn-salvar-sorteio');
+  const btnReset = document.getElementById('btn-resetar-sorteio');
+  const fileInput = document.getElementById('cf-media-file');
+  const dropzone = document.getElementById('cf-media-drop');
+  const preview = document.getElementById('cf-media-preview');
+  const progressWrap = document.getElementById('cf-progress');
+  const progressBar = document.getElementById('cf-progress-bar');
+  if(!btnSalvar) return;
+
+  let mediaFileToUpload = null;
+  let mediaUrlAtual = null;
+
+  function checkFirebase(){
+    const CFG = window.FIREBASE_CONFIG || {};
+    if(!CFG.projectId || CFG.projectId === 'seu-projeto'){
+      alert('Firebase não configurado.');
+      return false;
+    }
+    return true;
+  }
+
+  window.ibss.fillSorteioForm = function(cfg){
+    cfg = cfg || {};
+    inputs.titulo.value = cfg.titulo || '';
+    inputs.subtitulo.value = cfg.subtitulo || '';
+    inputs.selo.value = cfg.selo || '';
+    inputs.h1.value = cfg.h1 || '';
+    inputs.lead.value = cfg.lead || '';
+    inputs.prizeLabel.value = cfg.prizeLabel || '';
+    inputs.prizeName.value = cfg.prizeName || '';
+    inputs.badgeLabel.value = cfg.badgeLabel || '';
+    inputs.badgeValue.value = cfg.badgeValue || '';
+    mediaUrlAtual = cfg.mediaUrl || null;
+    if(mediaUrlAtual){
+      preview.style.display = 'block';
+      const isVideo = /\.(mp4|webm|mov)(\?|$)/i.test(mediaUrlAtual);
+      preview.innerHTML = isVideo
+        ? '<video src="'+mediaUrlAtual+'" style="max-width:200px;max-height:120px;border-radius:8px" muted></video>'
+        : '<img src="'+mediaUrlAtual+'" style="max-width:200px;max-height:120px;border-radius:8px">';
+      preview.innerHTML += '<div style="font-size:.75rem;color:var(--text-3);margin-top:6px">Mídia atual</div>';
+    } else {
+      preview.style.display = 'none';
+    }
+  };
+
+  fileInput.addEventListener('change', () => {
+    const f = fileInput.files[0];
+    if(!f) return;
+    if(f.size > 20 * 1024 * 1024){ alert('Arquivo maior que 20 MB.'); fileInput.value=''; return; }
+    mediaFileToUpload = f;
+    preview.style.display = 'block';
+    const isVideo = f.type.startsWith('video/');
+    const url = URL.createObjectURL(f);
+    preview.innerHTML = isVideo
+      ? '<video src="'+url+'" style="max-width:200px;max-height:120px;border-radius:8px" muted controls></video>'
+      : '<img src="'+url+'" style="max-width:200px;max-height:120px;border-radius:8px">';
+    preview.innerHTML += '<div style="font-size:.75rem;color:var(--text-3);margin-top:6px">Novo: ' + f.name + '</div>';
+  });
+
+  btnSalvar.onclick = async () => {
+    if(!checkFirebase()) return;
+    btnSalvar.disabled = true;
+    progressWrap.style.display = 'block';
+    progressBar.style.width = '10%';
+
+    try {
+      const { getFirestore, doc, setDoc, serverTimestamp } = await import('https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js');
+      const { getApp } = await import('https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js');
+      const db = getFirestore(getApp());
+
+      let mediaUrl = mediaUrlAtual;
+      let mediaType = null;
+
+      if(mediaFileToUpload){
+        const { getStorage, ref, uploadBytes, getDownloadURL } = await import('https://www.gstatic.com/firebasejs/10.7.0/firebase-storage.js');
+        const storage = getStorage(getApp());
+        progressBar.style.width = '30%';
+        const nome = Date.now() + '_' + mediaFileToUpload.name.replace(/[^a-zA-Z0-9._-]/g,'');
+        const sref = ref(storage, 'sorteio/' + nome);
+        await uploadBytes(sref, mediaFileToUpload);
+        progressBar.style.width = '70%';
+        mediaUrl = await getDownloadURL(sref);
+        mediaType = mediaFileToUpload.type.startsWith('video/') ? 'video' : 'image';
+      }
+
+      const cfg = {
+        titulo: inputs.titulo.value.trim(),
+        subtitulo: inputs.subtitulo.value.trim(),
+        selo: inputs.selo.value.trim(),
+        h1: inputs.h1.value.trim(),
+        lead: inputs.lead.value.trim(),
+        prizeLabel: inputs.prizeLabel.value.trim(),
+        prizeName: inputs.prizeName.value.trim(),
+        badgeLabel: inputs.badgeLabel.value.trim(),
+        badgeValue: inputs.badgeValue.value.trim(),
+        mediaUrl: mediaUrl || '',
+        mediaType: mediaType || '',
+        atualizadoEm: serverTimestamp(),
+      };
+      await setDoc(doc(db, 'config', 'sorteio-atual'), cfg, {merge: true});
+      progressBar.style.width = '100%';
+      mediaFileToUpload = null;
+      fileInput.value = '';
+      setTimeout(() => { progressWrap.style.display = 'none'; progressBar.style.width = '0%'; }, 800);
+      alert('Configuração salva!');
+    } catch(e){
+      console.error('[IBSS] Erro ao salvar sorteio:', e);
+      alert('Erro ao salvar: ' + e.message);
+      progressWrap.style.display = 'none';
+    } finally {
+      btnSalvar.disabled = false;
+    }
+  };
+
+  btnReset.onclick = async () => {
+    if(!checkFirebase()) return;
+    if(!confirm('Restaurar sorteio pro texto e imagem padrões do site? (Apaga a configuração salva)')) return;
+    try {
+      const { getFirestore, doc, deleteDoc } = await import('https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js');
+      const { getApp } = await import('https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js');
+      await deleteDoc(doc(getFirestore(getApp()), 'config', 'sorteio-atual'));
+      Object.values(inputs).forEach(i => { if(i) i.value = ''; });
+      preview.style.display = 'none';
+      mediaUrlAtual = null;
+      mediaFileToUpload = null;
+      fileInput.value = '';
+    } catch(e){
+      console.error('[IBSS] Erro ao restaurar:', e);
+      alert('Erro: ' + e.message);
+    }
   };
 })();
 
