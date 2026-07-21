@@ -416,16 +416,18 @@ header{
 .contrib .arrow{margin-left:auto;color:var(--orange);font-weight:700;font-size:1.2rem}
 @media(max-width:840px){.dual{grid-template-columns:1fr}}
 
-/* ---------- CARROSSEL ---------- */
-.carousel-section{padding:20px 0 10px;overflow:hidden}
-.carousel{position:relative;width:100%;user-select:none}
+/* ---------- CARROSSEL (transform-based, funciona em qualquer browser) ---------- */
+.carousel-section{padding:20px 0 10px}
+.carousel{position:relative;width:100%;user-select:none;overflow:hidden;padding:12px 0 24px}
 .carousel-track{
-  display:flex;gap:20px;overflow-x:auto;scroll-snap-type:x mandatory;
-  -webkit-overflow-scrolling:touch;scrollbar-width:none;padding:12px 0 24px;
+  display:flex;gap:20px;will-change:transform;
+  transition:transform .55s cubic-bezier(.4,0,.2,1);
+  touch-action:pan-y;cursor:grab;
 }
+.carousel-track.dragging{transition:none;cursor:grabbing}
 .carousel-track::-webkit-scrollbar{display:none}
 .carousel-slide{
-  flex:0 0 min(360px,82vw);scroll-snap-align:center;border-radius:20px;
+  flex:0 0 min(360px,82vw);border-radius:20px;
   overflow:hidden;position:relative;aspect-ratio:4/5;
   background:var(--bg-2);border:1px solid var(--glass-border);
   box-shadow:0 16px 40px -16px rgba(0,0,0,.4);transition:transform .35s,box-shadow .35s;
@@ -810,6 +812,24 @@ footer .brand-foot b{font-family:"Anton",sans-serif;font-size:1.15rem;font-weigh
 }
 .galeria-item .gi-del:hover{background:rgba(255,0,0,.7);border-color:#fff}
 .galeria-vazia{text-align:center;padding:28px 16px;color:var(--text-3);font-size:.85rem}
+.agenda-form{display:flex;flex-direction:column;gap:10px;margin:14px 0 20px}
+.agenda-row{display:grid;grid-template-columns:1fr 1fr 1.6fr;gap:10px}
+.agenda-form input{padding:10px 14px;border-radius:10px;border:1px solid var(--line-strong);background:var(--bg-2);color:var(--text);font-family:inherit;font-size:.88rem}
+.agenda-form input:focus{outline:none;border-color:var(--orange)}
+.agenda-form-actions{display:flex;gap:10px;flex-wrap:wrap}
+.agenda-lista{display:flex;flex-direction:column;gap:10px;margin-top:16px}
+.agenda-item{display:flex;align-items:center;gap:14px;padding:12px 14px;border:1px solid var(--line-strong);border-radius:12px;background:var(--bg-2)}
+.agenda-item-data{display:flex;flex-direction:column;align-items:center;justify-content:center;min-width:52px;padding:6px 8px;background:var(--orange);color:#fff;border-radius:10px;flex-shrink:0}
+.agenda-item-data b{font-family:"Anton",sans-serif;font-size:1.2rem;line-height:1}
+.agenda-item-data small{font-size:.65rem;text-transform:uppercase;letter-spacing:.1em;margin-top:2px}
+.agenda-item-info{flex:1;min-width:0}
+.agenda-item-info b{display:block;font-size:.92rem;color:var(--text);margin-bottom:2px}
+.agenda-item-info small{font-size:.78rem;color:var(--text-2);display:block}
+.agenda-item-actions{display:flex;gap:6px;flex-shrink:0}
+.agenda-item-actions button{width:34px;height:34px;border-radius:8px;border:1px solid var(--line-strong);background:transparent;color:var(--text-2);cursor:pointer;font-size:.9rem;transition:.15s}
+.agenda-item-actions button:hover{color:var(--orange);border-color:var(--orange)}
+.agenda-item-actions button.del:hover{color:#ef4444;border-color:#ef4444}
+@media(max-width:520px){.agenda-row{grid-template-columns:1fr 1fr}}
 @media(max-width:640px){
   .upload-meta{grid-template-columns:1fr}
   .galeria-grid{grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:10px}
@@ -1426,6 +1446,30 @@ window.FIREBASE_CONFIG = {
           </div>
           <div class="resultado-oficial" id="card-oficial" style="display:none"></div>
 
+          <!-- ── AGENDA ADMIN ── -->
+          <div class="galeria-admin" id="agenda-admin">
+            <h3>Agenda de Eventos</h3>
+            <p class="subt-gal">Adicione, edite ou remova eventos que aparecem na seção "Próximos eventos"</p>
+
+            <div class="agenda-form">
+              <div class="agenda-row">
+                <input type="text" id="ev-dia" placeholder="Dia (ex: 20)" maxlength="2">
+                <input type="text" id="ev-mes" placeholder="Mês (ex: Jul)" maxlength="6">
+                <input type="text" id="ev-tag" placeholder="Categoria (ex: Culto)" maxlength="18">
+              </div>
+              <input type="text" id="ev-titulo" placeholder="Título (ex: Celebração de Domingo)" maxlength="60">
+              <input type="text" id="ev-quando" placeholder="Quando (ex: Dom · 18h30)" maxlength="40">
+              <input type="text" id="ev-local" placeholder="Local (ex: Santuário IBSS)" maxlength="60">
+              <div class="agenda-form-actions">
+                <button class="btn-upload" id="btn-salvar-evento">Adicionar evento</button>
+                <button class="btn-upload btn-cancel" id="btn-cancelar-evento" style="display:none;background:transparent;border:1px solid var(--line-strong);color:var(--text-2)">Cancelar edição</button>
+              </div>
+            </div>
+
+            <div class="agenda-lista" id="agenda-lista"></div>
+            <div class="galeria-vazia" id="agenda-vazia">Usando eventos padrão do código. Adicione um evento acima para começar a gerenciar pelo Firestore.</div>
+          </div>
+
           <!-- ── GALERIA ADMIN ── -->
           <div class="galeria-admin" id="galeria-admin">
             <h3>Galeria do Carrossel</h3>
@@ -1689,19 +1733,27 @@ window.ibss = {
   }
 };
 
-/* Agenda */
+/* Agenda — render dinâmico com fallback pros EVENTOS estáticos */
 const agendaGrid = document.getElementById('agenda-grid');
-EVENTOS.forEach(ev => {
-  const el=document.createElement('div');
-  el.className='evento';
-  el.innerHTML=`
-    <span class="tag">${ev.tag}</span>
-    <div class="data"><span class="dia">${ev.dia}</span><span class="mes">${ev.mes}</span></div>
-    <h5>${ev.titulo}</h5>
-    <div class="quando">${ev.quando}</div>
-    <p>📍 ${ev.local}</p>`;
-  agendaGrid.appendChild(el);
-});
+function renderAgenda(eventos){
+  const lista = (eventos && eventos.length) ? eventos : EVENTOS;
+  agendaGrid.innerHTML = '';
+  const esc = s => String(s||'').replace(/[<>&"]/g, c => ({'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;'}[c]));
+  lista.forEach(ev => {
+    const el=document.createElement('div');
+    el.className='evento';
+    el.innerHTML=
+      '<span class="tag">'+esc(ev.tag)+'</span>' +
+      '<div class="data"><span class="dia">'+esc(ev.dia)+'</span><span class="mes">'+esc(ev.mes)+'</span></div>' +
+      '<h5>'+esc(ev.titulo)+'</h5>' +
+      '<div class="quando">'+esc(ev.quando)+'</div>' +
+      '<p>📍 '+esc(ev.local)+'</p>';
+    agendaGrid.appendChild(el);
+  });
+}
+renderAgenda();
+window.ibss = window.ibss || {};
+window.ibss.updateAgenda = renderAgenda;
 
 function toggle(i,btn){
   if(selecionados.has(i)){selecionados.delete(i);btn.classList.remove('sel');}
@@ -2166,143 +2218,173 @@ if(location.hash==='#sorteio'||location.search.includes('sortear')) setTimeout(a
 })();
 
 /* ============================================================
-   CARROSSEL · auto-scroll + swipe + dots + arrows
+   CARROSSEL · transform-based, loop infinito, swipe touch/mouse
    ============================================================ */
 (function(){
   const track = document.getElementById('carousel-track');
   const dotsBox = document.getElementById('carousel-dots');
-  if(!track || !dotsBox) return;
-
-  const slides = track.querySelectorAll('.carousel-slide');
-  const total = slides.length;
-  if(!total) return;
-
-  /* Create dots */
-  slides.forEach((_,i) => {
-    const d = document.createElement('button');
-    d.className = 'carousel-dot' + (i===0?' active':'');
-    d.setAttribute('aria-label','Slide '+(i+1));
-    d.onclick = () => goTo(i);
-    dotsBox.appendChild(d);
-  });
-  const dots = dotsBox.querySelectorAll('.carousel-dot');
+  const viewport = document.getElementById('carousel');
+  if(!track || !dotsBox || !viewport) return;
 
   let current = 0;
-  let autoTimer;
+  let autoTimer = null;
+  let realSlides = [];  /* apenas os slides originais */
+  let allSlides = [];   /* incluindo os clones */
+  let slideStep = 0;    /* largura + gap */
+  let isTransitioning = false;
 
-  function goTo(idx){
-    current = ((idx % total) + total) % total;
-    const slide = slides[current];
-    track.scrollTo({ left: slide.offsetLeft - track.offsetLeft - (track.clientWidth - slide.offsetWidth)/2, behavior:'smooth' });
+  function slideWidth(){
+    const s = realSlides[0];
+    if(!s) return 0;
+    const styles = getComputedStyle(track);
+    const gap = parseFloat(styles.gap) || 0;
+    return s.getBoundingClientRect().width + gap;
+  }
+
+  function setTransform(x, animate){
+    track.style.transition = animate ? '' : 'none';
+    track.style.transform = 'translate3d(' + x + 'px,0,0)';
+  }
+
+  function positionAtCurrent(animate){
+    slideStep = slideWidth();
+    /* 1 clone no início, então o slide real "current" está em índice current+1 */
+    const trackW = viewport.clientWidth;
+    const s = allSlides[current + 1];
+    if(!s) return;
+    const offset = s.offsetLeft - (trackW - s.offsetWidth)/2;
+    setTransform(-offset, animate);
+  }
+
+  function goTo(idx, animate){
+    if(isTransitioning) return;
+    isTransitioning = animate;
+    current = idx;
+    positionAtCurrent(animate !== false);
     updateDots();
   }
 
+  function next(){ goTo(current + 1, true); }
+  function prev(){ goTo(current - 1, true); }
+
   function updateDots(){
-    dots.forEach((d,i) => d.classList.toggle('active', i===current));
+    const total = realSlides.length;
+    const norm = ((current % total) + total) % total;
+    dotsBox.querySelectorAll('.carousel-dot').forEach((d,i) => d.classList.toggle('active', i===norm));
   }
 
-  /* Detect scroll position to sync dots */
-  let scrollTick = false;
-  track.addEventListener('scroll', () => {
-    if(scrollTick) return;
-    scrollTick = true;
-    requestAnimationFrame(() => {
-      const center = track.scrollLeft + track.clientWidth / 2;
-      let closest = 0, minDist = Infinity;
-      slides.forEach((s,i) => {
-        const mid = s.offsetLeft - track.offsetLeft + s.offsetWidth/2;
-        const dist = Math.abs(center - mid);
-        if(dist < minDist){ minDist = dist; closest = i; }
-      });
-      if(closest !== current){ current = closest; updateDots(); }
-      scrollTick = false;
-    });
-  }, {passive:true});
-
-  /* Arrows */
-  document.getElementById('car-prev').onclick = () => { stopAuto(); goTo(current - 1); startAuto(); };
-  document.getElementById('car-next').onclick = () => { stopAuto(); goTo(current + 1); startAuto(); };
-
-  /* Auto-play */
-  let autoEnabled = true;
-  function startAuto(){
-    stopAuto();
-    if(!autoEnabled) return;
-    autoTimer = setInterval(() => goTo(current + 1), 3500);
-  }
-  function stopAuto(){ clearInterval(autoTimer); autoTimer = null; }
-
-  /* Pause on hover/touch */
-  track.addEventListener('mouseenter', stopAuto);
-  track.addEventListener('mouseleave', startAuto);
-  track.addEventListener('touchstart', stopAuto, {passive:true});
-  const resumeAfterTouch = () => setTimeout(startAuto, 2500);
-  track.addEventListener('touchend', resumeAfterTouch, {passive:true});
-  track.addEventListener('touchcancel', resumeAfterTouch, {passive:true});
-
-  /* Só rodar quando visível na viewport */
-  if('IntersectionObserver' in window){
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach(e => {
-        autoEnabled = e.isIntersecting;
-        if(autoEnabled) startAuto(); else stopAuto();
-      });
-    }, {threshold: 0.15});
-    io.observe(track);
-  }
-
-  /* Pausar quando aba fica invisível */
-  document.addEventListener('visibilitychange', () => {
-    if(document.hidden) stopAuto();
-    else if(autoEnabled) startAuto();
+  /* Após animação: se pulou pra clone, "teleporta" pro real sem animação */
+  track.addEventListener('transitionend', () => {
+    isTransitioning = false;
+    const total = realSlides.length;
+    if(current >= total){ current = 0; positionAtCurrent(false); }
+    else if(current < 0){ current = total - 1; positionAtCurrent(false); }
   });
 
-  setTimeout(startAuto, 800);
+  function build(){
+    realSlides = Array.from(track.querySelectorAll('.carousel-slide'));
+    const total = realSlides.length;
+    if(!total) return;
 
-  /* ── Dynamic slides from Firestore galeria ── */
-  window.ibss = window.ibss || {};
-  const staticSlides = track.innerHTML;
-  window.ibss.updateGaleria = function(fotos){
-    if(!fotos || !fotos.length){ track.innerHTML = staticSlides; rebuildCarousel(); return; }
-    track.innerHTML = '';
-    fotos.forEach(f => {
-      const s = document.createElement('div');
-      s.className = 'carousel-slide';
-      s.innerHTML = '<img src="'+f.url+'" alt="'+(f.titulo||'Foto IBSS')+'" loading="lazy">'
-        + '<div class="slide-overlay"><h4>'+(f.titulo||'')+'</h4><small>'+(f.legenda||'')+'</small></div>';
-      track.appendChild(s);
-    });
-    rebuildCarousel();
-  };
+    /* Clona último no início e primeiro no fim para loop invisível */
+    const firstClone = realSlides[0].cloneNode(true);
+    const lastClone = realSlides[total-1].cloneNode(true);
+    firstClone.classList.add('is-clone');
+    lastClone.classList.add('is-clone');
+    track.insertBefore(lastClone, track.firstChild);
+    track.appendChild(firstClone);
+    allSlides = Array.from(track.querySelectorAll('.carousel-slide'));
 
-  function rebuildCarousel(){
-    const newSlides = track.querySelectorAll('.carousel-slide');
-    const newTotal = newSlides.length;
+    /* Dots (só para os slides reais) */
     dotsBox.innerHTML = '';
-    newSlides.forEach((_,i) => {
+    realSlides.forEach((_,i) => {
       const d = document.createElement('button');
       d.className = 'carousel-dot' + (i===0?' active':'');
       d.setAttribute('aria-label','Slide '+(i+1));
-      d.onclick = () => { current = i; goToRebuild(i, newSlides, newTotal); };
+      d.onclick = () => { pauseThenResume(); goTo(i, true); };
       dotsBox.appendChild(d);
     });
+
     current = 0;
+    positionAtCurrent(false);
+  }
+
+  /* Auto-play */
+  function startAuto(){
     stopAuto();
-    if(autoEnabled){
-      autoTimer = setInterval(() => {
-        current = (current + 1) % newTotal;
-        goToRebuild(current, newSlides, newTotal);
-      }, 3500);
+    autoTimer = setInterval(next, 3500);
+  }
+  function stopAuto(){ if(autoTimer){ clearInterval(autoTimer); autoTimer = null; } }
+  function pauseThenResume(){ stopAuto(); setTimeout(startAuto, 6000); }
+
+  /* Arrows */
+  const btnPrev = document.getElementById('car-prev');
+  const btnNext = document.getElementById('car-next');
+  if(btnPrev) btnPrev.onclick = () => { pauseThenResume(); prev(); };
+  if(btnNext) btnNext.onclick = () => { pauseThenResume(); next(); };
+
+  /* Hover pausa (desktop) */
+  viewport.addEventListener('mouseenter', stopAuto);
+  viewport.addEventListener('mouseleave', startAuto);
+
+  /* Swipe (pointer events cobrem mouse + touch) */
+  let dragStartX = 0, dragBaseTx = 0, isDragging = false;
+  track.addEventListener('pointerdown', e => {
+    if(isTransitioning) return;
+    isDragging = true;
+    dragStartX = e.clientX;
+    const m = /translate3d\((-?[\d.]+)px/.exec(track.style.transform || '');
+    dragBaseTx = m ? parseFloat(m[1]) : 0;
+    track.classList.add('dragging');
+    stopAuto();
+    track.setPointerCapture(e.pointerId);
+  });
+  track.addEventListener('pointermove', e => {
+    if(!isDragging) return;
+    const dx = e.clientX - dragStartX;
+    setTransform(dragBaseTx + dx, false);
+  });
+  const endDrag = e => {
+    if(!isDragging) return;
+    isDragging = false;
+    track.classList.remove('dragging');
+    const dx = e.clientX - dragStartX;
+    const threshold = slideWidth() * 0.2;
+    if(dx > threshold) prev();
+    else if(dx < -threshold) next();
+    else goTo(current, true);
+    setTimeout(startAuto, 5000);
+  };
+  track.addEventListener('pointerup', endDrag);
+  track.addEventListener('pointercancel', endDrag);
+
+  /* Reposiciona se a janela mudar de tamanho */
+  window.addEventListener('resize', () => positionAtCurrent(false));
+
+  /* Pausa quando aba invisível */
+  document.addEventListener('visibilitychange', () => {
+    if(document.hidden) stopAuto(); else startAuto();
+  });
+
+  build();
+  setTimeout(startAuto, 1200);
+
+  /* ── API para o Firestore atualizar galeria ── */
+  window.ibss = window.ibss || {};
+  const staticSlides = Array.from(realSlides).map(s => s.outerHTML).join('');
+  window.ibss.updateGaleria = function(fotos){
+    stopAuto();
+    if(!fotos || !fotos.length){
+      track.innerHTML = staticSlides;
+    } else {
+      track.innerHTML = fotos.map(f =>
+        '<div class="carousel-slide"><img src="'+f.url+'" alt="'+(f.titulo||'Foto IBSS')+'" loading="lazy">' +
+        '<div class="slide-overlay"><h4>'+(f.titulo||'')+'</h4><small>'+(f.legenda||'')+'</small></div></div>'
+      ).join('');
     }
-  }
-
-  function goToRebuild(idx, sl, tot){
-    const i = ((idx % tot) + tot) % tot;
-    const slide = sl[i];
-    track.scrollTo({ left: slide.offsetLeft - track.offsetLeft - (track.clientWidth - slide.offsetWidth)/2, behavior:'smooth' });
-    dotsBox.querySelectorAll('.carousel-dot').forEach((d,j) => d.classList.toggle('active', j===i));
-  }
-
+    build();
+    startAuto();
+  };
 })();
 </script>
 
@@ -2440,6 +2522,126 @@ if(location.hash==='#sorteio'||location.search.includes('sortear')) setTimeout(a
           alert('Erro ao excluir: ' + e.message);
         }
       });
+    });
+  };
+})();
+
+/* ============================================================
+   AGENDA ADMIN — CRUD de eventos no Firestore
+   ============================================================ */
+(function(){
+  const listaEl = document.getElementById('agenda-lista');
+  const vaziaEl = document.getElementById('agenda-vazia');
+  const inputs = {
+    dia: document.getElementById('ev-dia'),
+    mes: document.getElementById('ev-mes'),
+    tag: document.getElementById('ev-tag'),
+    titulo: document.getElementById('ev-titulo'),
+    quando: document.getElementById('ev-quando'),
+    local: document.getElementById('ev-local'),
+  };
+  const btnSalvar = document.getElementById('btn-salvar-evento');
+  const btnCancelar = document.getElementById('btn-cancelar-evento');
+  if(!listaEl || !btnSalvar) return;
+
+  let editandoId = null;
+
+  function checkFirebase(){
+    const CFG = window.FIREBASE_CONFIG || {};
+    if(!CFG.projectId || CFG.projectId === 'seu-projeto'){
+      alert('Firebase não configurado.');
+      return false;
+    }
+    return true;
+  }
+
+  function limparForm(){
+    Object.values(inputs).forEach(i => { if(i) i.value = ''; });
+    editandoId = null;
+    btnSalvar.textContent = 'Adicionar evento';
+    btnCancelar.style.display = 'none';
+  }
+
+  btnCancelar.onclick = limparForm;
+
+  btnSalvar.onclick = async () => {
+    if(!checkFirebase()) return;
+    const dados = {
+      dia: inputs.dia.value.trim(),
+      mes: inputs.mes.value.trim(),
+      tag: inputs.tag.value.trim(),
+      titulo: inputs.titulo.value.trim(),
+      quando: inputs.quando.value.trim(),
+      local: inputs.local.value.trim(),
+    };
+    if(!dados.titulo || !dados.dia || !dados.mes){
+      alert('Preencha pelo menos dia, mês e título.');
+      return;
+    }
+    btnSalvar.disabled = true;
+    try {
+      const { getFirestore, collection, addDoc, doc, updateDoc, serverTimestamp } = await import('https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js');
+      const { getApp } = await import('https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js');
+      const db = getFirestore(getApp());
+      if(editandoId){
+        await updateDoc(doc(db, 'agenda', editandoId), { ...dados, atualizadoEm: serverTimestamp() });
+      } else {
+        await addDoc(collection(db, 'agenda'), { ...dados, ordem: Date.now(), criadoEm: serverTimestamp() });
+      }
+      limparForm();
+    } catch(e){
+      console.error('[IBSS] Erro ao salvar evento:', e);
+      alert('Erro ao salvar: ' + e.message);
+    } finally {
+      btnSalvar.disabled = false;
+    }
+  };
+
+  function editar(ev){
+    editandoId = ev.id;
+    inputs.dia.value = ev.dia || '';
+    inputs.mes.value = ev.mes || '';
+    inputs.tag.value = ev.tag || '';
+    inputs.titulo.value = ev.titulo || '';
+    inputs.quando.value = ev.quando || '';
+    inputs.local.value = ev.local || '';
+    btnSalvar.textContent = 'Salvar alterações';
+    btnCancelar.style.display = 'inline-flex';
+    inputs.titulo.focus();
+  }
+
+  async function excluir(id){
+    if(!checkFirebase()) return;
+    if(!confirm('Excluir este evento da agenda?')) return;
+    try {
+      const { getFirestore, doc, deleteDoc } = await import('https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js');
+      const { getApp } = await import('https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js');
+      await deleteDoc(doc(getFirestore(getApp()), 'agenda', id));
+    } catch(e){
+      console.error('[IBSS] Erro ao excluir evento:', e);
+      alert('Erro ao excluir: ' + e.message);
+    }
+  }
+
+  const esc = s => String(s||'').replace(/[<>&"]/g, c => ({'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;'}[c]));
+  window.ibss = window.ibss || {};
+  window.ibss.renderAgendaAdmin = function(eventos){
+    listaEl.innerHTML = '';
+    if(!eventos || !eventos.length){ vaziaEl.style.display = ''; return; }
+    vaziaEl.style.display = 'none';
+    eventos.forEach(ev => {
+      const item = document.createElement('div');
+      item.className = 'agenda-item';
+      item.innerHTML =
+        '<div class="agenda-item-data"><b>'+esc(ev.dia)+'</b><small>'+esc(ev.mes)+'</small></div>' +
+        '<div class="agenda-item-info"><b>'+esc(ev.titulo)+'</b><small>'+esc(ev.quando)+' · '+esc(ev.local)+'</small></div>' +
+        '<div class="agenda-item-actions">' +
+          '<button title="Editar" data-act="edit">✎</button>' +
+          '<button title="Excluir" class="del" data-act="del">✕</button>' +
+        '</div>';
+      item.querySelector('[data-act="edit"]').onclick = () => editar(ev);
+      item.querySelector('[data-act="del"]').onclick = () => excluir(ev.id);
+      listaEl.appendChild(item);
     });
   };
 })();

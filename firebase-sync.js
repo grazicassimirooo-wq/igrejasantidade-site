@@ -55,7 +55,15 @@ if (!CONFIG.projectId || CONFIG.projectId === 'seu-projeto') {
       window.ibss?.renderGaleriaAdmin?.(fotos);
     }, (err) => console.error('[IBSS] Erro no listener de galeria:', err));
 
-    /* 4. API pública pro index.html escutar UMA compra específica */
+    /* 4. Escuta da agenda de eventos */
+    onSnapshot(query(collection(db, 'agenda'), orderBy('ordem', 'asc')), (snap) => {
+      const eventos = [];
+      snap.forEach(d => eventos.push({ id: d.id, ...d.data() }));
+      window.ibss?.updateAgenda?.(eventos);
+      window.ibss?.renderAgendaAdmin?.(eventos);
+    }, (err) => console.error('[IBSS] Erro no listener de agenda:', err));
+
+    /* 5. API pública pro index.html escutar UMA compra específica */
     window.ibss = window.ibss || {};
     window.ibss.escutarCompra = (compraId, cb) => {
       if (!compraId) return () => {};
