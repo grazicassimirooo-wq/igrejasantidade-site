@@ -2109,19 +2109,40 @@ if(location.hash==='#sorteio'||location.search.includes('sortear')) setTimeout(a
   document.getElementById('car-next').onclick = () => { stopAuto(); goTo(current + 1); startAuto(); };
 
   /* Auto-play */
+  let autoEnabled = true;
   function startAuto(){
     stopAuto();
-    autoTimer = setInterval(() => goTo(current + 1), 4500);
+    if(!autoEnabled) return;
+    autoTimer = setInterval(() => goTo(current + 1), 3500);
   }
-  function stopAuto(){ clearInterval(autoTimer); }
+  function stopAuto(){ clearInterval(autoTimer); autoTimer = null; }
 
   /* Pause on hover/touch */
   track.addEventListener('mouseenter', stopAuto);
   track.addEventListener('mouseleave', startAuto);
   track.addEventListener('touchstart', stopAuto, {passive:true});
-  track.addEventListener('touchend', () => setTimeout(startAuto, 3000), {passive:true});
+  const resumeAfterTouch = () => setTimeout(startAuto, 2500);
+  track.addEventListener('touchend', resumeAfterTouch, {passive:true});
+  track.addEventListener('touchcancel', resumeAfterTouch, {passive:true});
 
-  startAuto();
+  /* Só rodar quando visível na viewport */
+  if('IntersectionObserver' in window){
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        autoEnabled = e.isIntersecting;
+        if(autoEnabled) startAuto(); else stopAuto();
+      });
+    }, {threshold: 0.15});
+    io.observe(track);
+  }
+
+  /* Pausar quando aba fica invisível */
+  document.addEventListener('visibilitychange', () => {
+    if(document.hidden) stopAuto();
+    else if(autoEnabled) startAuto();
+  });
+
+  setTimeout(startAuto, 800);
 
   /* ── Dynamic slides from Firestore galeria ── */
   window.ibss = window.ibss || {};
@@ -2152,10 +2173,12 @@ if(location.hash==='#sorteio'||location.search.includes('sortear')) setTimeout(a
     });
     current = 0;
     stopAuto();
-    autoTimer = setInterval(() => {
-      current = (current + 1) % newTotal;
-      goToRebuild(current, newSlides, newTotal);
-    }, 4500);
+    if(autoEnabled){
+      autoTimer = setInterval(() => {
+        current = (current + 1) % newTotal;
+        goToRebuild(current, newSlides, newTotal);
+      }, 3500);
+    }
   }
 
   function goToRebuild(idx, sl, tot){
