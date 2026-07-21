@@ -655,6 +655,51 @@ footer .brand-foot b{font-family:"Anton",sans-serif;font-size:1.15rem;font-weigh
 .horarios-hero b{display:block;font-family:"Anton",sans-serif;font-size:.78rem;margin-bottom:6px;text-transform:uppercase;letter-spacing:.16em;color:var(--orange);font-weight:400}
 .video-hero{border-radius:20px;overflow:hidden;box-shadow:var(--shadow);border:1px solid var(--line-strong);background:#000;aspect-ratio:16/9}
 .video-hero video{width:100%;height:100%;object-fit:cover;display:block}
+
+/* ---------- AO VIVO (YouTube) ---------- */
+.live-section{padding:24px 0 8px}
+.live-card{
+  position:relative;border-radius:24px;overflow:hidden;
+  border:1px solid var(--line-strong);
+  background:linear-gradient(135deg,#0f0f0f 0%,#1a0a0a 100%);
+  box-shadow:0 24px 60px -22px rgba(220,38,38,.35);
+}
+[data-theme="light"] .live-card{
+  background:linear-gradient(135deg,#fff 0%,#fff2f2 100%);
+  box-shadow:
+    0 1px 2px rgba(15,20,15,.04),
+    0 8px 20px -4px rgba(220,38,38,.15),
+    0 28px 60px -18px rgba(220,38,38,.25);
+}
+.live-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  background:#dc2626;color:#fff;
+  padding:6px 14px;border-radius:999px;
+  font-family:"Anton",sans-serif;font-size:.78rem;letter-spacing:.16em;text-transform:uppercase;
+  box-shadow:0 4px 16px -4px rgba(220,38,38,.5);
+}
+.live-badge .live-dot{
+  width:8px;height:8px;border-radius:50%;background:#fff;
+  animation:livePulse 1.4s ease-in-out infinite;
+}
+@keyframes livePulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(1.3)}}
+.live-cta{
+  padding:36px 28px;display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center;
+}
+.live-cta h3{font-family:"Anton",sans-serif;font-weight:400;text-transform:uppercase;font-size:clamp(1.4rem,3.5vw,2rem);color:#fff;letter-spacing:.02em;line-height:1.1}
+[data-theme="light"] .live-cta h3{color:#0f0f0f}
+.live-cta p{color:rgba(255,255,255,.75);font-size:.9rem;max-width:420px}
+[data-theme="light"] .live-cta p{color:#555}
+.live-cta .btn-live{
+  display:inline-flex;align-items:center;gap:10px;
+  background:#dc2626;color:#fff;padding:14px 26px;border-radius:999px;
+  font-weight:700;font-size:.9rem;text-transform:uppercase;letter-spacing:.06em;
+  text-decoration:none;transition:.22s;box-shadow:0 8px 22px -6px rgba(220,38,38,.6);
+}
+.live-cta .btn-live:hover{background:#b91c1c;transform:translateY(-2px);box-shadow:0 12px 30px -6px rgba(220,38,38,.75)}
+.live-cta .btn-live svg{width:18px;height:18px;fill:currentColor}
+.live-embed{aspect-ratio:16/9;width:100%;background:#000;position:relative}
+.live-embed iframe{width:100%;height:100%;border:0;display:block}
 @media(max-width:860px){.hero-grid{grid-template-columns:1fr;gap:28px}.video-hero{order:-1}}
 
 /* ── SORTEIO HERO ── */
@@ -994,6 +1039,11 @@ header{background:color-mix(in oklab, var(--bg) 60%, transparent);backdrop-filte
 <body>
 
 <script>
+// YouTube: preencha com o ID do canal (formato UCxxxxx) para ativar o embed AO VIVO
+// Como pegar: abra youtube.com/@igrejasantidade, veja a source (Ctrl+U) e busque "channelId":"UC..."
+window.YOUTUBE_CHANNEL_ID = "";
+window.YOUTUBE_HANDLE = "@igrejasantidade";
+
 window.FIREBASE_CONFIG = {
   apiKey: "AIzaSyBax-y1k6aNzdZjcX7L7teiIduo8QULI-4",
   authDomain: "ibss-igrejasantidade.firebaseapp.com",
@@ -1023,6 +1073,7 @@ window.FIREBASE_CONFIG = {
     </a>
     <nav class="nav-links" aria-label="Navegação">
       <a href="#home" onclick="navTo(event,'home')">Início</a>
+      <a href="#ao-vivo" onclick="navTo(event,'ao-vivo')">🔴 Ao Vivo</a>
       <a href="#agenda" onclick="navTo(event,'agenda')">Agenda</a>
       <a href="#contribua" onclick="navTo(event,'contribua')">Contribua</a>
       <a href="#sorteio-moto" class="nav-sorteio" onclick="navTo(event,'sorteio-moto')">🎯 Sorteio da Moto</a>
@@ -1113,6 +1164,23 @@ window.FIREBASE_CONFIG = {
       </div>
     </div>
     <div style="height:64px"></div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════
+       AO VIVO · YouTube da igreja
+       ══════════════════════════════════════════════════════ -->
+  <section id="ao-vivo" class="wrap live-section">
+    <div class="live-card" id="live-card">
+      <div class="live-cta">
+        <div class="live-badge"><span class="live-dot"></span>AO VIVO</div>
+        <h3>Transmissão da igreja</h3>
+        <p>Não pode vir presencialmente? Assista aos cultos ao vivo pelo nosso canal no YouTube.</p>
+        <a class="btn-live" href="https://www.youtube.com/@igrejasantidade/live" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31.5 31.5 0 0 0 0 12a31.5 31.5 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31.5 31.5 0 0 0 24 12a31.5 31.5 0 0 0-.5-5.8zM9.75 15.6V8.4L15.9 12l-6.15 3.6z"/></svg>
+          Assistir no YouTube
+        </a>
+      </div>
+    </div>
   </section>
 
   <!-- ══════════════════════════════════════════════════════
@@ -2081,6 +2149,21 @@ const _obs=new IntersectionObserver(entries=>{
 _secoes.forEach(id=>{const el=document.getElementById(id);if(el)_obs.observe(el);});
 
 if(location.hash==='#sorteio'||location.search.includes('sortear')) setTimeout(abrirPainelSorteio,300);
+
+/* ============================================================
+   AO VIVO · embed automático quando YOUTUBE_CHANNEL_ID configurado
+   ============================================================ */
+(function(){
+  const chId = window.YOUTUBE_CHANNEL_ID;
+  if(!chId || !chId.startsWith('UC')) return;
+  const card = document.getElementById('live-card');
+  if(!card) return;
+  card.innerHTML =
+    '<div class="live-embed">' +
+      '<iframe src="https://www.youtube.com/embed/live_stream?channel=' + chId + '&autoplay=0" ' +
+      'title="Transmissão ao vivo da igreja" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>' +
+    '</div>';
+})();
 
 /* ============================================================
    CARROSSEL · auto-scroll + swipe + dots + arrows
